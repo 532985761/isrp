@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grouptwo.isrp.dao.IsrpGoodsCategoryFirstDao">
+
+    <resultMap type="com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst" id="IsrpGoodsCategoryFirstMap">
+        <result property="goodsCategoryFirstId" column="goods_category_first_id" jdbcType="INTEGER"/>
+        <result property="goodsCategoryFirstName" column="goods_category_first_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IsrpGoodsCategoryFirstMap">
+        select
+          goods_category_first_id, goods_category_first_name
+        from isrp_goods_category_first
+        where goods_category_first_id = #{goodsCategoryFirstId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IsrpGoodsCategoryFirstMap">
+        select
+          goods_category_first_id, goods_category_first_name
+        from isrp_goods_category_first
+        <where>
+            <if test="goodsCategoryFirstId != null">
+                and goods_category_first_id = #{goodsCategoryFirstId}
+            </if>
+            <if test="goodsCategoryFirstName != null and goodsCategoryFirstName != ''">
+                and goods_category_first_name = #{goodsCategoryFirstName}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from isrp_goods_category_first
+        <where>
+            <if test="goodsCategoryFirstId != null">
+                and goods_category_first_id = #{goodsCategoryFirstId}
+            </if>
+            <if test="goodsCategoryFirstName != null and goodsCategoryFirstName != ''">
+                and goods_category_first_name = #{goodsCategoryFirstName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="goodsCategoryFirstId" useGeneratedKeys="true">
+        insert into isrp_goods_category_first(goods_category_first_name)
+        values (#{goodsCategoryFirstName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="goodsCategoryFirstId" useGeneratedKeys="true">
+        insert into isrp_goods_category_first(goods_category_first_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.goodsCategoryFirstName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="goodsCategoryFirstId" useGeneratedKeys="true">
+        insert into isrp_goods_category_first(goods_category_first_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsCategoryFirstName})
+        </foreach>
+        on duplicate key update
+        goods_category_first_name = values(goods_category_first_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update isrp_goods_category_first
+        <set>
+            <if test="goodsCategoryFirstName != null and goodsCategoryFirstName != ''">
+                goods_category_first_name = #{goodsCategoryFirstName},
+            </if>
+        </set>
+        where goods_category_first_id = #{goodsCategoryFirstId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from isrp_goods_category_first where goods_category_first_id = #{goodsCategoryFirstId}
+    </delete>
+
+</mapper>
+

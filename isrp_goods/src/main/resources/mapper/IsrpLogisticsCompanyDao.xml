@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grouptwo.isrp.dao.IsrpLogisticsCompanyDao">
+
+    <resultMap type="com.grouptwo.isrp.entity.IsrpLogisticsCompany" id="IsrpLogisticsCompanyMap">
+        <result property="logisticsCompanyId" column="logistics_company_id" jdbcType="INTEGER"/>
+        <result property="logisticsCompanyName" column="logistics_company_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IsrpLogisticsCompanyMap">
+        select
+          logistics_company_id, logistics_company_name
+        from isrp_logistics_company
+        where logistics_company_id = #{logisticsCompanyId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IsrpLogisticsCompanyMap">
+        select
+          logistics_company_id, logistics_company_name
+        from isrp_logistics_company
+        <where>
+            <if test="logisticsCompanyId != null">
+                and logistics_company_id = #{logisticsCompanyId}
+            </if>
+            <if test="logisticsCompanyName != null and logisticsCompanyName != ''">
+                and logistics_company_name = #{logisticsCompanyName}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from isrp_logistics_company
+        <where>
+            <if test="logisticsCompanyId != null">
+                and logistics_company_id = #{logisticsCompanyId}
+            </if>
+            <if test="logisticsCompanyName != null and logisticsCompanyName != ''">
+                and logistics_company_name = #{logisticsCompanyName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="logisticsCompanyId" useGeneratedKeys="true">
+        insert into isrp_logistics_company(logistics_company_name)
+        values (#{logisticsCompanyName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="logisticsCompanyId" useGeneratedKeys="true">
+        insert into isrp_logistics_company(logistics_company_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.logisticsCompanyName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="logisticsCompanyId" useGeneratedKeys="true">
+        insert into isrp_logistics_company(logistics_company_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.logisticsCompanyName})
+        </foreach>
+        on duplicate key update
+        logistics_company_name = values(logistics_company_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update isrp_logistics_company
+        <set>
+            <if test="logisticsCompanyName != null and logisticsCompanyName != ''">
+                logistics_company_name = #{logisticsCompanyName},
+            </if>
+        </set>
+        where logistics_company_id = #{logisticsCompanyId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from isrp_logistics_company where logistics_company_id = #{logisticsCompanyId}
+    </delete>
+
+</mapper>
+

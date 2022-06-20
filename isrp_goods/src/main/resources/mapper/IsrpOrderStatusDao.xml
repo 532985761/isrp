@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grouptwo.isrp.dao.IsrpOrderStatusDao">
+
+    <resultMap type="com.grouptwo.isrp.entity.IsrpOrderStatus" id="IsrpOrderStatusMap">
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="orderProcessId" column="order_process_id" jdbcType="INTEGER"/>
+        <result property="orderStatusDesc" column="order_status_desc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IsrpOrderStatusMap">
+        select
+          order_id, order_process_id, order_status_desc
+        from isrp_order_status
+        where order_id = #{orderId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IsrpOrderStatusMap">
+        select
+          order_id, order_process_id, order_status_desc
+        from isrp_order_status
+        <where>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+            <if test="orderProcessId != null">
+                and order_process_id = #{orderProcessId}
+            </if>
+            <if test="orderStatusDesc != null and orderStatusDesc != ''">
+                and order_status_desc = #{orderStatusDesc}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from isrp_order_status
+        <where>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+            <if test="orderProcessId != null">
+                and order_process_id = #{orderProcessId}
+            </if>
+            <if test="orderStatusDesc != null and orderStatusDesc != ''">
+                and order_status_desc = #{orderStatusDesc}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="orderId" useGeneratedKeys="true">
+        insert into isrp_order_status(order_status_desc)
+        values (#{orderStatusDesc})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="orderId" useGeneratedKeys="true">
+        insert into isrp_order_status(order_status_desc)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.orderStatusDesc})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="orderId" useGeneratedKeys="true">
+        insert into isrp_order_status(order_status_desc)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderStatusDesc})
+        </foreach>
+        on duplicate key update
+        order_status_desc = values(order_status_desc)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update isrp_order_status
+        <set>
+            <if test="orderStatusDesc != null and orderStatusDesc != ''">
+                order_status_desc = #{orderStatusDesc},
+            </if>
+        </set>
+        where order_id = #{orderId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from isrp_order_status where order_id = #{orderId}
+    </delete>
+
+</mapper>
+

@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.7.RELEASE</version>
+        <groupId>com.grouptwo</groupId>
+        <artifactId>isrp</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.grouptwo</groupId>
+
     <artifactId>isrp_user</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+
     <name>isrp_user</name>
     <description>isrp_user</description>
     <properties>
@@ -77,12 +77,7 @@
             <artifactId>ibatis-core</artifactId>
             <version>3.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.grouptwo</groupId>
-            <artifactId>isrp</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
 <!--    <build>-->

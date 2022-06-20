@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grouptwo.isrp.dao.IsrpGoodsCategorySecondDao">
+
+    <resultMap type="com.grouptwo.isrp.entity.IsrpGoodsCategorySecond" id="IsrpGoodsCategorySecondMap">
+        <result property="goodsCategorySecondId" column="goods_category_second_id" jdbcType="INTEGER"/>
+        <result property="goodsCategoryFirstId" column="goods_category_first_id" jdbcType="INTEGER"/>
+        <result property="goodsCategorySecondName" column="goods_category_second_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IsrpGoodsCategorySecondMap">
+        select
+          goods_category_second_id, goods_category_first_id, goods_category_second_name
+        from isrp_goods_category_second
+        where goods_category_second_id = #{goodsCategorySecondId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IsrpGoodsCategorySecondMap">
+        select
+          goods_category_second_id, goods_category_first_id, goods_category_second_name
+        from isrp_goods_category_second
+        <where>
+            <if test="goodsCategorySecondId != null">
+                and goods_category_second_id = #{goodsCategorySecondId}
+            </if>
+            <if test="goodsCategoryFirstId != null">
+                and goods_category_first_id = #{goodsCategoryFirstId}
+            </if>
+            <if test="goodsCategorySecondName != null and goodsCategorySecondName != ''">
+                and goods_category_second_name = #{goodsCategorySecondName}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from isrp_goods_category_second
+        <where>
+            <if test="goodsCategorySecondId != null">
+                and goods_category_second_id = #{goodsCategorySecondId}
+            </if>
+            <if test="goodsCategoryFirstId != null">
+                and goods_category_first_id = #{goodsCategoryFirstId}
+            </if>
+            <if test="goodsCategorySecondName != null and goodsCategorySecondName != ''">
+                and goods_category_second_name = #{goodsCategorySecondName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="goodsCategorySecondId" useGeneratedKeys="true">
+        insert into isrp_goods_category_second(goods_category_first_id, goods_category_second_name)
+        values (#{goodsCategoryFirstId}, #{goodsCategorySecondName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="goodsCategorySecondId" useGeneratedKeys="true">
+        insert into isrp_goods_category_second(goods_category_first_id, goods_category_second_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.goodsCategoryFirstId}, #{entity.goodsCategorySecondName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="goodsCategorySecondId" useGeneratedKeys="true">
+        insert into isrp_goods_category_second(goods_category_first_id, goods_category_second_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsCategoryFirstId}, #{entity.goodsCategorySecondName})
+        </foreach>
+        on duplicate key update
+        goods_category_first_id = values(goods_category_first_id),
+        goods_category_second_name = values(goods_category_second_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update isrp_goods_category_second
+        <set>
+            <if test="goodsCategoryFirstId != null">
+                goods_category_first_id = #{goodsCategoryFirstId},
+            </if>
+            <if test="goodsCategorySecondName != null and goodsCategorySecondName != ''">
+                goods_category_second_name = #{goodsCategorySecondName},
+            </if>
+        </set>
+        where goods_category_second_id = #{goodsCategorySecondId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from isrp_goods_category_second where goods_category_second_id = #{goodsCategorySecondId}
+    </delete>
+
+</mapper>
+

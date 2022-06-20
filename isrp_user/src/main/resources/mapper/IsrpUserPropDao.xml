@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grouptwo.isrp.dao.IsrpUserPropDao">
+
+    <resultMap type="com.grouptwo.isrp.entity.IsrpUserProp" id="IsrpUserPropMap">
+        <result property="propId" column="prop_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="addressProvince" column="address_province" jdbcType="VARCHAR"/>
+        <result property="addressCity" column="address_city" jdbcType="VARCHAR"/>
+        <result property="addressArea" column="address_area" jdbcType="VARCHAR"/>
+        <result property="addressStreet" column="address_street" jdbcType="VARCHAR"/>
+        <result property="addressDetail" column="address_detail" jdbcType="VARCHAR"/>
+        <result property="receiveName" column="receive_name" jdbcType="VARCHAR"/>
+        <result property="receivePhone" column="receive_phone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IsrpUserPropMap">
+        select
+          prop_id, user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone
+        from isrp_user_prop
+        where prop_id = #{propId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IsrpUserPropMap">
+        select
+          prop_id, user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone
+        from isrp_user_prop
+        <where>
+            <if test="propId != null">
+                and prop_id = #{propId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="addressProvince != null and addressProvince != ''">
+                and address_province = #{addressProvince}
+            </if>
+            <if test="addressCity != null and addressCity != ''">
+                and address_city = #{addressCity}
+            </if>
+            <if test="addressArea != null and addressArea != ''">
+                and address_area = #{addressArea}
+            </if>
+            <if test="addressStreet != null and addressStreet != ''">
+                and address_street = #{addressStreet}
+            </if>
+            <if test="addressDetail != null and addressDetail != ''">
+                and address_detail = #{addressDetail}
+            </if>
+            <if test="receiveName != null and receiveName != ''">
+                and receive_name = #{receiveName}
+            </if>
+            <if test="receivePhone != null and receivePhone != ''">
+                and receive_phone = #{receivePhone}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from isrp_user_prop
+        <where>
+            <if test="propId != null">
+                and prop_id = #{propId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="addressProvince != null and addressProvince != ''">
+                and address_province = #{addressProvince}
+            </if>
+            <if test="addressCity != null and addressCity != ''">
+                and address_city = #{addressCity}
+            </if>
+            <if test="addressArea != null and addressArea != ''">
+                and address_area = #{addressArea}
+            </if>
+            <if test="addressStreet != null and addressStreet != ''">
+                and address_street = #{addressStreet}
+            </if>
+            <if test="addressDetail != null and addressDetail != ''">
+                and address_detail = #{addressDetail}
+            </if>
+            <if test="receiveName != null and receiveName != ''">
+                and receive_name = #{receiveName}
+            </if>
+            <if test="receivePhone != null and receivePhone != ''">
+                and receive_phone = #{receivePhone}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="propId" useGeneratedKeys="true">
+        insert into isrp_user_prop(user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone)
+        values (#{userId}, #{addressProvince}, #{addressCity}, #{addressArea}, #{addressStreet}, #{addressDetail}, #{receiveName}, #{receivePhone})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="propId" useGeneratedKeys="true">
+        insert into isrp_user_prop(user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.userId}, #{entity.addressProvince}, #{entity.addressCity}, #{entity.addressArea}, #{entity.addressStreet}, #{entity.addressDetail}, #{entity.receiveName}, #{entity.receivePhone})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="propId" useGeneratedKeys="true">
+        insert into isrp_user_prop(user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.addressProvince}, #{entity.addressCity}, #{entity.addressArea}, #{entity.addressStreet}, #{entity.addressDetail}, #{entity.receiveName}, #{entity.receivePhone})
+        </foreach>
+        on duplicate key update
+        user_id = values(user_id),
+        address_province = values(address_province),
+        address_city = values(address_city),
+        address_area = values(address_area),
+        address_street = values(address_street),
+        address_detail = values(address_detail),
+        receive_name = values(receive_name),
+        receive_phone = values(receive_phone)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update isrp_user_prop
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="addressProvince != null and addressProvince != ''">
+                address_province = #{addressProvince},
+            </if>
+            <if test="addressCity != null and addressCity != ''">
+                address_city = #{addressCity},
+            </if>
+            <if test="addressArea != null and addressArea != ''">
+                address_area = #{addressArea},
+            </if>
+            <if test="addressStreet != null and addressStreet != ''">
+                address_street = #{addressStreet},
+            </if>
+            <if test="addressDetail != null and addressDetail != ''">
+                address_detail = #{addressDetail},
+            </if>
+            <if test="receiveName != null and receiveName != ''">
+                receive_name = #{receiveName},
+            </if>
+            <if test="receivePhone != null and receivePhone != ''">
+                receive_phone = #{receivePhone},
+            </if>
+        </set>
+        where prop_id = #{propId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from isrp_user_prop where prop_id = #{propId}
+    </delete>
+
+</mapper>
+

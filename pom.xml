@@ -7,7 +7,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>isrp</name>
     <description>Isrp project for Spring Boot</description>
-
+    <packaging>pom</packaging>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

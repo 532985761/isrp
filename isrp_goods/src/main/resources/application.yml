@@ -15,6 +15,6 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
 server:
-  port: 10000
+  port: 30000
   servlet:
-    context-path: /isrpUser
+    context-path: /isrpGoods

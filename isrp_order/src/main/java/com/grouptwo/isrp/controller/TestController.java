@@ -4,8 +4,10 @@ import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 
@@ -16,9 +18,12 @@ public class TestController {
 
     @Resource
     IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
-    @GetMapping("/test")
-    public ResponseEntity<IsrpGoodsCategoryFirst> test(){
+    @Resource
+    private RestTemplate restTemplate;
+    @GetMapping("/test/{id}")
+    public String  test(@PathVariable("id") int id){
 
-        return ResponseEntity.ok(this.isrpGoodsCategoryFirstService.queryById(1));
+        return restTemplate.getForObject("http://isrp-provider:9527/naco/nacos/"+id,String.class);
+
     }
 }

@@ -1,39 +1,77 @@
 # ISRP
 
 #### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+本系统为智能化共享租赁平台系统
 
 #### 软件架构
-软件架构说明
+|    开源软件     |     版本      | 所属项目 |
+| :-------------: | :-----------: | :------: |
+|       Vue       |       3       | isrp-web |
+|      Pinia      |      v2       | isrp-web |
+|   Vue Router    |       4       | isrp-web |
+|     Vue Use     |    v8.7.4     | isrp-web |
+|    Windi CSS    |     v3.4      | isrp-web |
+|      axios      |    v0.27.2    | isrp-web |
+|  Element-Plus   |    v2.2.6     | isrp-web |
+|   SpringBoot    | 2.3.7.RELEASE |   isrp   |
+|   SpringCloud   |  Hoxton.SR12  |   isrp   |
+|      MySQL      |    8.0.25     |   isrp   |
+|      Redis      |      7.0      |   isrp   |
+|     Mybatis     |     2.1.2     |   isrp   |
+| Spring Data JPA | 2.3.7.RELEASE |   isrp   |
 
+- isrp-web为前端项目
+- isrp为后端项目
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+进入isrp-web文件夹下依次输入如下命令：
 
-#### 使用说明
+Npm
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```
+npm install
+```
 
-#### 参与贡献
+Pinia
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+```
+npm install pinia
+```
 
+Vue-Router4
 
-#### 特技
+```shell
+npm install vue-router@4
+```
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+Node.js
+
+```shell
+npm install @types/node --save-dev
+```
+
+Element-Plus
+
+```shell
+npm install element-plus --save
+```
+
+Windi CSS
+
+```shell
+npm i -D vite-plugin-windicss windicss
+```
+
+Cookie
+
+```shell
+npm i @vueuse/integrations
+npm i universal-cookie
+```
+
+Npm
+
+```shell
+npm install axios
+```

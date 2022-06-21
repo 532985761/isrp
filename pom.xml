@@ -21,6 +21,8 @@
         <module>isrp_user</module>
         <module>isrp_goods</module>
         <module>isrp_common</module>
+        <module>isrp_gateway</module>
+        <module>isrp_nacos</module>
     </modules>
     <dependencies>
         <!-- Web -->

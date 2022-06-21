@@ -31,7 +31,7 @@ public class GlobalException {
     @ExceptionHandler(value = NoHandlerFoundException.class)
     public ResponseEntity errorHandler(NoHandlerFoundException exception) {
         LOGGER.error("找不到资源："+exception.getMessage());
-        return new ResponseEntity("资源不存在1111",HttpStatus.NOT_FOUND);
+        return new ResponseEntity("资源不存在",HttpStatus.NOT_FOUND);
     }
 //    /**
 //     * 非法请求异常

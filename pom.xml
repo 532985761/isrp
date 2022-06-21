@@ -22,7 +22,7 @@
         <module>isrp_goods</module>
         <module>isrp_common</module>
         <module>isrp_gateway</module>
-        <module>isrp_nacos</module>
+        <module>isrp_feign_api</module>
     </modules>
     <dependencies>
         <!-- Web -->

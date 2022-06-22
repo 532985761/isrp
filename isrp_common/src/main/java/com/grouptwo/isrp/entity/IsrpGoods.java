@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -7,10 +8,10 @@ import java.io.Serializable;
  * 商品表(IsrpGoods)实体类
  *
  * @author makejava
- * @since 2022-06-22 09:50:07
+ * @since 2022-06-22 10:05:10
  */
 public class IsrpGoods implements Serializable {
-    private static final long serialVersionUID = -78607985006061576L;
+    private static final long serialVersionUID = 330785941062640324L;
     /**
      * 商品ID
      */
@@ -30,7 +31,7 @@ public class IsrpGoods implements Serializable {
     /**
      * 商品价格
      */
-    private Double goodsPrice;
+    private BigDecimal goodsPrice;
     /**
      * 销量
      */
@@ -43,6 +44,12 @@ public class IsrpGoods implements Serializable {
      * 创建时间
      */
     private Date createTime;
+    
+    private Integer goodsCategorySecondId;
+    /**
+     * 用户ID
+     */
+    private String userId;
 
 
     public Long getGoodsId() {
@@ -77,11 +84,11 @@ public class IsrpGoods implements Serializable {
         this.goodsImg = goodsImg;
     }
 
-    public Double getGoodsPrice() {
+    public BigDecimal getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Double goodsPrice) {
+    public void setGoodsPrice(BigDecimal goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 
@@ -107,6 +114,22 @@ public class IsrpGoods implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getGoodsCategorySecondId() {
+        return goodsCategorySecondId;
+    }
+
+    public void setGoodsCategorySecondId(Integer goodsCategorySecondId) {
+        this.goodsCategorySecondId = goodsCategorySecondId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

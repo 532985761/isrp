@@ -1,26 +1,20 @@
 package com.grouptwo.isrp.entity;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.io.Serializable;
 
 /**
  * 商品表(IsrpGoods)实体类
  *
  * @author makejava
- * @since 2022-06-19 19:08:32
+ * @since 2022-06-22 09:50:07
  */
 public class IsrpGoods implements Serializable {
-    private static final long serialVersionUID = -24434301539217657L;
+    private static final long serialVersionUID = -78607985006061576L;
     /**
      * 商品ID
      */
     private Long goodsId;
-
-    private Integer goodsCategorySecondId;
-    /**
-     * 用户ID
-     */
-    private String userId;
     /**
      * 商品名称
      */
@@ -36,13 +30,13 @@ public class IsrpGoods implements Serializable {
     /**
      * 商品价格
      */
-    private Object goodsPrice;
+    private Double goodsPrice;
     /**
      * 销量
      */
     private Long goodsSaleCount;
     /**
-     * 状态
+     * 商品状态:1为暂未被购买;0为已购买
      */
     private Integer goodsStatus;
     /**
@@ -50,13 +44,6 @@ public class IsrpGoods implements Serializable {
      */
     private Date createTime;
 
-    public Integer getGoodsStatus() {
-        return goodsStatus;
-    }
-
-    public void setGoodsStatus(Integer goodsStatus) {
-        this.goodsStatus = goodsStatus;
-    }
 
     public Long getGoodsId() {
         return goodsId;
@@ -64,22 +51,6 @@ public class IsrpGoods implements Serializable {
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
-    }
-
-    public Integer getGoodsCategorySecondId() {
-        return goodsCategorySecondId;
-    }
-
-    public void setGoodsCategorySecondId(Integer goodsCategorySecondId) {
-        this.goodsCategorySecondId = goodsCategorySecondId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getGoodsName() {
@@ -106,11 +77,11 @@ public class IsrpGoods implements Serializable {
         this.goodsImg = goodsImg;
     }
 
-    public Object getGoodsPrice() {
+    public Double getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Object goodsPrice) {
+    public void setGoodsPrice(Double goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 
@@ -120,6 +91,14 @@ public class IsrpGoods implements Serializable {
 
     public void setGoodsSaleCount(Long goodsSaleCount) {
         this.goodsSaleCount = goodsSaleCount;
+    }
+
+    public Integer getGoodsStatus() {
+        return goodsStatus;
+    }
+
+    public void setGoodsStatus(Integer goodsStatus) {
+        this.goodsStatus = goodsStatus;
     }
 
     public Date getCreateTime() {

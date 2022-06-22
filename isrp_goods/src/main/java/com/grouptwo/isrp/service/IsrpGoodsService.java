@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
  * 商品表(IsrpGoods)表服务接口
  *
  * @author makejava
- * @since 2022-06-22 09:28:38
+ * @since 2022-06-22 09:50:13
  */
 public interface IsrpGoodsService {
 

@@ -31,7 +31,7 @@ public class IsrpGoodsCategoryFirstController {
      * @param pageRequest      分页对象
      * @return 查询结果
      */
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<Page<IsrpGoodsCategoryFirst>> queryByPage(IsrpGoodsCategoryFirst isrpGoodsCategoryFirst, PageRequest pageRequest) {
         return ResponseEntity.ok(this.isrpGoodsCategoryFirstService.queryByPage(isrpGoodsCategoryFirst, pageRequest));
     }

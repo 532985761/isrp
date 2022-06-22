@@ -22,6 +22,7 @@
         <module>isrp_goods</module>
         <module>isrp_common</module>
         <module>isrp_gateway</module>
+        <module>isrp_feign_api</module>
     </modules>
     <dependencies>
         <!-- Web -->
@@ -120,9 +121,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.7.RELEASE</version>
                 <configuration>
-                    <mainClass>com.grouptwo.isrp.IsrpApplication</mainClass>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
                 </configuration>
                 <executions>
                     <execution>

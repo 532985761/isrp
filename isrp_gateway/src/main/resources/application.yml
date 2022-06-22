@@ -2,24 +2,34 @@ server:
   port: 9527
 spring:
   application:
-    name: isrp_gateway
+    name: isrp-gateway
   cloud:
+    nacos:
+      server-addr: localhost:8848
     gateway:
       routes:
         - id: order_router
-          uri: http://localhost:20000
+#          uri: http://localhost:20000
+          uri: lb://isrp-order
           predicates:
             - Path=/isrpOrder/**
 
         - id: user_router
-          uri: http://localhost:10000
+#          uri: http://localhost:10000
+          uri: lb://isrp-user
           predicates:
             - Path=/isrpUser/**
 
         - id: goods_router
-          uri: http://localhost:30000
+#          uri: http://localhost:30000
+          uri: lb://isrp-goods
           predicates:
             - Path=/isrpGoods/**
+        - id: nacos_router
+#          uri: http://localhost:9568
+          uri: lb://isrp-provider
+          predicates:
+            - Path=/naco/**
   main:
     web-application-type: reactive
 

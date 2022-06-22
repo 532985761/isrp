@@ -42,10 +42,21 @@ public class IsrpGoods implements Serializable {
      */
     private Long goodsSaleCount;
     /**
+     * 状态
+     */
+    private Integer goodsStatus;
+    /**
      * 创建时间
      */
     private Date createTime;
 
+    public Integer getGoodsStatus() {
+        return goodsStatus;
+    }
+
+    public void setGoodsStatus(Integer goodsStatus) {
+        this.goodsStatus = goodsStatus;
+    }
 
     public Long getGoodsId() {
         return goodsId;

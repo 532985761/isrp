@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-bp1xb8e55nhvgonc4so.mysql.rds.aliyuncs.com/isrp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://rm-bp1xb8e55nhvgonc4so.mysql.rds.aliyuncs.com/isrp_order?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: isrp_mysql
     password: ISRPisrp@20220613#
   servlet:

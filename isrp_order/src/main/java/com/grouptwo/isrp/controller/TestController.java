@@ -1,7 +1,6 @@
 package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
-import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +15,13 @@ import javax.annotation.Resource;
 @RequestMapping("/t")
 public class TestController {
 
-    @Resource
-    IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
-    @Resource
-    private RestTemplate restTemplate;
-    @GetMapping("/test/{id}")
-    public String  test(@PathVariable("id") int id){
 
-        return restTemplate.getForObject("http://isrp-provider:9527/naco/nacos/"+id,String.class);
+
+    @GetMapping("/test")
+    public String  test(){
+        return "ok";
 
     }
+
+
 }

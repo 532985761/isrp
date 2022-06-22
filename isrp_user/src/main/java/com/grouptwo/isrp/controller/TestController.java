@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.client.TestClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,17 @@ import javax.annotation.Resource;
 public class TestController {
 
 
+
+    @Resource
+    TestClient testClient;
+
     @GetMapping("/test")
     public String test(){
+
         return "ok";
+    }
+    @GetMapping("/testfeign")
+    public String testFeign(){
+         return    testClient.test();
     }
 }

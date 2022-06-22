@@ -26,5 +26,3 @@ server:
   port: 20000
   servlet:
     context-path: /isrpOrder
-servic-url:
-  nacos-order-service: http://isrp_provider

@@ -20,8 +20,12 @@ public class TestController {
     @GetMapping("/test")
     public String  test(){
         return "ok";
-
     }
+    @GetMapping("/test/{id}")
+    public String  testClient(){
+        return "ok";
+    }
+
 
 
 }

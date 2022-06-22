@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.dao;
 
 import com.grouptwo.isrp.entity.IsrpGoods;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2022-06-22 10:05:10
  */
+@Mapper
 public interface IsrpGoodsDao {
 
     /**

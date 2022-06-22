@@ -1,7 +1,11 @@
 package com.grouptwo.isrp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * 商品订单表(IsrpOrder)实体类
@@ -34,7 +38,7 @@ public class IsrpOrder implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
     /**
      * 订单状态
      */
@@ -42,7 +46,9 @@ public class IsrpOrder implements Serializable {
     /**
      * 付款时间
      */
-    private Date payTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime payTime;
     /**
      * 商品总价
      */
@@ -90,15 +96,21 @@ public class IsrpOrder implements Serializable {
     /**
      * 发货时间
      */
-    private Date deliveryTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime deliveryTime;
     /**
      * 收货时间
      */
-    private Date receiveTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime receiveTime;
     /**
      * 评论时间
      */
-    private Date modifyTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime modifyTime;
 
 
     public String getOrderId() {
@@ -141,11 +153,11 @@ public class IsrpOrder implements Serializable {
         this.logisticsCompanyId = logisticsCompanyId;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -157,11 +169,11 @@ public class IsrpOrder implements Serializable {
         this.orderStatus = orderStatus;
     }
 
-    public Date getPayTime() {
+    public LocalDateTime getPayTime() {
         return payTime;
     }
 
-    public void setPayTime(Date payTime) {
+    public void setPayTime(LocalDateTime payTime) {
         this.payTime = payTime;
     }
 
@@ -253,27 +265,27 @@ public class IsrpOrder implements Serializable {
         this.confirmStatus = confirmStatus;
     }
 
-    public Date getDeliveryTime() {
+    public LocalDateTime getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Date deliveryTime) {
+    public void setDeliveryTime(LocalDateTime deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
-    public Date getReceiveTime() {
+    public LocalDateTime getReceiveTime() {
         return receiveTime;
     }
 
-    public void setReceiveTime(Date receiveTime) {
+    public void setReceiveTime(LocalDateTime receiveTime) {
         this.receiveTime = receiveTime;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 

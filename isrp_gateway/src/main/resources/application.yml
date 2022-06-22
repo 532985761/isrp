@@ -9,27 +9,25 @@ spring:
     gateway:
       routes:
         - id: order_router
-#          uri: http://localhost:20000
           uri: lb://isrp-order
           predicates:
             - Path=/isrpOrder/**
 
         - id: user_router
-#          uri: http://localhost:10000
           uri: lb://isrp-user
           predicates:
             - Path=/isrpUser/**
 
         - id: goods_router
-#          uri: http://localhost:30000
           uri: lb://isrp-goods
           predicates:
             - Path=/isrpGoods/**
-        - id: nacos_router
-#          uri: http://localhost:9568
-          uri: lb://isrp-provider
+        - id: gateway_404
+          uri: lb://isrp-gateway
           predicates:
-            - Path=/naco/**
+            - Path=/**
+          filters:
+            - RedirectTo=302, http://localhost:9527/
   main:
     web-application-type: reactive
 

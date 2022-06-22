@@ -1,7 +1,11 @@
 package com.grouptwo.isrp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * 用户表(IsrpUser)实体类
@@ -58,11 +62,15 @@ public class IsrpUser implements Serializable {
     /**
      * 生日
      */
-    private Date birth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime birth;
     /**
      * 创建时间
      */
-    private Date createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime createTime;
     /**
      * 个性签名
      */
@@ -157,19 +165,19 @@ public class IsrpUser implements Serializable {
         this.addressCity = addressCity;
     }
 
-    public Date getBirth() {
+    public LocalDateTime getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(LocalDateTime birth) {
         this.birth = birth;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

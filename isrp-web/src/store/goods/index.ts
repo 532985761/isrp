@@ -7,7 +7,7 @@ const key = "pinia-goods"
 export const goodsStore = defineStore(Names.goods, {
     state: () => {
         return {
-            test: useCookies().get(key) != null ? useCookies().get(key).test : null,
+            aaa: useCookies().get(key) != null ? useCookies().get(key).test : null,
             test2: useCookies().get(key) != null ? useCookies().get(key).test2 : null
         }
     },

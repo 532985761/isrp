@@ -25,7 +25,7 @@
       </div>
       <div>
         <el-button
-          @click="$router.push('/business')"
+          @click="$router.push('/login')"
           type="primary"
           class="w-50 my-2"
           round

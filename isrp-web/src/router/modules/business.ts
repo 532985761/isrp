@@ -14,7 +14,18 @@ export const business: Array<RouteRecordRaw> = [
                 // 测试路径
                 path: 'test',
                 component: () => import('@/views/About.vue')
-            }
+            },
+            
         ]
     },
+    {
+        path:'/login',
+        component: () => import('@/views/BusinessLogin.vue')
+    }
+    // {
+    //      // 全局路径 
+    //      path: '/login', 
+    //      // 导航栏
+    //      component: () => import('@/views/BusinessLogin.vue'), 
+    // }
 ]

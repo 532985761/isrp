@@ -1,7 +1,7 @@
 <template>
   <h1>{{ userStore().test }}</h1>
   <h1>{{ userStore().test2 }}</h1>
-  <h1>{{ goodsStore().test }}</h1>
+  <h1>{{ goodsStore().aaa }}</h1>
   <h1>{{ goodsStore().test2 }}</h1>
   <h1>{{ ordersStore().test }}</h1>
   <h1>{{ ordersStore().test2 }}</h1>
@@ -29,7 +29,7 @@ const test = () => {
   userstore.test2 = "usertest2";
   ordersstore.test = "orderstest";
   ordersstore.test2 = "orderstest2";
-  goodsstore.test = "goodstest";
+  goodsstore.aaa = "啊对对对";
   goodsstore.test2 = "goodstest2";
 };
 const resetTest = () => {
@@ -40,7 +40,7 @@ const resetTest = () => {
   userstore.test2 = null;
   ordersstore.test = null;
   ordersstore.test2 = null;
-  goodsstore.test = null;
+  goodsstore.aaa = null;
   goodsstore.test2 = null;
 };
 

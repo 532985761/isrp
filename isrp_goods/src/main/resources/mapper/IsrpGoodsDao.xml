@@ -7,16 +7,18 @@
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="goodsDesc" column="goods_desc" jdbcType="VARCHAR"/>
         <result property="goodsImg" column="goods_img" jdbcType="VARCHAR"/>
-        <result property="goodsPrice" column="goods_price" jdbcType="NUMERIC"/>
+        <result property="goodsPrice" column="goods_price" jdbcType="VARCHAR"/>
         <result property="goodsSaleCount" column="goods_sale_count" jdbcType="INTEGER"/>
         <result property="goodsStatus" column="goods_status" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="goodsCategorySecondId" column="goods_category_second_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="IsrpGoodsMap">
         select
-          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time
+          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
         from isrp_goods
         where goods_id = #{goodsId}
     </select>
@@ -24,7 +26,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="IsrpGoodsMap">
         select
-          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time
+          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
         from isrp_goods
         <where>
             <if test="goodsId != null">
@@ -50,6 +52,12 @@
             </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
+            </if>
+            <if test="goodsCategorySecondId != null">
+                and goods_category_second_id = #{goodsCategorySecondId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -84,28 +92,34 @@
             <if test="createTime != null">
                 and create_time = #{createTime}
             </if>
+            <if test="goodsCategorySecondId != null">
+                and goods_category_second_id = #{goodsCategorySecondId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time)
-        values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime})
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
+        values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time)
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime})
+        (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId}, #{entity.userId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time)
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime})
+            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId}, #{entity.userId})
         </foreach>
         on duplicate key update
         goods_name = values(goods_name),
@@ -114,7 +128,9 @@
         goods_price = values(goods_price),
         goods_sale_count = values(goods_sale_count),
         goods_status = values(goods_status),
-        create_time = values(create_time)
+        create_time = values(create_time),
+        goods_category_second_id = values(goods_category_second_id),
+        user_id = values(user_id)
     </insert>
 
     <!--通过主键修改数据-->
@@ -141,6 +157,12 @@
             </if>
             <if test="createTime != null">
                 create_time = #{createTime},
+            </if>
+            <if test="goodsCategorySecondId != null">
+                goods_category_second_id = #{goodsCategorySecondId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
             </if>
         </set>
         where goods_id = #{goodsId}

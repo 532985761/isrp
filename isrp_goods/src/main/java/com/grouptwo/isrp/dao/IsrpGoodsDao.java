@@ -9,7 +9,7 @@ import java.util.List;
  * 商品表(IsrpGoods)表数据库访问层
  *
  * @author makejava
- * @since 2022-06-22 09:50:07
+ * @since 2022-06-22 10:05:10
  */
 public interface IsrpGoodsDao {
 

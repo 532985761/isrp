@@ -1,19 +1,16 @@
 package com.grouptwo.isrp.dao;
 
 import com.grouptwo.isrp.entity.IsrpGoods;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表数据库访问层
  *
  * @author makejava
- * @since 2022-06-19 19:08:32
+ * @since 2022-06-22 09:28:38
  */
-@Mapper
 public interface IsrpGoodsDao {
 
     /**

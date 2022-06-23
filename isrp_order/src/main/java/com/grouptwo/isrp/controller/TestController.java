@@ -1,6 +1,8 @@
 package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
+import com.grouptwo.isrp.entity.IsrpOrder;
+import com.grouptwo.isrp.service.IsrpOrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +20,8 @@ import javax.annotation.Resource;
 @RequestMapping("/t")
 public class TestController {
 
-
+    @Resource
+    private IsrpOrderService isrpOrderService;
 
     @GetMapping("/test")
     public String  test(){
@@ -27,10 +30,10 @@ public class TestController {
 
 
     @GetMapping("/test/{id}")
-    public String  testClient(@PathVariable("id") int id){
-        return "当前访问的ID是\t"+id;
+    public ResponseEntity  testClient(@PathVariable("id") int id){
+        System.out.println(id);
+        System.out.println(isrpOrderService.queryById(String.valueOf(id)));
+        return ResponseEntity.ok(isrpOrderService.queryById(String.valueOf(id)));
     }
-
-
 
 }

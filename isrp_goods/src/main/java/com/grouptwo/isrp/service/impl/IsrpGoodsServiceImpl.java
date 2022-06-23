@@ -89,4 +89,9 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     public List<IsrpGoods> selectGoods() {
         return this.isrpGoodsDao.selectGoods();
     }
+
+    @Override
+    public List<IsrpGoods> queryAllGoods() {
+        return this.isrpGoodsDao.queryAllGoods();
+    }
 }

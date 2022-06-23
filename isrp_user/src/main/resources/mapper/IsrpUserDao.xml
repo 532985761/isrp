@@ -134,6 +134,13 @@
         from isrp_user
         where email = #{email}
     </select>
+    <select id="getAlluser" resultType="com.grouptwo.isrp.entity.IsrpUser">
+            select             user_id, nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign
+            from isrp_user
+    </select>
+    <select id="getuserStatusByUserId" resultType="java.lang.Integer">
+        select status from isrp_user where isrp_user.isrp_user.user_id = #{userId}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
@@ -216,6 +223,9 @@
             </if>
         </set>
         where user_id = #{userId}
+    </update>
+    <update id="changeStatus">
+        update isrp_user set status = 1 where user_id =#{userId}
     </update>
 
     <!--通过主键删除-->

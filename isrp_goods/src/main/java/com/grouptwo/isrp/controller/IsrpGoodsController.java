@@ -4,10 +4,12 @@ import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表控制层
@@ -88,6 +90,13 @@ public class IsrpGoodsController {
     @GetMapping("/deleteGoodsById/{goodsId}")
     public ResponseEntity<Boolean> deleteById(@PathVariable("goodsId") Long goodsId) {
         return ResponseEntity.ok(this.isrpGoodsService.deleteById(goodsId));
+    }
+
+
+    @PostMapping("/getGoodsInfo")
+    public ResponseEntity getGoodsInfo(){
+        System.out.println(isrpGoodsService.queryAllGoods());
+        return ResponseEntity.ok(isrpGoodsService.queryAllGoods());
     }
 
 }

@@ -48,7 +48,7 @@ public interface IsrpGoodsService {
     IsrpGoods update(IsrpGoods isrpGoods);
 
     /**
-     * 通过goodId删除商品
+     * 通过主键删除数据
      *
      * @param goodsId 主键
      * @return 是否成功
@@ -59,5 +59,5 @@ public interface IsrpGoodsService {
      * 查询所有商品信息
      * @return
      */
-    List<IsrpGoods> selectGoods();
+    List<IsrpGoods> queryAllGoods();
 }

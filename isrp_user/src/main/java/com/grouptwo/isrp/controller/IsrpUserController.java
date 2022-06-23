@@ -1,14 +1,17 @@
 package com.grouptwo.isrp.controller;
 
+import cn.hutool.http.server.HttpServerRequest;
 import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.service.IsrpUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -93,14 +96,22 @@ public class IsrpUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody  IsrpUser user){
+    public ResponseEntity register(@RequestBody  IsrpUser user, HttpServletRequest request){
+        System.out.println(request);
         Map<String,Object> map = isrpUserService.registerUser(user);
         if (map == null || map.isEmpty()) {
             return new ResponseEntity("已经向你邮箱发送了邮件，请激活账号！", HttpStatus.OK);
         } else {
-            return  new ResponseEntity<Object>(map.get("Msg"), HttpStatus.SERVICE_UNAVAILABLE);
+            return  new ResponseEntity(map.get("Msg"), HttpStatus.SERVICE_UNAVAILABLE);
         }
 
+    }
+
+
+
+    @PostMapping("/getAllUser")
+    public ResponseEntity getAllUser(){
+        return ResponseEntity.ok(isrpUserService.getAlluser());
     }
 
 }

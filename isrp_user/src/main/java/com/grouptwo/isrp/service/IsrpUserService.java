@@ -4,6 +4,7 @@ import com.grouptwo.isrp.entity.IsrpUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,4 +57,10 @@ public interface IsrpUserService {
     boolean deleteById(String userId);
 
     Map<String,Object> registerUser(IsrpUser user);
+
+    List<IsrpUser> getAlluser();
+
+    int changeUserStatus(String userId);
+
+    int getUserStatus(String userId);
 }

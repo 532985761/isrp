@@ -7,6 +7,9 @@
     :close-on-click-modal="false"
   >
     <el-form
+      v-loading="loading"
+          element-loading-text="正在为您注册账号，请耐心等候！"
+
       ref="ruleFormRef"
       :model="ruleForm"
       status-icon
@@ -29,7 +32,7 @@
       </el-form-item>
       <el-form-item label="身份选择"
         ><el-select
-          v-model="value"
+          v-model="identity"
           class="m-2 -ml-0.5 -mt-0.5"
           placeholder="Select"
         >
@@ -40,14 +43,14 @@
             :value="item.value"
           /> </el-select
       ></el-form-item>
-      <el-form-item>
-        <div id="app">
-          <el-cascader
-            size="large"
-            :options="options1"
-            v-model="selectedOptions"
-          >
-          </el-cascader></div
+      <el-form-item label="城市选择">
+        <el-cascader
+          class="m-2 -ml-0.5 -mt-0.5"
+          :options="options1"
+          v-model="selectedOptions"
+          @change="selectCity"
+        >
+        </el-cascader
       ></el-form-item>
     </el-form>
     <template #footer>
@@ -73,10 +76,16 @@ import { testGoodsApi } from "@/api/goods";
 import { getOneUserInfo, registerUser } from "@/api/user";
 import { ElMessage } from "element-plus";
 import type { FormInstance } from "element-plus";
-import { regionData } from "element-china-area-data"; //引入
+import {
+  regionData,
+  CodeToText,
+  provinceAndCityData,
+} from "element-china-area-data"; //引入
 import { fa } from "element-plus/es/locale";
+let loading = ref(false);
 
-const loading = ref(true);
+let city = ref("");
+let identity = ref("");
 const options1 = regionData;
 let selectedOptions: [];
 //注册表单开始
@@ -85,7 +94,13 @@ const ruleForm = reactive({
   pass: "",
   email: "",
 });
+const selectCity = (res: any) => {
+    console.log(CodeToText[res[1]]);
+    
+  city.value = CodeToText[res[1]];
 
+  
+};
 let centerDialogVisible = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const centerDialogVisible1 = (data: any) => {
@@ -173,19 +188,26 @@ const options = [
 //确认注册
 let data = ref({});
 async function confirmRegister() {
+      loading.value = true;
+
   let userForm = {
     email: ruleForm.email,
     password: ruleForm.pass,
-    role: value.value,
+    role: identity.value,
+    addressCity: city.value,
   };
-  await registerUser(userForm).then((res: any) => {
-    // ElMessage({
-    //   message: res.Msg,
-    //   type: "warning",
-    // });
-    // if(res.code){
-    // }
-  });
+  await registerUser(userForm)
+    .then((res: any) => {
+      if (res.status == 200) {
+        ElMessage({
+          message: res.data,
+          type: "success",
+        });
+      }
+    })
+    .then((res: any) => {
+      loading.value = false;
+    });
 }
 </script>
 

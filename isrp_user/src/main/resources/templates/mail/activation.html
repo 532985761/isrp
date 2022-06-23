@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>激活账号</title>
+</head>
+<body>
+	<div>
+		<p>
+			亲爱的<b th:text="${name}"></b> 用户邮箱为<u th:text="${email}"></u>的用户, 您好!
+		</p>
+		<p>
+			您正在注册智租网, 请点击
+			<a th:href="${url}">此链接</a>,前往地址：<span th:utext="${url.toString()}"></span> 激活您的账号!
+		</p>
+	</div>
+</body>
+</html>

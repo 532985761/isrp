@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表服务实现类
@@ -78,5 +79,14 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     @Override
     public boolean deleteById(Long goodsId) {
         return this.isrpGoodsDao.deleteById(goodsId) > 0;
+    }
+
+    /**
+     * 查询商品信息
+     * @return
+     */
+    @Override
+    public List<IsrpGoods> selectGoods() {
+        return this.isrpGoodsDao.selectGoods();
     }
 }

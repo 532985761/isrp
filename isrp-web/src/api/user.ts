@@ -18,6 +18,9 @@ import http from '@/axios'
 export function testUserApi () {
     return http.get('/isrpUser/t/test')
 }
+export function LoginApi () {
+    return http.get('/isrpGoods/t/test')
+}
 /**
  * 获取用户信息
  * 

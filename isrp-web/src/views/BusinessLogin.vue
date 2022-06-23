@@ -15,19 +15,18 @@
         <span class="h-[1px] w-50 bg-gray-200"></span>
       </div>
       <div>
-        <el-form label-width="100px" style="max-width: 460px">
+        <el-form style="max-width: 460px">
           <el-form-item label="账号">
-            <el-input />
+            <el-input placeholder="请输入你的账号..." v-model="loginFrom.username"/>
           </el-form-item>
           <el-form-item label="密码">
-          <div> <el-input /></div>
-           
+            <el-input placeholder="请输入你的密码..." v-model="loginFrom.password"/>
           </el-form-item>
         </el-form>
       </div>
         <div>
           <el-button
-            @click="$router.push('/buession/login')"
+            @click="$router.push('/business')"
             type="success"
             class="w-50 my-2"
             round
@@ -47,3 +46,23 @@
     </el-col>
   </el-row>
 </template>
+<script setup lang="ts">
+import {onMounted, reactive} from "vue";
+import { LoginApi } from "@/api/user";
+
+const loginFrom = reactive({
+    username:'',
+    password:''
+})
+onMounted(()=>{
+    loginFrom
+})
+const login = async() =>{
+    LoginApi().then((res:any) =>{
+        if(loginFrom.username == res.code){
+            
+        }
+    })
+}
+
+</script>

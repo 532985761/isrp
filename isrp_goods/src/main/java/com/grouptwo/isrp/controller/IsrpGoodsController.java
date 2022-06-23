@@ -35,7 +35,16 @@ public class IsrpGoodsController {
     public ResponseEntity<Page<IsrpGoods>> queryByPage(IsrpGoods isrpGoods, PageRequest pageRequest) {
         return ResponseEntity.ok(this.isrpGoodsService.queryByPage(isrpGoods, pageRequest));
     }
-
+    /**
+     * 查询所有商品
+     *
+     * @return 查询结果
+     */
+    @GetMapping("/selectAllGoods")
+    public ResponseEntity selectGoods() {
+        System.out.println(isrpGoodsService.selectGoods());
+        return ResponseEntity.ok(this.isrpGoodsService.selectGoods());
+    }
     /**
      * 通过主键查询单条数据
      *
@@ -48,36 +57,37 @@ public class IsrpGoodsController {
     }
 
     /**
-     * 新增数据
+     * 新增商品
      *
      * @param isrpGoods 实体
      * @return 新增结果
      */
-    @PostMapping
-    public ResponseEntity<IsrpGoods> add(IsrpGoods isrpGoods) {
+    @PostMapping("/insertGoods")
+    public ResponseEntity<IsrpGoods> add(@RequestBody IsrpGoods isrpGoods) {
         return ResponseEntity.ok(this.isrpGoodsService.insert(isrpGoods));
     }
 
     /**
-     * 编辑数据
+     * 修改商品数据
      *
      * @param isrpGoods 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<IsrpGoods> edit(IsrpGoods isrpGoods) {
+    @PostMapping("/editGoods")
+    public ResponseEntity<IsrpGoods> edit(@RequestBody IsrpGoods isrpGoods) {
+        System.out.println(isrpGoods);
         return ResponseEntity.ok(this.isrpGoodsService.update(isrpGoods));
     }
 
     /**
-     * 删除数据
+     * 通过商品id删除商品
      *
-     * @param id 主键
+     * @param goodsId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.isrpGoodsService.deleteById(id));
+    @GetMapping("/deleteGoodsById/{goodsId}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("goodsId") Long goodsId) {
+        return ResponseEntity.ok(this.isrpGoodsService.deleteById(goodsId));
     }
 
 }

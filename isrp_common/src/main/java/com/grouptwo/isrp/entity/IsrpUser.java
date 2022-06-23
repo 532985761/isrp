@@ -1,6 +1,8 @@
 package com.grouptwo.isrp.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
  * @author makejava
  * @since 2022-06-19 19:08:33
  */
+@Data
+@ToString
 public class IsrpUser implements Serializable {
     private static final long serialVersionUID = 751617049170797869L;
     /**

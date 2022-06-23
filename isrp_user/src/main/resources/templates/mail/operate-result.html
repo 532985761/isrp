@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+	<script th:src="@{/bootstrap/bootstrap.min.js}"></script>
+
+
+
+	<title>操作结果</title>
+
+</head>
+<body class="bg-white">
+	<div class="nk-container">
+
+		<!-- 内容 -->
+		<div class="main">
+			<div class="container mt-5">
+				<div class="jumbotron">
+					<h1 th:text="${operate}" style="text-align: center;letter-spacing: 15px;font-family: 华文细黑">提示信息</h1>
+					<p class="lead" th:text="${msg}"></p>
+					<hr class="my-4">
+					<p style="font-size: 20px">
+						页面会在 <span style="font-size: 30px" id="seconds" class="text-danger">10</span> 秒后自动跳转,
+						您也可以点此 <a id="target" th:href="@{${target}}" class="text-primary" >
+						<span >链接</span></a>回到 <span th:text="${href}"></span>
+						界面
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			setInterval(function(){
+				var seconds = $("#seconds").text();
+				$("#seconds").text(--seconds);
+				if(seconds == 0) {
+					location.href = $("#target").attr("href");
+				}
+			}, 1000);
+		});
+	</script>
+</body>
+</html>

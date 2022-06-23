@@ -4,6 +4,8 @@ import com.grouptwo.isrp.entity.IsrpGoods;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 商品表(IsrpGoods)表服务接口
  *
@@ -46,11 +48,16 @@ public interface IsrpGoodsService {
     IsrpGoods update(IsrpGoods isrpGoods);
 
     /**
-     * 通过主键删除数据
+     * 通过goodId删除商品
      *
      * @param goodsId 主键
      * @return 是否成功
      */
     boolean deleteById(Long goodsId);
 
+    /**
+     * 查询所有商品信息
+     * @return
+     */
+    List<IsrpGoods> selectGoods();
 }

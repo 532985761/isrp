@@ -14,8 +14,9 @@ import java.lang.reflect.Field;
 public class IsrpGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IsrpGatewayApplication.class, args);
         disableWarning();
+        SpringApplication.run(IsrpGatewayApplication.class, args);
+
     }
     public static void disableWarning() {
         try {

@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>isrp_common</name>
     <description>isrp_common</description>
-
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

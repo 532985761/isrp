@@ -3,6 +3,7 @@ package com.grouptwo.isrp.controller;
 import com.grouptwo.isrp.client.TestClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,8 @@ public class TestController {
 
         return "ok";
     }
-    @GetMapping("/testfeign")
-    public String testFeign(){
-         return    testClient.test();
+    @GetMapping("/testfeign/{id}")
+    public String testFeign(@PathVariable("id") int id){
+         return    testClient.test(id);
     }
 }

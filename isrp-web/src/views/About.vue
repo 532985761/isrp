@@ -5,6 +5,7 @@
   <h1>{{ goodsStore().test2 }}</h1>
   <h1>{{ ordersStore().test }}</h1>
   <h1>{{ ordersStore().test2 }}</h1>
+  <div>测试初始化数据: {{ data }}</div>
   <el-button class="bg-blue-200" @click="test">测试载入pinia</el-button>
   <el-button class="bg-red-500" @click="resetTest">测试置空pinia</el-button>
   <el-button class="bg-blue-500" @click="testApi">测试axios</el-button>
@@ -18,6 +19,14 @@ import { useCookies } from "@vueuse/integrations/useCookies";
 import { testUserApi } from "@/api/user";
 import { testGoodsApi } from "@/api/goods";
 import { testOrderApi } from "@/api/order";
+import { onMounted, ref } from "vue";
+
+let data = ref();
+
+onMounted(async () => {
+  data.value = await testUserApi().then((res) => res);
+});
+
 const cookie = useCookies();
 /**数据存入pinia以及cookie */
 

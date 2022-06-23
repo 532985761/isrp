@@ -25,6 +25,8 @@ http.interceptors.request.use(config => {
 // 响应拦截
 http.interceptors.response.use(arr => {
     // 对响应码的处理
+    console.log(arr);
+    
     if(arr.status == 200) {
         return arr.data
     } else {

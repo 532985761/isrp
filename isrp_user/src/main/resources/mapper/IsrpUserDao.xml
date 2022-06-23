@@ -128,6 +128,12 @@
             </if>
         </where>
     </select>
+    <select id="queryByEmail" resultType="com.grouptwo.isrp.entity.IsrpUser">
+        select
+            user_id, nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign
+        from isrp_user
+        where email = #{email}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">

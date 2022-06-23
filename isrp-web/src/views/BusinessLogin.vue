@@ -20,7 +20,8 @@
             <el-input />
           </el-form-item>
           <el-form-item label="密码">
-            <el-input />
+          <div> <el-input /></div>
+           
           </el-form-item>
         </el-form>
       </div>

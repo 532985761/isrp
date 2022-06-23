@@ -4,7 +4,6 @@ spring:
   mvc:
     throw-exception-if-no-handler-found: true
     static-path-pattern: static/**
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://rm-bp1xb8e55nhvgonc4so.mysql.rds.aliyuncs.com/isrp_user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
@@ -20,6 +19,28 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+  devtools:
+    livereload:
+      port: 10001
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates
+    mode: HTML
+    enabled: true
+    encoding: utf-8
+    suffix: .html
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 532985761@qq.com
+    password: mbiytteaqvizcbah
+    protocol: smtps
+    properties:
+      from: 532985761@qq.com
+      mail:
+        smtp:
+          ssl:
+            enable: true
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 server:

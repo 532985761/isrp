@@ -4,6 +4,8 @@ import com.grouptwo.isrp.entity.IsrpOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 商品订单表(IsrpOrder)表服务接口
  *
@@ -13,12 +15,12 @@ import org.springframework.data.domain.PageRequest;
 public interface IsrpOrderService {
 
     /**
-     * 通过ID查询单条数据
+     * 通过ID查询单条订单数据
      *
      * @param orderId 主键
      * @return 实例对象
      */
-    IsrpOrder queryById(String orderId);
+    IsrpOrder selectOrderById(String orderId);
 
     /**
      * 分页查询
@@ -30,12 +32,12 @@ public interface IsrpOrderService {
     Page<IsrpOrder> queryByPage(IsrpOrder isrpOrder, PageRequest pageRequest);
 
     /**
-     * 新增数据
+     * 新增订单数据
      *
      * @param isrpOrder 实例对象
      * @return 实例对象
      */
-    IsrpOrder insert(IsrpOrder isrpOrder);
+    IsrpOrder insertOrder(IsrpOrder isrpOrder);
 
     /**
      * 修改数据
@@ -43,7 +45,7 @@ public interface IsrpOrderService {
      * @param isrpOrder 实例对象
      * @return 实例对象
      */
-    IsrpOrder update(IsrpOrder isrpOrder);
+    IsrpOrder updateOrder(IsrpOrder isrpOrder);
 
     /**
      * 通过主键删除数据
@@ -53,4 +55,9 @@ public interface IsrpOrderService {
      */
     boolean deleteById(String orderId);
 
+    /**
+     * 查询所有订单信息
+     *
+     */
+    List<IsrpOrder> selectAllOrders();
 }

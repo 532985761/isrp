@@ -92,7 +92,10 @@ public class IsrpGoodsController {
         return ResponseEntity.ok(this.isrpGoodsService.deleteById(goodsId));
     }
 
-
+    /**
+     * 获取所有商品信息
+     *
+     */
     @PostMapping("/getGoodsInfo")
     public ResponseEntity getGoodsInfo(){
         System.out.println(isrpGoodsService.queryAllGoods());

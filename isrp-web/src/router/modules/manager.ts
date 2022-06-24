@@ -6,14 +6,14 @@ export const manager: Array<RouteRecordRaw> = [
         // 全局路径 
         path: '/manager', 
         // 导航栏
-        component: () => import('@/views/About.vue'), 
+        component: () => import('@/components/ManagerNav.vue'), 
         // 首页
-        redirect: '/manager/test',
+        redirect: '/manager/home',
         children: [
             {
-                // 测试路径
-                path: 'test',
-                component: () => import('@/views/About.vue')
+                // 首页
+                path: 'home',
+                component: () => import('@/views/manager-home/index.vue')
             }
         ]
     },

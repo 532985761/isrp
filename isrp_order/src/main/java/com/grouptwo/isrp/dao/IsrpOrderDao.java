@@ -22,7 +22,7 @@ public interface IsrpOrderDao {
      * @param orderId 主键
      * @return 实例对象
      */
-    IsrpOrder queryById(String orderId);
+    IsrpOrder selectOrderById(String orderId);
 
     /**
      * 查询指定行数据
@@ -47,7 +47,7 @@ public interface IsrpOrderDao {
      * @param isrpOrder 实例对象
      * @return 影响行数
      */
-    int insert(IsrpOrder isrpOrder);
+    int insertOrder(IsrpOrder isrpOrder);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
@@ -72,7 +72,7 @@ public interface IsrpOrderDao {
      * @param isrpOrder 实例对象
      * @return 影响行数
      */
-    int update(IsrpOrder isrpOrder);
+    int updateOrder(IsrpOrder isrpOrder);
 
     /**
      * 通过主键删除数据
@@ -82,5 +82,10 @@ public interface IsrpOrderDao {
      */
     int deleteById(String orderId);
 
+    /**
+     * 查询所有订单信息
+     *
+     */
+    List<IsrpOrder> selectAllOrders();
 }
 

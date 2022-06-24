@@ -32,8 +32,8 @@ public class TestController {
     @GetMapping("/test/{id}")
     public ResponseEntity  testClient(@PathVariable("id") int id){
         System.out.println(id);
-        System.out.println(isrpOrderService.queryById(String.valueOf(id)));
-        return ResponseEntity.ok(isrpOrderService.queryById(String.valueOf(id)));
+        System.out.println(isrpOrderService.selectOrderById(String.valueOf(id)));
+        return ResponseEntity.ok(isrpOrderService.selectOrderById(String.valueOf(id)));
     }
 
 }

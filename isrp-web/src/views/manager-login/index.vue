@@ -1,8 +1,10 @@
 <template>
   <el-row class="min-h-screen-sm m-5 shadow-lg shadow-dark-500 bg-slate-500">
     <el-col :lg="12" class="flex items-center justify-center flex-col">
-      <div class="font-bold text-5xl text-light-50 mb-4">欢迎来到管理系统</div>
-      <div class="text-gray-200 text-sm">
+      <div class="font-bold text-5xl text-light-50 mb-4 m-3">
+        欢迎来到管理系统
+      </div>
+      <div class="text-gray-200 text-sm m-3">
         本系统是智能化共享租赁平台管理系统，请保存好本系统网址以及用户名和账号方便进行登录和管理。
       </div>
     </el-col>

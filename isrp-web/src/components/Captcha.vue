@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, watch, toRef } from "vue";
+import { ref, onMounted, watch, toRef } from "vue";
 import { captcha } from "@/api/user";
 
 let codeImg = ref();
@@ -25,13 +25,6 @@ watch(timeStamp, (newValue, oldValue) => {
   });
 });
 
-watch(props, (newValue, oldValue) => {
-  captcha().then((res) => {
-    if (res.status == 200) {
-      codeImg.value = window.URL.createObjectURL(res.data);
-    }
-  });
-});
 onMounted(async () => {
   await captcha().then((res) => {
     if (res.status == 200) {

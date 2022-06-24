@@ -32,11 +32,11 @@
           >商家登录</el-button
         >
       </div>
-        <div>
-        <el-button
+      <div>
+        <el-button 
           @click="$router.push('/business/index')"
           type="primary"
-          class="w-50 my-2"
+          class="w-50 my-2 "
           round
           >商家后台页面</el-button
         >
@@ -50,18 +50,14 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue"
-import UserRegister from "./UserRegister.vue"
-import { fa } from "element-plus/es/locale";
-const centerDialogVisible1= ref(null)
+import { ref } from "vue";
+import UserRegister from "./UserRegister.vue";
+//调用注册模态框
 const childRef = ref();
-        const getChild = () => {
-            // 3. 调用子组件的方法或者变量，通过value
-            childRef.value.showDialog(true);
-        }
-
+const getChild = () => {
+  childRef.value.showDialog(true);
+};
 </script>
-import UserRegister from ''
 <style scoped>
 .my-header {
   display: flex;

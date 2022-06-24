@@ -5,7 +5,7 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
-
+import * as ElIconModules from '@element-plus/icons-vue'
 
 const app = createApp(App)
 
@@ -26,6 +26,9 @@ const piniaPlugin = (options:Options) => {
         })
     }
 }
+Object.keys(ElIconModules).forEach(function (key) {
+    app.component(ElIconModules[key].name, ElIconModules[key])
+})
 store.use(piniaPlugin({
     key: "pinia"
 }))

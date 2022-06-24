@@ -17,15 +17,15 @@
       class="demo-ruleForm"
     >
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="ruleForm.email" />
+        <el-input v-model="ruleForm.email" placeholder="请输入邮箱"/>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+        <el-input v-model="ruleForm.pass" type="password" autocomplete="off" placeholder="请输入密码" />
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input
           v-model="ruleForm.checkPass"
-          type="password"
+          type="password" placeholder="请确认密码"
           autocomplete="off"
         />
       </el-form-item>
@@ -33,7 +33,7 @@
         ><el-select
           v-model="identity"
           class="m-2 -ml-0.5 -mt-0.5"
-          placeholder="Select"
+          placeholder="请选择身份"
         >
           <el-option
             v-for="item in options"
@@ -43,7 +43,7 @@
           /> </el-select
       ></el-form-item>
       <el-form-item label="城市选择">
-        <el-cascader
+        <el-cascader placeholder="请选择城市"
           class="m-2 -ml-0.5 -mt-0.5"
           :options="options1"
           v-model="selectedOptions"
@@ -76,7 +76,6 @@ import { getOneUserInfo, registerUser } from "@/api/user";
 import { ElMessage } from "element-plus";
 import type { FormInstance } from "element-plus";
 import { regionData, CodeToText } from "element-china-area-data"; //引入
-import { fa } from "element-plus/es/locale";
 let loading = ref(false);
 
 let city = ref("");
@@ -102,7 +101,7 @@ const showDialog = (data: any) => {
 };
 
 defineExpose({
- showDialog,
+  showDialog,
 });
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {
@@ -210,4 +209,5 @@ async function confirmRegister() {
   flex-direction: row;
   justify-content: space-between;
 }
+
 </style>

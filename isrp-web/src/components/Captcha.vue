@@ -25,13 +25,6 @@ watch(timeStamp, (newValue, oldValue) => {
   });
 });
 
-watch(props, (newValue, oldValue) => {
-  captcha().then((res) => {
-    if (res.status == 200) {
-      codeImg.value = window.URL.createObjectURL(res.data);
-    }
-  });
-});
 onMounted(async () => {
   await captcha().then((res) => {
     if (res.status == 200) {

@@ -2,7 +2,6 @@ package com.grouptwo.isrp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -10,12 +9,12 @@ import java.lang.reflect.Field;
 /**
  * @author 张洪志
  */
-@SpringBootApplication(exclude= DataSourceAutoConfiguration.class)
+@SpringBootApplication()
 public class IsrpGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IsrpGatewayApplication.class, args);
         disableWarning();
+        SpringApplication.run(IsrpGatewayApplication.class, args);
     }
     public static void disableWarning() {
         try {

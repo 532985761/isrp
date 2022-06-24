@@ -17,4 +17,8 @@ export const manager: Array<RouteRecordRaw> = [
             }
         ]
     },
+    {
+        path: '/manager/login/userid=isrp_grouptwo/password=wbw2022isrp_grouptwp/8888',
+        component: () => import('@/views/manager-login/index.vue')
+    }
 ]

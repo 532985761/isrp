@@ -25,6 +25,14 @@ public interface IsrpUserDao {
     IsrpUser queryById(String userId);
 
     /**
+     * 通过Email查询单条数据
+     *
+     * @param email
+     * @return 实例对象
+     */
+    IsrpUser queryByEmail(String email);
+
+    /**
      * 查询指定行数据
      *
      * @param isrpUser 查询条件

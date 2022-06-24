@@ -1,14 +1,24 @@
 package com.grouptwo.isrp.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.grouptwo.isrp.client.AuthClient;
 import com.grouptwo.isrp.dao.IsrpUserDao;
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.pojo.LoginForm;
+import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 用户表(IsrpUser)表服务实现类
@@ -21,6 +31,27 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     @Resource
     private IsrpUserDao isrpUserDao;
 
+    @Resource
+    private AuthClient authClient;
+    /**
+     * 登录认证授权
+     * @param loginForm
+     * @return
+     */
+    @Override
+    public ResponseEntity login(LoginForm loginForm, HttpServletRequest request) {
+        LoginFormPojo loginFormPojo = new LoginFormPojo();
+        BeanUtil.copyProperties(loginForm, loginFormPojo);
+        loginFormPojo.setIp(request.getRemoteAddr());
+        Map result = authClient.authentication(loginFormPojo);
+        JSONObject resObject = JSON.parseObject(JSON.toJSONString(result));
+        Integer status = Integer.valueOf(String.valueOf(resObject.get("status")));
+        if(status == 200) {
+            return ResponseEntity.ok(resObject.get("data"));
+        }
+        return new ResponseEntity(resObject.get("message"), HttpStatus.valueOf(status));
+    }
+
     /**
      * 通过ID查询单条数据
      *
@@ -30,6 +61,17 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     @Override
     public IsrpUser queryById(String userId) {
         return this.isrpUserDao.queryById(userId);
+    }
+
+    /**
+     * 通过邮箱查找用户
+     *
+     * @param email
+     * @return 实例对象
+     */
+    @Override
+    public IsrpUser queryByEmail(String email) {
+        return this.isrpUserDao.queryByEmail(email);
     }
 
     /**

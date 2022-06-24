@@ -1,6 +1,11 @@
 // 封装请求
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import { userStore } from "@/store/user";
+import router from "./router";
+
+const userstore = userStore()
+
 // 请求
 const http = axios.create({
   baseURL: "http://localhost:9527",
@@ -10,15 +15,12 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     //请求头设置
+    let token = userstore.token || ''
     config.headers = {
       ...config.headers,
       "content-type": "application/json",
-    };
-    // let token = localStorage.getItem('token') || ''
-    // config.headers = {
-    //   ...config.headers,
-    //   Authorization: token
-    // }
+      "Authorization": token
+    }
     return config;
   },
   (err) => {
@@ -38,6 +40,9 @@ http.interceptors.response.use(
     return arr;
   },
   (err) => {
+    if(err.response.status == 401) {
+      router.push('/')
+    }
     ElMessage({
       message: err.response.data,
       type: "error",

@@ -10,17 +10,17 @@
       :lg="8"
       class="flex items-center justify-center flex-col bg-light-50"
     >
-      <h2 class="font-bold text-2xl text-gray-600">欢迎尊贵用户回来</h2>
-       <div class="flex items-center justify-center my-5">
-        <span class="h-[1px] w-50 bg-gray-200"></span>
+      <h2 class="font-bold text-2xl text-gray-600 tracking-0.5em">欢迎尊贵用户回来</h2>
+      <div class="flex items-center justify-center my-5">
+        <span class="h-[1px] w-70 bg-gray-200"></span>
       </div>
       <div>
         <el-form style="width: 290px"  >
           <el-form-item label="账号:">
-            <el-input placeholder="请输入账号" />
+            <el-input />
           </el-form-item>
           <el-form-item label="密码:">
-            <el-input placeholder="请输入密码" />
+            <el-input />
           </el-form-item>
         </el-form>
       </div>

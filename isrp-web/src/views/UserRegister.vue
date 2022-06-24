@@ -8,8 +8,7 @@
   >
     <el-form
       v-loading="loading"
-          element-loading-text="正在为您注册账号，请耐心等候！"
-
+      element-loading-text="正在为您注册账号，请耐心等候！"
       ref="ruleFormRef"
       :model="ruleForm"
       status-icon
@@ -76,10 +75,7 @@ import { testGoodsApi } from "@/api/goods";
 import { getOneUserInfo, registerUser } from "@/api/user";
 import { ElMessage } from "element-plus";
 import type { FormInstance } from "element-plus";
-import {
-  regionData,
-  CodeToText,
-} from "element-china-area-data"; //引入
+import { regionData, CodeToText } from "element-china-area-data"; //引入
 import { fa } from "element-plus/es/locale";
 let loading = ref(false);
 
@@ -94,11 +90,9 @@ const ruleForm = reactive({
   email: "",
 });
 const selectCity = (res: any) => {
-    console.log(CodeToText[res[1]]);
-    
-  city.value = CodeToText[res[1]];
+  console.log(CodeToText[res[1]]);
 
-  
+  city.value = CodeToText[res[1]];
 };
 let centerDialogVisible = ref(false);
 const ruleFormRef = ref<FormInstance>();
@@ -187,8 +181,7 @@ const options = [
 //确认注册
 let data = ref({});
 async function confirmRegister() {
-      loading.value = true;
-
+  loading.value = true;
   let userForm = {
     email: ruleForm.email,
     password: ruleForm.pass,

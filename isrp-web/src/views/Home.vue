@@ -42,25 +42,16 @@
         >
       </div>
       <div>
-        <el-link  @click="registe">没有账号?点击注册</el-link>
-
-      <UserRegister ref="centerDialogVisible"></UserRegister>
+        <el-link @click="showRegister">没有账号?点击注册</el-link>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts" setup>
-import {ref}  from "vue";
-import UserRegister from "./UserRegister.vue"
-const centerDialogVisible:any = ref("")
-
-const registe = () => {
-  
-  centerDialogVisible.value.centerDialogVisible1(true)
-}
+const showRegister = ()
 </script>
-
+import UserRegister from ''
 <style scoped>
 .my-header {
   display: flex;

@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, watch, toRef } from "vue";
+import { ref, onMounted, watch, toRef } from "vue";
 import { captcha } from "@/api/user";
 
 let codeImg = ref();

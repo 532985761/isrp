@@ -1,19 +1,28 @@
 package com.grouptwo.isrp.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.grouptwo.isrp.client.AuthClient;
 import com.grouptwo.isrp.dao.IsrpUserDao;
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.pojo.LoginForm;
+import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
 import com.grouptwo.isrp.utils.MailSend;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import javax.annotation.Resource;
 import javax.mail.SendFailedException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +39,26 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     private IsrpUserDao isrpUserDao;
 
     @Resource
+    private AuthClient authClient;
+    /**
+     * 登录认证授权
+     * @param loginForm
+     * @return
+     */
+    @Override
+    public ResponseEntity login(LoginForm loginForm, HttpServletRequest request) {
+        LoginFormPojo loginFormPojo = new LoginFormPojo();
+        BeanUtil.copyProperties(loginForm, loginFormPojo);
+        loginFormPojo.setIp(request.getRemoteAddr());
+        Map result = authClient.authentication(loginFormPojo);
+        JSONObject resObject = JSON.parseObject(JSON.toJSONString(result));
+        Integer status = Integer.valueOf(String.valueOf(resObject.get("status")));
+        if(status == 200) {
+            return ResponseEntity.ok(resObject.get("data"));
+        }
+        return new ResponseEntity(resObject.get("message"), HttpStatus.valueOf(status));
+    }
+    @Resource
     private MailSend mailClient;
 
     @Value("${server.servlet.context-path}")
@@ -37,7 +66,6 @@ public class IsrpUserServiceImpl implements IsrpUserService {
 
     @Resource
     private TemplateEngine templateEngine;
-
 
 
     /**
@@ -52,6 +80,18 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         user.setPassword(null);
         return user;
     }
+
+    /**
+     * 通过邮箱查找用户
+     *
+     * @param email
+     * @return 实例对象
+     */
+    @Override
+    public IsrpUser queryByEmail(String email) {
+        return this.isrpUserDao.queryByEmail(email);
+    }
+
 
     /**
      * 分页查询
@@ -143,6 +183,7 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         String url = "http://localhost:9527/isrpUser/isrpUser/activation/" +user.getUserId();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation", context);
+
         try {
             mailClient.sendMail(user.getEmail(), "激活账号", content);
 

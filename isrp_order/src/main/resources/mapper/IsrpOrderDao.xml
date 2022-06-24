@@ -28,7 +28,7 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="IsrpOrderMap">
+    <select id="selectOrderById" resultMap="IsrpOrderMap">
         select
           order_id, goods_id, user_id, type_id, logistics_company_id, create_time, order_status, pay_time, goods_total_price, goods_pay_real, receiver_name, receiver_phone, receiver_email, receiver_province, receiver_city, receiver_area, receiver_street, receiver_detail_address, confirm_status, delivery_time, receive_time, modify_time
         from isrp_order
@@ -184,11 +184,22 @@
             </if>
         </where>
     </select>
+    <!--查询所有订单信息    -->
+    <select id="selectAllOrders" resultMap="IsrpOrderMap">
+        select
+               order_id, goods_id, user_id, type_id,
+               logistics_company_id, create_time, order_status, pay_time,
+               goods_total_price, goods_pay_real, receiver_name, receiver_phone,
+               receiver_email, receiver_province, receiver_city, receiver_area,
+               receiver_street, receiver_detail_address, confirm_status,
+               delivery_time, receive_time, modify_time
+        from isrp_order
+    </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="orderId" useGeneratedKeys="true">
-        insert into isrp_order(goods_id, user_id, type_id, logistics_company_id, create_time, order_status, pay_time, goods_total_price, goods_pay_real, receiver_name, receiver_phone, receiver_email, receiver_province, receiver_city, receiver_area, receiver_street, receiver_detail_address, confirm_status, delivery_time, receive_time, modify_time)
-        values (#{goodsId}, #{userId}, #{typeId}, #{logisticsCompanyId}, #{createTime}, #{orderStatus}, #{payTime}, #{goodsTotalPrice}, #{goodsPayReal}, #{receiverName}, #{receiverPhone}, #{receiverEmail}, #{receiverProvince}, #{receiverCity}, #{receiverArea}, #{receiverStreet}, #{receiverDetailAddress}, #{confirmStatus}, #{deliveryTime}, #{receiveTime}, #{modifyTime})
+    <insert id="insertOrder" keyProperty="orderId" useGeneratedKeys="true">
+        insert into isrp_order(order_id,goods_id, user_id, type_id, logistics_company_id, create_time, order_status, pay_time, goods_total_price, goods_pay_real, receiver_name, receiver_phone, receiver_email, receiver_province, receiver_city, receiver_area, receiver_street, receiver_detail_address, confirm_status, delivery_time, receive_time, modify_time)
+        values (#{orderId},#{goodsId}, #{userId}, #{typeId}, #{logisticsCompanyId}, #{createTime}, #{orderStatus}, #{payTime}, #{goodsTotalPrice}, #{goodsPayReal}, #{receiverName}, #{receiverPhone}, #{receiverEmail}, #{receiverProvince}, #{receiverCity}, #{receiverArea}, #{receiverStreet}, #{receiverDetailAddress}, #{confirmStatus}, #{deliveryTime}, #{receiveTime}, #{modifyTime})
     </insert>
 
     <insert id="insertBatch" keyProperty="orderId" useGeneratedKeys="true">
@@ -230,7 +241,7 @@
     </insert>
 
     <!--通过主键修改数据-->
-    <update id="update">
+    <update id="updateOrder">
         update isrp_order
         <set>
             <if test="goodsId != null">

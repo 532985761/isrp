@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,4 +79,10 @@ public interface IsrpUserService {
 
 
     Map<String,Object> registerUser(IsrpUser user);
+
+    List<IsrpUser> getAlluser();
+
+    int changeUserStatus(String userId);
+
+    int getUserStatus(String userId);
 }

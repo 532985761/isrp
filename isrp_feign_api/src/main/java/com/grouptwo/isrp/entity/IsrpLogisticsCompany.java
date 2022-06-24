@@ -1,5 +1,7 @@
 package com.grouptwo.isrp.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2022-06-19 19:08:32
  */
+@Data
 public class IsrpLogisticsCompany implements Serializable {
     private static final long serialVersionUID = 567101322145591717L;
     /**

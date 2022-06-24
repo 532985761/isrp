@@ -108,6 +108,12 @@
                goods_category_second_id, user_id
         from isrp_goods
     </select>
+    <select id="queryAllGoods" resultMap="IsrpGoodsMap">
+        select
+            goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
+
+        from isrp_goods
+    </select>
 
     <!--新增商品-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">

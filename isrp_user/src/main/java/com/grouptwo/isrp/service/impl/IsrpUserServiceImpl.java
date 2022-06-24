@@ -1,10 +1,10 @@
 package com.grouptwo.isrp.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.client.AuthClient;
-import cn.hutool.core.util.StrUtil;
 import com.grouptwo.isrp.dao.IsrpUserDao;
 import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.pojo.LoginForm;
@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import javax.annotation.Resource;
+import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,6 +58,7 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         }
         return new ResponseEntity(resObject.get("message"), HttpStatus.valueOf(status));
     }
+    @Resource
     private MailSend mailClient;
 
     @Value("${server.servlet.context-path}")
@@ -63,7 +66,6 @@ public class IsrpUserServiceImpl implements IsrpUserService {
 
     @Resource
     private TemplateEngine templateEngine;
-
 
 
     /**
@@ -89,6 +91,7 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     public IsrpUser queryByEmail(String email) {
         return this.isrpUserDao.queryByEmail(email);
     }
+
 
     /**
      * 分页查询
@@ -156,13 +159,23 @@ public class IsrpUserServiceImpl implements IsrpUserService {
             map.put("Msg","角色不能为空");
             return map;
         }
+        if (user.getAddressCity() == null){
+            map.put("Msg","城市未选择");
+            return map;
+        }
         IsrpUser u= isrpUserDao.queryByEmail(user.getEmail());
         if (u != null){
             map.put("emailMsg",true);
             return map;
         }
-        user.setNickname(user.getEmail());
-
+//        user.setNickname(user.getEmail());
+//        user.setHeaderImg("https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png");
+//        user.setPhone("未知");
+//        user.setStatus(0);
+//        user.setSex(0);
+//        user.setSign("未知");
+//        isrpUserDao.insert(user);
+//        user.setUserId();
         // 激活邮件
         Context context = new Context();
         context.setVariable("email", user.getEmail());
@@ -170,7 +183,28 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         String url = "http://localhost:9527/isrpUser/isrpUser/activation/" +user.getUserId();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation", context);
-        mailClient.sendMail(user.getEmail(), "激活账号", content);
+
+        try {
+            mailClient.sendMail(user.getEmail(), "激活账号", content);
+
+        }catch (Exception e){
+            map.put("Msg","邮件发送失败，请检查邮箱格式");
+        }
         return map;
+    }
+
+    @Override
+    public List<IsrpUser> getAlluser() {
+        return isrpUserDao.getAlluser();
+    }
+
+    @Override
+    public int changeUserStatus(String userId) {
+        return isrpUserDao.changeStatus(userId);
+    }
+
+    @Override
+    public int getUserStatus(String userId) {
+        return isrpUserDao.getuserStatusByUserId(userId);
     }
 }

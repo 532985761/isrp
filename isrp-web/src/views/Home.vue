@@ -42,14 +42,24 @@
         >
       </div>
       <div>
-        <el-link @click="showRegister">没有账号?点击注册</el-link>
+        <el-link @click="getChild">没有账号?点击注册</el-link>
+        <UserRegister ref="childRef"></UserRegister>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts" setup>
-const showRegister = ()
+import {ref} from "vue"
+import UserRegister from "./UserRegister.vue"
+import { fa } from "element-plus/es/locale";
+const centerDialogVisible1= ref(null)
+const childRef = ref();
+        const getChild = () => {
+            // 3. 调用子组件的方法或者变量，通过value
+            childRef.value.showDialog(true);
+        }
+
 </script>
 import UserRegister from ''
 <style scoped>

@@ -81,6 +81,7 @@ let loading = ref(false);
 
 let city = ref("");
 let identity = ref("");
+
 const options1 = regionData;
 let selectedOptions: [];
 //注册表单开始
@@ -96,12 +97,12 @@ const selectCity = (res: any) => {
 };
 let centerDialogVisible = ref(false);
 const ruleFormRef = ref<FormInstance>();
-const centerDialogVisible1 = (data: any) => {
+const showDialog = (data: any) => {
   centerDialogVisible.value = data;
 };
 
 defineExpose({
-  centerDialogVisible1,
+ showDialog,
 });
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {

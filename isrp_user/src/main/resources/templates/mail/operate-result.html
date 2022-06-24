@@ -2,11 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
-	<script th:src="@{/bootstrap/bootstrap.min.js}"></script>
-
-
-
+<!--	<link rel="stylesheet" href="../../static/bootstrap/bootstrap.min.css">-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<title>操作结果</title>
 
 </head>
@@ -22,8 +21,8 @@
 					<hr class="my-4">
 					<p style="font-size: 20px">
 						页面会在 <span style="font-size: 30px" id="seconds" class="text-danger">10</span> 秒后自动跳转,
-						您也可以点此 <a id="target" th:href="@{${target}}" class="text-primary" >
-						<span >链接</span></a>回到 <span th:text="${href}"></span>
+						您也可以点此 <a id="target" href="http://localhost:3000/#/" class="text-primary" >
+						<span >链接</span></a>回到 <span >首页</span>
 						界面
 					</p>
 				</div>

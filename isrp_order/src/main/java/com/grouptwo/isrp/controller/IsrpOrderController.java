@@ -37,14 +37,14 @@ public class IsrpOrderController {
     }
 
     /**
-     * 通过主键查询单条数据
+     * 通过主键查询单条订单信息
      *
-     * @param id 主键
+     * @param orderId 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    public ResponseEntity<IsrpOrder> queryById(@PathVariable("id") String id) {
-        return ResponseEntity.ok(this.isrpOrderService.queryById(id));
+    @GetMapping("/selecOrdertById/{orderId}")
+    public ResponseEntity<IsrpOrder> selectOrderById(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok(this.isrpOrderService.selectOrderById(orderId));
     }
 
     /**
@@ -53,32 +53,39 @@ public class IsrpOrderController {
      * @param isrpOrder 实体
      * @return 新增结果
      */
-    @PostMapping
-    public ResponseEntity<IsrpOrder> add(IsrpOrder isrpOrder) {
-        return ResponseEntity.ok(this.isrpOrderService.insert(isrpOrder));
+    @PostMapping("/insertOrder")
+    public ResponseEntity<IsrpOrder> insertOrder(@RequestBody IsrpOrder isrpOrder) {
+        return ResponseEntity.ok(this.isrpOrderService.insertOrder(isrpOrder));
     }
 
     /**
-     * 编辑数据
+     * 编辑订单数据
      *
      * @param isrpOrder 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<IsrpOrder> edit(IsrpOrder isrpOrder) {
-        return ResponseEntity.ok(this.isrpOrderService.update(isrpOrder));
+    @PostMapping("/updateOrder/{orderId}")
+    public ResponseEntity<IsrpOrder> updateOrder(@RequestBody IsrpOrder isrpOrder) {
+        return ResponseEntity.ok(this.isrpOrderService.updateOrder(isrpOrder));
     }
 
     /**
-     * 删除数据
+     * 删除订单数据
      *
-     * @param id 主键
+     * @param orderId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(String id) {
-        return ResponseEntity.ok(this.isrpOrderService.deleteById(id));
+    @PostMapping("/deleteOrder/{orderId}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok(this.isrpOrderService.deleteById(orderId));
     }
+    /**
+     * 查询所有订单信息
+     */
+    @GetMapping("/selectAllOrders")
+        public ResponseEntity selectAllOrders(){
+        return ResponseEntity.ok(this.isrpOrderService.selectAllOrders());
+        }
 
 }
 

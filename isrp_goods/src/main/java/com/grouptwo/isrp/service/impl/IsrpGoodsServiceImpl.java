@@ -85,8 +85,18 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
      * 查询商品信息
      * @return
      */
+//    @Override
+//    public List<IsrpGoods> selectGoods() {
+//        return this.isrpGoodsDao.selectGoods();
+//    }
+
+    @Override
+    public List<IsrpGoods> queryAllGoods() {
+        return this.isrpGoodsDao.queryAllGoods();
+    }
+
     @Override
     public List<IsrpGoods> selectGoods() {
-        return this.isrpGoodsDao.selectGoods();
+        return isrpGoodsDao.queryAllGoods();
     }
 }

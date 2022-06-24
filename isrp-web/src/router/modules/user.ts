@@ -11,9 +11,14 @@ export const user: Array<RouteRecordRaw> = [
     redirect: "/login",
     children: [
       {
-        // 测试路径
-        path: "test",
-        component: () => import("@/views/About.vue"),
+        // 用户首页
+        path: "index",
+        component: () => import("@/views/user/index.vue"),
+      },
+      {
+        // 商品详情
+        path: "goodsdetail",
+        component: () => import("@/views/user/components/GoodsDetail.vue"),
       },
     ],
   },

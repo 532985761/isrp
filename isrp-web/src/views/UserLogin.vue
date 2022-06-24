@@ -1,6 +1,9 @@
 <template>
-  <el-row class="min-h-screen bg-sky-500">
-    <el-col :lg="16" class="flex items-center justify-center flex-col">
+  <el-row class="min-h-screen">
+    <el-col
+      :lg="16"
+      class="flex items-center justify-center flex-col bg-sky-500"
+    >
       <div class="font-bold text-5xl text-light-50 mb-4">欢迎回来</div>
       <div class="text-gray-200 text-sm">
         本系统是智能化共享租赁平台，在租赁前，请先登录本系统。
@@ -10,39 +13,151 @@
       :lg="8"
       class="flex items-center justify-center flex-col bg-light-50"
     >
-      <h2 class="font-bold text-2xl text-gray-600 tracking-0.5em">欢迎尊贵用户回来</h2>
+      <h2 class="font-bold text-2xl text-gray-600">欢迎尊贵用户回来</h2>
       <div class="flex items-center justify-center my-5">
         <span class="h-[1px] w-70 bg-gray-200"></span>
       </div>
       <div>
-        <el-form style="width: 290px"  >
-          <el-form-item label="账号:">
-            <el-input />
+        <!-- <el-form style="width: 290px" :model="loginForm">
+          <el-form-item label="账&nbsp;&nbsp;&nbsp;号:">
+            <el-input
+              v-model="loginForm.username"
+              placeholder="请输入您的账号"
+            />
           </el-form-item>
-          <el-form-item label="密码:">
-            <el-input />
+          <el-form-item label="密&nbsp;&nbsp;&nbsp;码:">
+            <el-input
+              v-model="loginForm.password"
+              placeholder="请输入您的密码"
+            />
+          </el-form-item>
+          <el-form-item label="验证码" prop="code">
+            <el-input v-model="loginForm.code" class="h-10" />
+            <span
+              class="absolute right-0 top-0 cursor-pointer"
+              @click="refreshCode"
+            >
+              <Captcha :timestamp="timestamp" />
+            </span>
+          </el-form-item>
+        </el-form> -->
+    
+    <el-form
+          ref="loginFormRef"
+          :model="loginForm"
+          :rules="rules"
+          label-width="120px"
+          class="mr-20"
+          :size="formSize"
+          status-icon
+        >
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="loginForm.username" />
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input
+              type="password"
+              show-password
+              v-model="loginForm.password"
+            />
+          </el-form-item>
+          <el-form-item label="验证码" prop="code">
+            <el-input v-model="loginForm.code" />
+            <span
+              class="absolute right-0 top-0 cursor-pointer"
+              @click="refreshCode"
+            >
+              <Captcha :timestamp="timestamp" />
+            </span>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm(loginFormRef)"
+              >登录</el-button
+            >
+            <el-button @click="resetForm(loginFormRef)">重填</el-button>
           </el-form-item>
         </el-form>
       </div>
-        <div>
-          <el-button
-            @click="$router.push('/buession/login')"
-            type="success"
-            class="w-50 my-2"
-            round
-            >登录</el-button
-          >
-        </div>
-        <div>
-          <el-button
-            @click="$router.go(-1)"
-            type="primary"
-            class="w-50 my-2"
-            round
-            >返回上一页</el-button
-          >
-        </div>
-      
+      <div>
+        <el-button
+          @click="submitForm(loginFormRef)"
+          type="success"
+          class="w-50 my-2"
+          round
+          >登录</el-button
+        >
+      </div>
+      <div>
+        <el-button
+          @click="$router.go(-1)"
+          type="primary"
+          class="w-50 my-2"
+          round
+          >返回上一页</el-button
+        >
+      </div>
     </el-col>
   </el-row>
 </template>
+<script setup lang="ts">
+import Captcha from "@/components/Captcha.vue";
+import { reactive, ref } from "vue";
+import { ElMessage, FormInstance, FormRules } from "element-plus";
+import { login } from "@/api/user";
+import { userStore } from "@/store/user";
+import router from "@/router";
+const formSize = ref("large");
+const timestamp = ref(new Date().getTime().toString());
+const loginFormRef = ref<FormInstance>();
+const loginForm = reactive({
+  username: "",
+  password: "",
+  code: "",
+});
+const rules = reactive<FormRules>({
+  username: [
+    { required: true, message: "请输入账号", trigger: "blur" },
+    { min: 8, max: 40, message: "账号长度8-30位", trigger: "blur" },
+  ],
+  password: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 2, max: 20, message: "密码长度为2-20位", trigger: "blur" },
+  ],
+  code: [
+    { required: true, message: "请输入验证码", trigger: "blur" },
+    { min: 4, max: 4, message: "验证码长度为4位", trigger: "blur" },
+  ],
+});
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await login({
+    email: loginForm.username,
+    password: loginForm.password,
+    role: 0,
+    code: loginForm.code,
+  }).then((res) => {
+    if (res.status == 200) {
+      const userstore = userStore();
+      const data = res.data;
+      userstore.setInfo(data.info);
+      userstore.setToken(data.tokenHeader, data.token);
+      router.push("/user/index");
+      ElMessage({
+        message: "登陆成功",
+        type: "success",
+        duration: 5 * 1000,
+      });
+    }
+  });
+};
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+};
+
+const refreshCode = () => {
+  timestamp.value = new Date().getTime().toString();
+};
+</script>
+<style></style>

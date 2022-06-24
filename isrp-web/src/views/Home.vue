@@ -53,7 +53,6 @@
 import {ref} from "vue"
 import UserRegister from "./UserRegister.vue"
 import { fa } from "element-plus/es/locale";
-const centerDialogVisible1= ref(null)
 const childRef = ref();
         const getChild = () => {
             // 3. 调用子组件的方法或者变量，通过value
@@ -61,7 +60,6 @@ const childRef = ref();
         }
 
 </script>
-import UserRegister from ''
 <style scoped>
 .my-header {
   display: flex;

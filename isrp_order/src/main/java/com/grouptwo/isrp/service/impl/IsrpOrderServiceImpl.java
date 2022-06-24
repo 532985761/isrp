@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品订单表(IsrpOrder)表服务实现类
@@ -28,8 +29,8 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
      * @return 实例对象
      */
     @Override
-    public IsrpOrder queryById(String orderId) {
-        return this.isrpOrderDao.queryById(orderId);
+    public IsrpOrder selectOrderById(String orderId) {
+        return this.isrpOrderDao.selectOrderById(orderId);
     }
 
     /**
@@ -52,8 +53,8 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
      * @return 实例对象
      */
     @Override
-    public IsrpOrder insert(IsrpOrder isrpOrder) {
-        this.isrpOrderDao.insert(isrpOrder);
+    public IsrpOrder insertOrder(IsrpOrder isrpOrder) {
+        this.isrpOrderDao.insertOrder(isrpOrder);
         return isrpOrder;
     }
 
@@ -64,9 +65,9 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
      * @return 实例对象
      */
     @Override
-    public IsrpOrder update(IsrpOrder isrpOrder) {
-        this.isrpOrderDao.update(isrpOrder);
-        return this.queryById(isrpOrder.getOrderId());
+    public IsrpOrder updateOrder(IsrpOrder isrpOrder) {
+        this.isrpOrderDao.updateOrder(isrpOrder);
+        return this.selectOrderById(isrpOrder.getOrderId());
     }
 
     /**
@@ -78,5 +79,14 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Override
     public boolean deleteById(String orderId) {
         return this.isrpOrderDao.deleteById(orderId) > 0;
+    }
+
+    /**
+     * 查询所有订单信息
+     * @return 查询结果
+     */
+    @Override
+    public List<IsrpOrder> selectAllOrders() {
+        return this.isrpOrderDao.selectAllOrders();
     }
 }

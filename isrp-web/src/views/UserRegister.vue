@@ -79,7 +79,6 @@ import type { FormInstance } from "element-plus";
 import {
   regionData,
   CodeToText,
-  provinceAndCityData,
 } from "element-china-area-data"; //引入
 import { fa } from "element-plus/es/locale";
 let loading = ref(false);

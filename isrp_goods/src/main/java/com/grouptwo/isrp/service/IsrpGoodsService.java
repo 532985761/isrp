@@ -60,4 +60,6 @@ public interface IsrpGoodsService {
      * @return
      */
     List<IsrpGoods> queryAllGoods();
+
+    List<IsrpGoods> selectGoods();
 }

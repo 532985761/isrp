@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @FeignClient("isrp-goods")
-public interface IsrpGoodsClient {
+public interface GoodsClient {
 }

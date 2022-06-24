@@ -18,6 +18,28 @@ import http from '@/axios'
 export function testUserApi () {
     return http.get('/isrpUser/t/test')
 }
+
+/**
+ * 获取验证码
+ * 
+ * @returns 
+ */
+ export function captcha () {
+    return http({
+        url: '/isrpUser/captcha',
+        method: 'get',
+        responseType: 'blob'
+    })
+}
+
+/**
+ * 登录
+ * 
+ * @returns 
+ */
+ export function login (loginForm : any) {
+    return http.post('/isrpUser/isrpUser/login', loginForm)
+}
 export function LoginApi () {
     return http.get('/isrpGoods/t/test')
 }

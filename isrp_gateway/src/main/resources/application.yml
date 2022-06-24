@@ -36,6 +36,12 @@ spring:
           uri: lb://isrp-goods
           predicates:
             - Path=/isrpGoods/**
+
+        - id: auth_router
+          uri: lb://isrp-auth
+          predicates:
+            - Path=/isrpAuth/**
+
         - id: gateway_404
           uri: lb://isrp-gateway
           predicates:

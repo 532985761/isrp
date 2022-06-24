@@ -1,8 +1,13 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.pojo.LoginForm;
+import com.grouptwo.isrp.pojo.LoginFormPojo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -16,12 +21,28 @@ import java.util.Map;
 public interface IsrpUserService {
 
     /**
+     * 登录认证授权
+     * @param loginForm
+     * @param request
+     * @return
+     */
+
+    ResponseEntity login(LoginForm loginForm, HttpServletRequest request);
+    /**
      * 通过ID查询单条数据
      *
      * @param userId 主键
      * @return 实例对象
      */
     IsrpUser queryById(String userId);
+
+    /**
+     * 通过邮箱查找用户
+     *
+     * @param email
+     * @return 实例对象
+     */
+    IsrpUser queryByEmail(String email);
 
     /**
      * 分页查询
@@ -55,6 +76,7 @@ public interface IsrpUserService {
      * @return 是否成功
      */
     boolean deleteById(String userId);
+
 
     Map<String,Object> registerUser(IsrpUser user);
 

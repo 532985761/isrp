@@ -24,7 +24,7 @@ import { onMounted, ref } from "vue";
 let data = ref();
 
 onMounted(async () => {
-  data.value = await testUserApi().then((res) => res);
+  data.value = await testUserApi().then((res) => res.data);
 });
 
 const cookie = useCookies();

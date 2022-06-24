@@ -2,6 +2,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import { userStore } from "@/store/user";
+import router from "./router";
 
 const userstore = userStore()
 
@@ -39,6 +40,9 @@ http.interceptors.response.use(
     return arr;
   },
   (err) => {
+    if(err.response.status == 401) {
+      router.push('/')
+    }
     ElMessage({
       message: err.response.data,
       type: "error",

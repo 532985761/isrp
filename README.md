@@ -70,10 +70,15 @@ npm i @vueuse/integrations
 npm i universal-cookie
 ```
 
-Npm
+Axios
 
 ```shell
 npm install axios
+```
+
+china-area-data
+```
+npm install element-china-area-data -S
 ```
 #### 后端配置
 

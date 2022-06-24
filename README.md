@@ -75,3 +75,9 @@ Npm
 ```shell
 npm install axios
 ```
+#### 后端配置
+
+* 网关接口 http://localhost:9527/
+* 用户接口 http://localhost:9527/isrpUser(端口号 10000)
+* 订单接口 http://localhost:9527/isrpOrder(端口号 20000)
+* 商品接口 http://localhost:9527/isrpGoods(端口号 30000)

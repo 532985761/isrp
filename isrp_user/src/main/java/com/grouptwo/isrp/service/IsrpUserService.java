@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Map;
+
 /**
  * 用户表(IsrpUser)表服务接口
  *
@@ -75,4 +77,5 @@ public interface IsrpUserService {
     boolean deleteById(String userId);
 
 
+    Map<String,Object> registerUser(IsrpUser user);
 }

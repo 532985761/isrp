@@ -100,8 +100,16 @@
             </if>
         </where>
     </select>
+    <!--查询所有商品-->
+    <select id="selectGoods" resultMap="IsrpGoodsMap">
+        select
+            goods_id, goods_name, goods_desc, goods_img,
+               goods_price, goods_sale_count, goods_status, create_time,
+               goods_category_second_id, user_id
+        from isrp_goods
+    </select>
 
-    <!--新增所有列-->
+    <!--新增商品-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
         insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
         values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId})

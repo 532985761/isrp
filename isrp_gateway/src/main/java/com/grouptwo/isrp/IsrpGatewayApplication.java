@@ -15,6 +15,7 @@ public class IsrpGatewayApplication {
     public static void main(String[] args) {
         disableWarning();
         SpringApplication.run(IsrpGatewayApplication.class, args);
+
     }
     public static void disableWarning() {
         try {

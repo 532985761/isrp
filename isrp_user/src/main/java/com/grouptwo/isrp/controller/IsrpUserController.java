@@ -6,11 +6,13 @@ import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 用户表(IsrpUser)表控制层
@@ -41,18 +43,6 @@ public class IsrpUserController {
     public ResponseEntity login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
         return isrpUserService.login(loginForm, request);
     }
-
-    /**
-     * 注册
-     *
-     * @param user
-     * @return
-     */
-    @PostMapping("/register")
-    public ResponseEntity login(@RequestBody IsrpUser user) {
-        return ResponseEntity.ok("");
-    }
-
     /**
      * 分页查询
      *
@@ -66,14 +56,24 @@ public class IsrpUserController {
     }
 
     /**
-     * 通过主键查询单条数据
+     * 通过ID查询用户信息
      *
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    public ResponseEntity<IsrpUser> queryById(@PathVariable("id") String id) {
+    @PostMapping("{id}")
+    public ResponseEntity<IsrpUser> queryByIdq(@PathVariable("id") String id) {
         return ResponseEntity.ok(this.isrpUserService.queryById(id));
+    }
+    /**
+     * 通过ID查询用户信息
+     *
+     * @param userId 主键
+     * @return 单条数据
+     */
+    @PostMapping("/getUserInfo")
+    public ResponseEntity<IsrpUser> queryById(String userId) {
+        return ResponseEntity.ok(this.isrpUserService.queryById(userId));
     }
 
     /**
@@ -131,6 +131,17 @@ public class IsrpUserController {
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(String id) {
         return ResponseEntity.ok(this.isrpUserService.deleteById(id));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody  IsrpUser user){
+        Map<String,Object> map = isrpUserService.registerUser(user);
+        if (map == null || map.isEmpty()) {
+            return new ResponseEntity("已经向你邮箱发送了邮件，请激活账号！", HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<Object>(map.get("Msg"), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
     }
 
 }

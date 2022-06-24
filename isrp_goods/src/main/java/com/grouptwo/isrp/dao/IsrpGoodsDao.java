@@ -81,5 +81,6 @@ public interface IsrpGoodsDao {
      */
     int deleteById(Long goodsId);
 
+    List<IsrpGoods> selectGoods();
 }
 

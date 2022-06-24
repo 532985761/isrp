@@ -1,6 +1,5 @@
 package com.grouptwo.isrp;
 
-import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.config.FeignConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

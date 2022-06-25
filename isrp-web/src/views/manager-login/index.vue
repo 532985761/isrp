@@ -92,7 +92,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       const data = res.data;
       userstore.setInfo(data.info);
       userstore.setToken(data.tokenHeader, data.token);
-      router.push("/manager");
+      router.push("/isrpManager/userid=isrp_grouptwo/8888");
       ElMessage({
         message: "登陆成功",
         type: "success",

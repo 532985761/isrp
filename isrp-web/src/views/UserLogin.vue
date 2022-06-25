@@ -41,8 +41,8 @@
             </span>
           </el-form-item>
         </el-form> -->
-    
-    <el-form
+
+        <el-form
           ref="loginFormRef"
           :model="loginForm"
           :rules="rules"
@@ -141,7 +141,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       const data = res.data;
       userstore.setInfo(data.info);
       userstore.setToken(data.tokenHeader, data.token);
-      router.push("/user/index");
+      router.push("/isrpUser");
       ElMessage({
         message: "登陆成功",
         type: "success",

@@ -1,46 +1,65 @@
 <template>
   <div>
     <el-container>
-      <el-header class="text-center">Header</el-header>
+      <el-header class="text-center m-5 text-3xl font-bold"
+        >智能化共享租赁平台系统 <span class="text-sm">管理平台v1.0</span>
+      </el-header>
       <el-container>
         <el-aside :width="navWidth">
-          <el-button :icon="Edit" circle @click="isCollapse = !isCollapse" />
-          <el-menu default-active="2" :collapse="isCollapse">
-            <el-sub-menu index="1">
+          <div class="text-center">
+            <div v-if="isCollapse == false">
+              <el-button
+                :loading="loading"
+                :icon="CaretLeft"
+                circle
+                @click="(isCollapse = true), (loading = true)"
+              />
+            </div>
+            <div v-if="isCollapse == true">
+              <el-button
+                :loading="loading"
+                :icon="CaretRight"
+                circle
+                @click="(isCollapse = false), (loading = true)"
+              />
+            </div>
+          </div>
+
+          <el-menu
+            default-active="1"
+            :collapse="isCollapse"
+            @open="handleOpen"
+            router
+          >
+            <el-menu-item index="1" disabled>
+              <el-icon><avatar /></el-icon>
               <template #title>
-                <el-icon><location /></el-icon>
-                <span>Navigator One</span>
-              </template>
-              <el-menu-item-group>
-                <template #title><span>Group One</span></template>
-                <el-menu-item index="1-1">item one</el-menu-item>
-                <el-menu-item index="1-2">item two</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="Group Two">
-                <el-menu-item index="1-3">item three</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="1-4">
-                <template #title><span>item four</span></template>
-                <el-menu-item index="1-4-1">item one</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="2">
-              <el-icon><icon-menu /></el-icon>
-              <template #title>Navigator Two</template>
+                欢迎您, {{ userStore().info.nickname }}</template
+              >
             </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <el-icon><document /></el-icon>
-              <template #title>Navigator Three</template>
+            <el-menu-item index="/manager/orderModel">
+              <el-icon><tickets /></el-icon>
+              <template #title>订单模式管理</template>
             </el-menu-item>
-            <el-menu-item index="4">
-              <el-icon><setting /></el-icon>
-              <template #title>Navigator Four</template>
+            <el-menu-item index="/manager/orderProcess">
+              <el-icon><van /></el-icon>
+              <template #title>订单流程管理</template>
+            </el-menu-item>
+            <el-menu-item index="/manager/user">
+              <el-icon><user /></el-icon>
+              <template #title>用户管理</template>
+            </el-menu-item>
+            <el-menu-item index="5" class="text-red-600">
+              <el-icon><close /></el-icon>
+              <template #title>退出</template>
             </el-menu-item>
           </el-menu>
         </el-aside>
         <el-container>
-          <el-main>Main</el-main>
-          <el-footer>Footer</el-footer>
+          <el-main class="h-[76vh]"></el-main>
+          <el-footer class="text-center text-sm"
+            >Copyright 2022 By 2组 All Rights Reserved
+          </el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -50,36 +69,42 @@
 <script lang="ts" setup>
 import { ref, watch } from "vue";
 import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-  Edit,
+  User,
+  Tickets,
+  Van,
+  Close,
+  CaretLeft,
+  CaretRight,
+  Avatar,
 } from "@element-plus/icons-vue";
+import { userStore } from "@/store/user";
 
+const loading = ref(false);
 const isCollapse = ref(false);
 const navWidth = ref("200px");
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath, "open");
   navWidth.value = "200px";
+  loading.value = false;
 };
 // 回调函数异常;
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath, "close");
-  navWidth.value = "100px";
-};
-// watch(isCollapse, (newValue) => {
-//   if (newValue == true) {
-//     console.log("close");
-//     setTimeout(function () {
-//       navWidth.value = "100px";
-//     }, 800);
-//   }
-//   if (newValue == false) {
-//     console.log("open");
-//     navWidth.value = "200px";
-//   }
-// });
+// const handleClose = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath, "close");
+//   navWidth.value = "100px";
+//   loading.value = false;
+// };
+watch(isCollapse, (newValue) => {
+  if (newValue == true) {
+    setTimeout(() => {
+      navWidth.value = "70px";
+      loading.value = false;
+    }, 400);
+  }
+});
 </script>
 
-<style></style>
+<style scoped>
+.el-menu-item.is-disabled {
+  opacity: 1;
+  color: #0ea5e9;
+}
+</style>

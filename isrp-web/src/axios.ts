@@ -3,6 +3,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import { userStore } from "@/store/user";
 import router from "./router";
+import { start, close } from '@/utils/nprogress';
 
 const userstore = userStore()
 
@@ -14,7 +15,9 @@ const http = axios.create({
 // 请求拦截
 http.interceptors.request.use(
   (config) => {
-    //请求头设置
+    // 加载
+    start()
+    // 请求头设置
     let token = userstore.token || ''
     config.headers = {
       ...config.headers,
@@ -37,16 +40,28 @@ http.interceptors.response.use(
         type: "warning",
       });
     }
+    // 关闭加载
+    close()
     return arr;
   },
   (err) => {
     if(err.response.status == 401) {
       router.push('/')
+      if(userStore().info.role == 2){
+        // 管理员过期提示
+        ElMessage({
+          message: "为保证安全请您重新输入管理员网址",
+          type: "warning",
+        });
+      }
     }
+    // 对异常处理
     ElMessage({
       message: err.response.data,
       type: "error",
     });
+    // 关闭加载
+    close()
     return err.response;
   }
 );

@@ -4,11 +4,11 @@ import { RouteRecordRaw } from 'vue-router'
 export const business: Array<RouteRecordRaw> = [
     {
         // 全局路径 
-        path: '/business', 
+        path: '/isrpBusiness', 
         // 导航栏
         component: () => import('@/components/BusinessNav.vue'), 
         // 首页
-        redirect: '/business/test',
+        redirect: '/isrpBusiness/index',
         children: [
             {
                 // 测试路径
@@ -44,7 +44,7 @@ export const business: Array<RouteRecordRaw> = [
         ]
     },
     {
-        path:'/login',
-        component: () => import('@/views/BusinessLogin.vue')
+        path:'/businessLogin',
+        component: () => import('@/views/business/BusinessLogin.vue')
     },
 ]

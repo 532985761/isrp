@@ -26,10 +26,6 @@ public class LoginForm {
      */
     private String password;
     /**
-     * 角色
-     */
-    private Integer role;
-    /**
      * 验证码
      */
     private String code;

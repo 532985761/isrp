@@ -42,13 +42,11 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     private AuthClient authClient;
     /**
      * 登录认证授权
-     * @param loginForm
+     * @param loginFormPojo
      * @return
      */
     @Override
-    public ResponseEntity login(LoginForm loginForm, HttpServletRequest request) {
-        LoginFormPojo loginFormPojo = new LoginFormPojo();
-        BeanUtil.copyProperties(loginForm, loginFormPojo);
+    public ResponseEntity login(LoginFormPojo loginFormPojo, HttpServletRequest request) {
         loginFormPojo.setIp(request.getRemoteAddr());
         Map result = authClient.authentication(loginFormPojo);
         JSONObject resObject = JSON.parseObject(JSON.toJSONString(result));

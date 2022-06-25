@@ -17,52 +17,55 @@
       <div>
         <el-form style="max-width: 460px">
           <el-form-item label="账号">
-            <el-input placeholder="请输入你的账号..." v-model="loginFrom.username"/>
+            <el-input
+              placeholder="请输入你的账号..."
+              v-model="loginFrom.username"
+            />
           </el-form-item>
           <el-form-item label="密码">
-            <el-input placeholder="请输入你的密码..." v-model="loginFrom.password"/>
+            <el-input
+              placeholder="请输入你的密码..."
+              v-model="loginFrom.password"
+            />
           </el-form-item>
         </el-form>
       </div>
-        <div>
-          <el-button
-            @click="$router.push('/business')"
-            type="success"
-            class="w-50 my-2"
-            round
-            >登录</el-button
-          >
-        </div>
-        <div>
-          <el-button
-            @click="$router.go(-1)"
-            type="primary"
-            class="w-50 my-2"
-            round
-            >返回上一页</el-button
-          >
-        </div>
-      
+      <div>
+        <el-button
+          @click="$router.push('/business')"
+          type="success"
+          class="w-50 my-2"
+          round
+          >登录</el-button
+        >
+      </div>
+      <div>
+        <el-button
+          @click="$router.go(-1)"
+          type="primary"
+          class="w-50 my-2"
+          round
+          >返回上一页</el-button
+        >
+      </div>
     </el-col>
   </el-row>
 </template>
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
-import { LoginApi } from "@/api/user";
+import { onMounted, reactive } from "vue";
+import { businessLogin } from "@/api/user";
 
 const loginFrom = reactive({
-    username:'',
-    password:''
-})
-onMounted(()=>{
-    loginFrom
-})
-const login = async() =>{
-    LoginApi().then((res:any) =>{
-        if(loginFrom.username == res.code){
-            
-        }
-    })
-}
-
+  username: "",
+  password: "",
+});
+onMounted(() => {
+  loginFrom;
+});
+const login = async () => {
+  businessLogin(loginFrom).then((res: any) => {
+    if (loginFrom.username == res.code) {
+    }
+  });
+};
 </script>

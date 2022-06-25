@@ -26,7 +26,6 @@ public class AuthController {
      * 只能用于内部调用
      *
      * @param loginForm
-     * @param request
      * @return
      */
     @PostMapping("/authentication")

@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.client.TestClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +14,15 @@ import javax.annotation.Resource;
 @RequestMapping("/t")
 public class TestController {
 
-
-
     @Resource
     TestClient testClient;
 
+    @RolesAuthorization(value = {"user", "manager"})
     @GetMapping("/test")
     public String test(){
-
         return "ok";
     }
+
     @GetMapping("/testfeign/{id}")
     public String testFeign(@PathVariable("id") int id){
          return    testClient.test(id);

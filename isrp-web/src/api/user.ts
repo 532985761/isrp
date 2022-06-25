@@ -5,11 +5,11 @@ import http from '@/axios'
  * 
  * @returns 
  */
- export function registerUser(yu:any) {
+export function registerUser(yu:any) {
         console.log(yu);
         
     return http.post('/isrpUser/isrpUser/register',yu)
-  }
+}
 /**
  * 测试接口
  * 
@@ -24,7 +24,7 @@ export function testUserApi () {
  * 
  * @returns 
  */
- export function captcha () {
+export function captcha () {
     return http({
         url: '/isrpUser/captcha',
         method: 'get',
@@ -33,22 +33,35 @@ export function testUserApi () {
 }
 
 /**
- * 登录
+ * 用户登录
  * 
  * @returns 
  */
- export function login (loginForm : any) {
-    return http.post('/isrpUser/isrpUser/login', loginForm)
+export function userLogin (loginForm : any) {
+    return http.post('/isrpUser/isrpUser/userLogin', loginForm)
 }
-export function LoginApi () {
-    return http.get('/isrpGoods/t/test')
+/**
+ * 商家登录
+ * 
+ * @returns 
+ */
+export function businessLogin (loginForm : any) {
+    return http.post('/isrpUser/isrpUser/businessLogin', loginForm)
+}
+/**
+ * 管理员登录
+ * 
+ * @returns 
+ */
+export function managerLogin (loginForm : any) {
+    return http.post('/isrpUser/isrpUser/managerLogin', loginForm)
 }
 /**
  * 获取用户信息
  * 
  * @returns 
  */
- export function getOneUserInfo (userId:string) {
+export function getOneUserInfo (userId:string) {
     return http.post('/isrpUser/isrpUser/getUserInfo/?userId='+userId)
 }
 /**

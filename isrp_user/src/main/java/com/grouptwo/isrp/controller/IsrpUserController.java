@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.server.HttpServerRequest;
 import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.pojo.LoginForm;
@@ -35,15 +36,48 @@ public class IsrpUserController {
     private IsrpUserService isrpUserService;
 
     /**
-     * 登录
+     * 用户登录
      *
      * @param loginForm
      * @param request
      * @return
      */
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
-        return isrpUserService.login(loginForm, request);
+    @PostMapping("/userLogin")
+    public ResponseEntity userLogin(@RequestBody LoginForm loginForm, HttpServletRequest request) {
+        LoginFormPojo loginFormPojo = new LoginFormPojo();
+        BeanUtil.copyProperties(loginForm, loginFormPojo);
+        loginFormPojo.setRole(0);
+        return isrpUserService.login(loginFormPojo, request);
+    }
+
+    /**
+     * 商家登录
+     *
+     * @param loginForm
+     * @param request
+     * @return
+     */
+    @PostMapping("/businessLogin")
+    public ResponseEntity businessLogin(@RequestBody LoginForm loginForm, HttpServletRequest request) {
+        LoginFormPojo loginFormPojo = new LoginFormPojo();
+        BeanUtil.copyProperties(loginForm, loginFormPojo);
+        loginFormPojo.setRole(1);
+        return isrpUserService.login(loginFormPojo, request);
+    }
+
+    /**
+     * 管理员登录
+     *
+     * @param loginForm
+     * @param request
+     * @return
+     */
+    @PostMapping("/managerLogin")
+    public ResponseEntity managerLogin(@RequestBody LoginForm loginForm, HttpServletRequest request) {
+        LoginFormPojo loginFormPojo = new LoginFormPojo();
+        BeanUtil.copyProperties(loginForm, loginFormPojo);
+        loginFormPojo.setRole(2);
+        return isrpUserService.login(loginFormPojo, request);
     }
     /**
      * 分页查询

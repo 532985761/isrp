@@ -22,12 +22,12 @@ public interface IsrpUserService {
 
     /**
      * 登录认证授权
-     * @param loginForm
+     * @param loginFormPojo
      * @param request
      * @return
      */
 
-    ResponseEntity login(LoginForm loginForm, HttpServletRequest request);
+    ResponseEntity login(LoginFormPojo loginFormPojo, HttpServletRequest request);
     /**
      * 通过ID查询单条数据
      *

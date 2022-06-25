@@ -62,7 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 // 登录
-                "/isrpUser/login",
+                "/isrpUser/userLogin",
+                "/isrpUser/businessLogin",
+                "/isrpUser/managerLogin",
                 // 注册
                 "/isrpUser/register",
                 // 验证码

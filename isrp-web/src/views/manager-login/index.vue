@@ -54,7 +54,7 @@
 import Captcha from "@/components/Captcha.vue";
 import { reactive, ref } from "vue";
 import { ElMessage, FormInstance, FormRules } from "element-plus";
-import { login } from "@/api/user";
+import { managerLogin } from "@/api/user";
 import { userStore } from "@/store/user";
 import router from "@/router";
 const formSize = ref("large");
@@ -81,10 +81,9 @@ const rules = reactive<FormRules>({
 });
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await login({
+  await managerLogin({
     email: loginForm.username,
     password: loginForm.password,
-    role: 2,
     code: loginForm.code,
   }).then((res) => {
     if (res.status == 200) {

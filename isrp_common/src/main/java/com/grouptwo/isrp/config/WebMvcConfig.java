@@ -21,6 +21,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(rolesAuthorizationInterceptor);
+        registry.addInterceptor(rolesAuthorizationInterceptor).addPathPatterns().addPathPatterns("/**")
+                .excludePathPatterns(
+                        // 登录
+                        "/isrpUser/userLogin",
+                        "/isrpUser/businessLogin",
+                        "/isrpUser/managerLogin",
+                        // 注册
+                        "/isrpUser/register",
+                        // 验证码
+                        "/captcha",
+                        // 授权认证
+                        "/isrpAuth/authentication",
+                        "/isrpUser/emailInner/**",
+                        // 静态资源
+                        "/templates/**"
+                        );
+
+
     }
 }

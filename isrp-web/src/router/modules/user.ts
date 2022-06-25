@@ -4,11 +4,11 @@ import { RouteRecordRaw } from "vue-router";
 export const user: Array<RouteRecordRaw> = [
   {
     // 全局路径
-    path: "/user",
+    path: "/isrpUser",
     // 导航栏
     component: () => import("@/components/UserNav.vue"),
     // 首页
-    redirect: "/login",
+    redirect: "/isrpUser/index",
     children: [
       {
         // 用户首页
@@ -24,7 +24,7 @@ export const user: Array<RouteRecordRaw> = [
   },
   {
     // 登录页面
-    path: "/userlogin",
-    component: () => import("@/views//UserLogin.vue"),
+    path: "/userLogin",
+    component: () => import("@/views/UserLogin.vue"),
   },
 ];

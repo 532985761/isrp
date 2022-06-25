@@ -16,7 +16,7 @@
       </div>
       <div>
         <el-button
-          @click="$router.push('/userlogin')"
+          @click="$router.push('/userLogin')"
           type="success"
           class="w-50 my-2"
           round
@@ -25,16 +25,16 @@
       </div>
       <div>
         <el-button
-          @click="$router.push('/login')"
+          @click="$router.push('/businessLogin')"
           type="primary"
           class="w-50 my-2"
           round
           >商家登录</el-button
         >
       </div>
-        <div>
+      <div>
         <el-button
-          @click="$router.push('/business/index')"
+          @click="$router.push('/isrpBusiness')"
           type="primary"
           class="w-50 my-2"
           round
@@ -50,15 +50,13 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue"
-import UserRegister from "./UserRegister.vue"
-import { fa } from "element-plus/es/locale";
+import { ref } from "vue";
+import UserRegister from "./UserRegister.vue";
 const childRef = ref();
-        const getChild = () => {
-            // 3. 调用子组件的方法或者变量，通过value
-            childRef.value.showDialog(true);
-        }
-
+const getChild = () => {
+  // 3. 调用子组件的方法或者变量，通过value
+  childRef.value.showDialog(true);
+};
 </script>
 <style scoped>
 .my-header {

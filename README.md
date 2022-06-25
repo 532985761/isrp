@@ -76,9 +76,14 @@ Axios
 npm install axios
 ```
 
-china-area-data
+China-area-data
 ```
 npm install element-china-area-data -S
+```
+
+NProcess
+```
+npm install --save nprogress
 ```
 #### 后端配置
 

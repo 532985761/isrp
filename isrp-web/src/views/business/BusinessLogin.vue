@@ -15,57 +15,102 @@
         <span class="h-[1px] w-50 bg-gray-200"></span>
       </div>
       <div>
-        <el-form style="max-width: 460px">
+        <el-form style="max-width: 460px" ref="loginFormRef"
+          :model="loginForm"
+          :rules="rules"
+          label-width="120px"
+          class="mr-20"
+          >
           <el-form-item label="账号">
-            <el-input
-              placeholder="请输入你的账号..."
-              v-model="loginFrom.username"
-            />
+            <el-input placeholder="请输入你的账号..." v-model="loginForm.username"/>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input
-              placeholder="请输入你的密码..."
-              v-model="loginFrom.password"
-            />
+            <el-input placeholder="请输入你的密码..." v-model="loginForm.password" type="password"/>
+          </el-form-item>
+          <el-form-item label="验证码">
+            <el-input  placeholder="请输入你的验证码..." v-model="loginForm.code"/>
+             <span
+              class="absolute right-0 top-0 cursor-pointer"
+              @click="refreshCode"
+            >
+              <Captcha :timestamp="timestamp" />
+            </span>
           </el-form-item>
         </el-form>
       </div>
-      <div>
-        <el-button
-          @click="$router.push('/business')"
-          type="success"
-          class="w-50 my-2"
-          round
-          >登录</el-button
-        >
-      </div>
-      <div>
-        <el-button
-          @click="$router.go(-1)"
-          type="primary"
-          class="w-50 my-2"
-          round
-          >返回上一页</el-button
-        >
-      </div>
+        <div>
+          <el-button
+            type="success"
+            class="w-50 my-2"
+            round
+            @click="submitForm(loginFormRef)"
+            >登录</el-button
+          >
+        </div>
+        <div>
+          <el-button
+            @click="$router.go(-1)"
+            type="primary"
+            class="w-50 my-2"
+            round
+            >返回上一页</el-button
+          >
+        </div>
+      
     </el-col>
   </el-row>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
 import { businessLogin } from "@/api/user";
-
-const loginFrom = reactive({
-  username: "",
-  password: "",
+import { reactive,ref} from "vue";
+import { userStore } from "@/store/user";
+import router from "@/router";
+import Captcha from "@/components/Captcha.vue";
+import { ElMessage, FormInstance, FormRules } from "element-plus";
+const timestamp = ref(new Date().getTime().toString());
+const loginFormRef = ref<FormInstance>();
+const rules = reactive<FormRules>({
+  username: [
+    { required: true, message: "请输入账号", trigger: "blur" },
+    { min: 8, max: 40, message: "账号长度8-30位", trigger: "blur" },
+  ],
+  password: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 2, max: 20, message: "密码长度为2-20位", trigger: "blur" },
+  ],
+  code: [
+    { required: true, message: "请输入验证码", trigger: "blur" },
+    { min: 4, max: 4, message: "验证码长度为4位", trigger: "blur" },
+  ],
 });
-onMounted(() => {
-  loginFrom;
-});
-const login = async () => {
-  businessLogin(loginFrom).then((res: any) => {
-    if (loginFrom.username == res.code) {
+const loginForm = reactive({
+    username:'',
+    password:'',
+    code:''
+})
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return; console.log(loginForm) 
+  await businessLogin({
+    email: loginForm.username,
+    password: loginForm.password,
+    code: loginForm.code,
+  }).then((res) => {
+    if (res.status == 200) {
+      const userstore = userStore();
+      const data = res.data;
+      userstore.setInfo(data.info);
+      userstore.setToken(data.tokenHeader, data.token);
+      router.push("/isrpBusiness");
+      ElMessage({
+        message: "登陆成功",
+        type: "success",
+        duration: 5 * 1000,
+      });
     }
   });
 };
+const refreshCode = () => {
+  timestamp.value = new Date().getTime().toString();
+};
+
 </script>

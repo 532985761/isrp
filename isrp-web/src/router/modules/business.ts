@@ -40,11 +40,18 @@ export const business: Array<RouteRecordRaw> = [
                 path: 'orderfinish',
                 component: () => import('@/views/order/finish.vue')
             },
+            {
+                // 管理待租赁订单
+                path: 'orderwait',
+                component: () => import('@/views/order/wait.vue')
+            },
             
         ]
     },
+    //切换商家登录页
     {
         path:'/businessLogin',
         component: () => import('@/views/business/BusinessLogin.vue')
     },
+    
 ]

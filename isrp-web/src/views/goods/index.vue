@@ -8,17 +8,22 @@
         class="w-200"
       />
       <el-button
-        type="primary"
+        type="success"
         :icon="Search"
         round
-        style="margin-left: 50px"
-        class="w-40"
-      />
+        class="w-25"
+        style="margin-left:20px"
+      >搜索</el-button>
+      <el-button
+        type="primary"
+        round
+        class="w-25"
+      ><el-icon><Upload /></el-icon>发布商品</el-button>
     </el-form-item>
   </div>
   <el-table :data="tableData" style="width: 100%;text-align: center;">
-    <el-table-column fixed prop="date" label="商品序号" width="150" />
-    <el-table-column label="商品名称" width="120" />
+    <el-table-column fixed prop="goosId" label="商品序号" width="150" />
+    <el-table-column prop="goodsNa" label="商品名称" width="120" />
     <el-table-column label="商品图片" width="120" />
     <el-table-column label="商品价格" width="120" />
     <el-table-column label="商品描述" width="120" />

@@ -30,26 +30,28 @@ public class RolesAuthorizationInterceptor implements HandlerInterceptor {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
             RolesAuthorization rolesAuthorization = method.getAnnotation(RolesAuthorization.class);
-            List<String> whiteNames = Arrays.asList(rolesAuthorization.value());
-            JSONObject user = JSONObject.parseObject(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-            int role = Integer.parseInt(user.get("role").toString());
-            String userRole;
-            switch (role){
-                case 0 : userRole = "user"; break;
-                case 1 : userRole = "business"; break;
-                case 2 : userRole = "manager"; break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + role);
-            }
-            if (!whiteNames.contains(userRole)) {
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json");
-                response.setStatus(403);
-                PrintWriter out = response.getWriter();
-                out.write("权限不足,禁止访问");
-                out.flush();
-                out.close();
-                return false;
+            if(rolesAuthorization != null){
+                List<String> whiteNames = Arrays.asList(rolesAuthorization.value());
+                JSONObject user = JSONObject.parseObject(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+                int role = Integer.parseInt(user.get("role").toString());
+                String userRole;
+                switch (role){
+                    case 0 : userRole = "user"; break;
+                    case 1 : userRole = "business"; break;
+                    case 2 : userRole = "manager"; break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + role);
+                }
+                if (!whiteNames.contains(userRole)) {
+                    response.setCharacterEncoding("UTF-8");
+                    response.setContentType("application/json");
+                    response.setStatus(403);
+                    PrintWriter out = response.getWriter();
+                    out.write("权限不足,禁止访问");
+                    out.flush();
+                    out.close();
+                    return false;
+                }
             }
         }
         return true;

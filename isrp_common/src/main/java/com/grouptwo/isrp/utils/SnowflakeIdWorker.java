@@ -6,8 +6,8 @@ package com.grouptwo.isrp.utils;
  */
 public class SnowflakeIdWorker {
     // ==============================Fields===========================================
-    /** 开始时间截(2022/4/29) */
-    private final long twepoch = 1651199998431L;
+    /** 开始时间截(2022/6/27 19:02) */
+    private final long twepoch = 1656327720682L;
 
     /** 机器id所占的位数 */
     private final long workerIdBits = 5L;

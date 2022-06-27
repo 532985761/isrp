@@ -136,11 +136,14 @@
             </if>
         </where>
     </select>
+    <select id="getuserStatusByUserId" resultType="java.lang.Integer">
+        select  status from isrp_user where user_id = #{userId}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into isrp_user(nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign)
-        values (#{nickname}, #{headerImg}, #{password}, #{role}, #{phone}, #{email}, #{idCardNum}, #{sex}, #{status}, #{addressCity}, #{birth}, #{createTime}, #{sign})
+        insert into isrp_user(user_id,nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign)
+        values (#{userId},#{nickname}, #{headerImg}, #{password}, #{role}, #{phone}, #{email}, #{idCardNum}, #{sex}, #{status}, #{addressCity}, #{birth}, #{createTime}, #{sign})
     </insert>
 
     <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
@@ -218,6 +221,9 @@
             </if>
         </set>
         where user_id = #{userId}
+    </update>
+    <update id="changeStatus">
+        update isrp_user set status = 1 where user_id = #{userId}
     </update>
 
     <!--通过主键删除-->

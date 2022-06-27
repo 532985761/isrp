@@ -179,7 +179,6 @@ public class IsrpUserController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody  IsrpUser user, HttpServletRequest request){
-        System.out.println(request);
         Map<String,Object> map = isrpUserService.registerUser(user);
         if (map == null || map.isEmpty()) {
             return new ResponseEntity("已经向你邮箱发送了邮件，请激活账号！", HttpStatus.OK);

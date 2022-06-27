@@ -4,13 +4,14 @@ import com.grouptwo.isrp.entity.IsrpGoods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表数据库访问层
  *
  * @author makejava
- * @since 2022-06-22 10:05:10
+ * @since 2022-06-27 10:08:13
  */
 @Mapper
 public interface IsrpGoodsDao {
@@ -27,7 +28,7 @@ public interface IsrpGoodsDao {
      * 查询指定行数据
      *
      * @param isrpGoods 查询条件
-     * @param pageable         分页对象
+     * @param pageable  分页对象
      * @return 对象列表
      */
     List<IsrpGoods> queryAllByLimit(IsrpGoods isrpGoods, @Param("pageable") Pageable pageable);
@@ -81,6 +82,5 @@ public interface IsrpGoodsDao {
      */
     int deleteById(Long goodsId);
 
-    List<IsrpGoods> queryAllGoods();
 }
 

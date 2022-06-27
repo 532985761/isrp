@@ -9,19 +9,29 @@ export const userStore = defineStore(Names.user, {
         return {
             test: useCookies().get(key) != null ? useCookies().get(key).test : null,
             test2: useCookies().get(key) != null ? useCookies().get(key).test2 : null,
+            // 用户信息
             info: useCookies().get(key) != null ? useCookies().get(key).info : null,
-            token: useCookies().get(key) != null ? useCookies().get(key).token : null
+            // 用户token
+            token: useCookies().get(key) != null ? useCookies().get(key).token : null,
+            // 导航栏默认页
+            navActive: useCookies().get(key) != null ? useCookies().get(key).navActive : null,
         }
     },
     getters: {
 
     },
     actions: {
+        // 存储用户信息
         setInfo(info : any){
             this.info = info
         },
+        // 存储用户token
         setToken(tokenHeader:any, token:any){
             this.token = tokenHeader + ' ' + token
+        },
+        logout() {
+            this.info = null
+            this.token = null
         }
     }
 })

@@ -32,36 +32,37 @@ const router = createRouter({
 router.beforeEach(async(to, from, next) => {
   start()
   // 白名单通过
-  if(whiteNames.indexOf(to.path) != -1) {
-    next()
-  }
-  const token = userStore().token
-  const info = userStore().info
-  // 没有info或token
-  if(token == null || info == null) {
-    next("/")
-  }
-  // 访问管理员
-  if(to.path.indexOf('/isrpManager/userid=isrp_grouptwo/8888') != -1) {
-    // 不是管理员
-    if(info.role != 2){
-      next('/404')
+  if(whiteNames.indexOf(to.path) == -1) {
+    const token = userStore().token
+    const info = userStore().info
+    // 没有info或token
+    if(token == null || info == null) {
+      next("/")
+    }
+    // 访问管理员
+    if(to.path.indexOf('/isrpManager/userid=isrp_grouptwo/8888') != -1) {
+      // 不是管理员
+      if(info.role != 2){
+        next('/404')
+      }
+    }
+    // 访问商家
+    if(to.path.indexOf('/isrpBusiness') != -1) {
+      // 不是商家
+      if(info.role != 1){
+        next('/businessLogin')
+      }
+    }
+    // 访问用户
+    if(to.path.indexOf('/isrpUser') != -1) {
+      // 不是用户
+      if(info.role != 0){
+        next('/userLogin')
+      }
     }
   }
-  // 访问商家
-  if(to.path.indexOf('/isrpBusiness') != -1) {
-    // 不是商家
-    if(info.role != 1){
-      next('/businessLogin')
-    }
-  }
-  // 访问用户
-  if(to.path.indexOf('/isrpUser') != -1) {
-    // 不是用户
-    if(info.role != 0){
-      next('/userLogin')
-    }
-  }
+  // 更新菜单项
+  userStore().navActive = to.path
   next()
 })
 

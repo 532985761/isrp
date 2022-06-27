@@ -72,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 授权认证
                 "/isrpAuth/authentication",
                 "/isrpUser/emailInner/**",
-                "/isrpUser/activation/**"
+                "/isrpUser/activation/**",
+                "/activation/**"
                 // 测试
                 // "/t/**"
         );

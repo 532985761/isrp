@@ -84,10 +84,12 @@ public interface IsrpUserDao {
 
     IsrpUser queryByEmail(String email);
 
-    List<IsrpUser> getAlluser();
+
 
     int getuserStatusByUserId(String userId);
 
     int changeStatus(String userId);
+
+    List<IsrpUser> getAlluser();
 }
 

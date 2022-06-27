@@ -21,7 +21,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(rolesAuthorizationInterceptor).addPathPatterns().addPathPatterns("/**")
+        registry.addInterceptor(rolesAuthorizationInterceptor)
+                .addPathPatterns("/**")
                 .excludePathPatterns(
                         // 登录
                         "/isrpUser/userLogin",
@@ -34,11 +35,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         // 授权认证
                         "/isrpAuth/authentication",
                         "/isrpUser/emailInner/**",
-                        "/isrpUser/activation/**",
                         // 静态资源
-                        "/templates/**"
+                        "/templates/**",
+                        //用户账号激活
+                        "/activation/**"
                         );
-
 
     }
 }

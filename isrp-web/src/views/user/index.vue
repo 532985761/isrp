@@ -23,10 +23,7 @@
           >
         </div>
 
-        <el-menu
-          @select="selectMenu"
-          class="el-menu-vertical-demo mt-2"
-        >
+        <el-menu @select="selectMenu" class="el-menu-vertical-demo mt-2">
           <el-menu-item
             class="bg-light-200"
             v-for="(i, index) in 4"
@@ -36,10 +33,7 @@
           >
             <el-icon><Coin /></el-icon>
             <span
-              >电器/手机&nbsp;&nbsp;&nbsp;<el-icon><CaretRight /></el-icon
-            >
-
-
+              >电器/手机&nbsp;&nbsp;&nbsp;<el-icon><CaretRight /></el-icon>
             </span>
           </el-menu-item>
         </el-menu>
@@ -93,31 +87,113 @@
           >&nbsp;&nbsp;&nbsp;租赁产品上新啦！...</el-link
         >
       </div>
-    </el-col> </el-row
-  ><br />
-
+    </el-col>
+  </el-row>
   <!-- 主页第二栏 -->
-  <el-row :gutter="10" class="bg-slate-200 h-300px">
+  <el-row :gutter="10" class="bg-slate-200 h-150px">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
       ><div class="grid-content ep-bg-purple"
     /></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
-      ><div class="grid-content ep-bg-purple-light h-30 w-full bg-dark-400"
-    /></el-col>
+      ><div
+        class="grid-content ep-bg-purple-light h-115px w-full bg-dark-400 mt-4"
+      >
+        <el-carousel :interval="4000" height="115px" v-if="showTab">
+          <el-carousel-item v-for="item in 3" :key="item">
+            <h3 text="2xl" justify="center">{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
-      ><div class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-11"
-    /></el-col>
+      ><div
+        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-11 mt-4"
+      >
+        <el-carousel :interval="4000" height="115px" v-if="showTab">
+          <el-carousel-item v-for="item in 3" :key="item">
+            <h3 text="2xl" justify="center">{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div></el-col
+    >
     <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
-      ><div class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-22"
-    /></el-col>
+      ><div
+        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-22 mt-4"
+      >
+        <el-carousel :interval="4000" height="115px" v-if="showTab">
+          <el-carousel-item v-for="item in 3" :key="item">
+            <h3 text="2xl" justify="center">{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div></el-col
+    >
     <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
-      ><div class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-33"
-    /></el-col>
+      ><div
+        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-32 mt-4"
+      >
+        <el-carousel :interval="4000" height="115px" v-if="showTab">
+          <el-carousel-item v-for="item in 3" :key="item">
+            <h3 text="2xl" justify="center">{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div></el-col
+    >
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
       ><div class="grid-content ep-bg-purple-light"
     /></el-col>
   </el-row>
-
+  <el-row class="bg-white-200">
+    <el-col :span="24"
+      ><div class="grid-content ep-bg-purple-dark">
+        <el-divider>
+          <span style="font-weight: bold" class="italic text-2xl"
+            >商品浏览区</span
+          >
+          <span
+            style="font-weight: bold"
+            class="italic text-xl text-yellow-500"
+          >
+            <el-icon><star-filled /></el-icon>选择热门租赁商品</span
+          >
+        </el-divider>
+      </div></el-col
+    >
+  </el-row>
+  <el-row :gutter="20" class="h-700px">
+    <el-col :span="3"></el-col>
+    <el-col :span="18" class="bg-light-400"
+      ><div class="grid-content ep-bg-purple">
+        <el-divider content-position="right"
+          ><span class="font-serif text-2xl font-bold">热租商品</span>
+        </el-divider>
+        <el-card class="w-240px h-300px ml-9 mt-4" v-for="i in 8" :key="i" style="display:inline-block"></el-card>
+      </div>
+    </el-col>
+    <el-col :span="3"><div class="grid-content ep-bg-purple" /></el-col>
+  </el-row>
+       <el-divider>
+          <span style="font-weight: bold" class="italic text-2xl"
+            >商品浏览区</span
+          >
+          <span
+            style="font-weight: bold"
+            class="italic text-xl text-green-500"
+          >
+            <el-icon><star-filled /></el-icon>选择您的随心租</span
+          >
+        </el-divider>
+    <el-row :gutter="20" class="h-800px">
+    <el-col :span="3"></el-col>
+    <el-col :span="18" class="bg-light-400"
+      ><div class="grid-content ep-bg-purple">
+        <el-divider content-position="right"
+          ><span class="font-serif text-2xl font-bold">随心租</span>
+        </el-divider>
+        <el-card class="w-240px h-300px ml-9 mt-4" v-for="i in 8" :key="i" style="display:inline-block"></el-card>
+      </div>
+    </el-col>
+    <el-col :span="3"><div class="grid-content ep-bg-purple" /></el-col>
+  </el-row>
 </template>
 
 <script lang="ts" setup>
@@ -132,27 +208,24 @@ const selectMenu = (a) => {
   }
   if (a == 2) {
     tabName.value = "2";
-
   }
   if (a == 3) {
     tabName.value = "3";
   }
   if (a == 0) {
     tabName.value = "0";
-
-
   }
 };
-const showTabTrue =()=>{
-  showTab.value = true
+const showTabTrue = () => {
+  showTab.value = true;
 
-    setTimeout(() => {showTab.value = false,console.log("55555");
-    },10)
-
-}
-const showTabFalse =()=>{
-  showTab.value = false
-}
+  setTimeout(() => {
+    (showTab.value = false), console.log("55555");
+  }, 10);
+};
+const showTabFalse = () => {
+  showTab.value = false;
+};
 </script>
 
 <style>
@@ -179,8 +252,20 @@ const showTabFalse =()=>{
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
-.scale-in-hor-left{animation:scale-in-hor-left .8s cubic-bezier(.25,.46,.45,.94) both}
+.scale-in-hor-left {
+  animation: scale-in-hor-left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
 
-
-@keyframes scale-in-hor-left{0%{transform:scaleX(0);transform-origin:0 0;opacity:1}100%{transform:scaleX(1);transform-origin:0 0;opacity:1}}
+@keyframes scale-in-hor-left {
+  0% {
+    transform: scaleX(0);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+}
 </style>

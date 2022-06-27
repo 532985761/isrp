@@ -31,6 +31,11 @@
       <el-menu-item index="2-2">我的订单</el-menu-item>
     </el-sub-menu>
   </el-menu>
+  <el-row class="bg-light-600">
+    <el-col :span="24"><div class="grid-content ep-bg-purple-dark" ><el-divider>
+      <span style="font-weight:bold " class="italic  text-2xl"> 欢迎光临<el-icon><star-filled /></el-icon>智能租租网</span>
+    </el-divider></div></el-col>
+  </el-row>
     <el-row>
     <el-col :span="24" class="bg-light-600">
       <el-row :gutter="10">
@@ -46,8 +51,8 @@
             />
             <el-button type="primary" class="h-10">点击搜索</el-button>
 
-          </div> <div style="display:inline-block;float:right"> <el-image
- class="h-120px w-245px"
+          </div> <div style="display:inline-block;float:right" class="w-222px"> <el-image
+ class="h-100px w-198px kenburns-top"
         src="/src/assets/znzzlogo.png"
       
       /></div>
@@ -93,8 +98,24 @@
           ></el-row>
         </el-col> </el-row
     ></el-col>
+         
+
   </el-row>
   <router-view />
+   <el-footer>     <el-divider>
+          <span  class="italic text-lg"
+            >CopyRight By @grouptwo</span
+          >
+          <span style="font-weight: bold" class="italic text-2xl"
+            >智能化共享租赁平台</span
+          >
+          <span
+            style="font-weight: bold"
+            class="italic text-2xl text-blue-500"
+          >
+            <el-icon><star-filled /></el-icon>欢迎您的到来</span
+          >
+        </el-divider></el-footer>
 </template>
 
 <script lang="ts" setup>
@@ -137,4 +158,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   border-radius: 4px;
   min-height: 36px;
 }
+
+@keyframes kenburns-top{0%{transform:scale(0.7) translateY(0);transform-origin:50% 16%}100%{transform:scale(1.25) translateY(-15px);transform-origin:top}}
+.kenburns-top{animation:kenburns-top 8s ease-out both}
+
 </style>

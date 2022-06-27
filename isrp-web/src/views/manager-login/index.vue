@@ -1,5 +1,5 @@
 <template>
-  <el-row class="min-h-screen-sm m-5 shadow-lg shadow-dark-500 bg-slate-500">
+  <el-row class="min-h-[90vh] m-5 shadow-lg shadow-dark-500 bg-slate-500">
     <el-col :lg="12" class="flex items-center justify-center flex-col">
       <manager-login-title />
     </el-col>

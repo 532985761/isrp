@@ -31,7 +31,7 @@ public interface IsrpOrderModelDao {
      * @param pageable       分页对象
      * @return 对象列表
      */
-    List<IsrpOrderModel> queryAllByLimit(IsrpOrderModel isrpOrderModel, @Param("pageable") Pageable pageable);
+    List<IsrpOrderModel> queryAllByLimit(@Param("isrpOrderModel") IsrpOrderModel isrpOrderModel, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

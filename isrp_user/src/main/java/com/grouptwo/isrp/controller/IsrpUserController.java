@@ -2,6 +2,7 @@ package com.grouptwo.isrp.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.server.HttpServerRequest;
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.pojo.LoginForm;
 import com.grouptwo.isrp.pojo.LoginFormPojo;
@@ -79,15 +80,19 @@ public class IsrpUserController {
         loginFormPojo.setRole(2);
         return isrpUserService.login(loginFormPojo, request);
     }
+
     /**
-     * 分页查询
+     * 分页查询所有信息
      *
-     * @param isrpUser 筛选条件
-     * @param pageRequest      分页对象
-     * @return 查询结果
+     * @param page
+     * @param size
+     * @return
      */
-    @GetMapping
-    public ResponseEntity<Page<IsrpUser>> queryByPage(IsrpUser isrpUser, PageRequest pageRequest) {
+    @RolesAuthorization(value = {"manager"})
+    @GetMapping("/queryByPage/{page}/{size}")
+    public ResponseEntity<Page<IsrpUser>> queryByPage(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        IsrpUser isrpUser = new IsrpUser();
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
         return ResponseEntity.ok(this.isrpUserService.queryByPage(isrpUser, pageRequest));
     }
 
@@ -131,6 +136,7 @@ public class IsrpUserController {
      * @param email 主键
      * @return 单条数据
      */
+    @RolesAuthorization(value = {"manager"})
     @GetMapping("/email/{email}")
     public ResponseEntity<IsrpUser> queryByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(queryByEmailInner(email));
@@ -142,7 +148,8 @@ public class IsrpUserController {
      * @param isrpUser 实体
      * @return 新增结果
      */
-    @PostMapping
+    @RolesAuthorization(value = {"manager"})
+    @PostMapping("/add")
     public ResponseEntity<IsrpUser> add(IsrpUser isrpUser) {
         return ResponseEntity.ok(this.isrpUserService.insert(isrpUser));
     }
@@ -164,7 +171,8 @@ public class IsrpUserController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+    @RolesAuthorization(value = {"manager"})
+    @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteById(String id) {
         return ResponseEntity.ok(this.isrpUserService.deleteById(id));
     }

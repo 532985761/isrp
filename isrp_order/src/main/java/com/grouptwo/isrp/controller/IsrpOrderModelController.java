@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrderModel;
 import com.grouptwo.isrp.service.IsrpOrderModelService;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 订单模式表(IsrpOrderModel)表控制层
@@ -27,12 +29,15 @@ public class IsrpOrderModelController {
     /**
      * 分页查询
      *
-     * @param isrpOrderModel 筛选条件
-     * @param pageRequest    分页对象
+     * @param page
+     * @param size
      * @return 查询结果
      */
-    @GetMapping
-    public ResponseEntity<Page<IsrpOrderModel>> queryByPage(IsrpOrderModel isrpOrderModel, PageRequest pageRequest) {
+    @RolesAuthorization(value = {"manager"})
+    @GetMapping("/queryByPage/{page}/{size}")
+    public ResponseEntity<Page<IsrpOrderModel>> queryByPage(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        IsrpOrderModel isrpOrderModel = new IsrpOrderModel();
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
         return ResponseEntity.ok(this.isrpOrderModelService.queryByPage(isrpOrderModel, pageRequest));
     }
 
@@ -42,19 +47,25 @@ public class IsrpOrderModelController {
      * @param id 主键
      * @return 单条数据
      */
+    @RolesAuthorization(value = {"manager"})
     @GetMapping("{id}")
     public ResponseEntity<IsrpOrderModel> queryById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.isrpOrderModelService.queryById(id));
     }
 
+
     /**
      * 新增数据
      *
-     * @param isrpOrderModel 实体
-     * @return 新增结果
+     *
+     * @param orderModelName
+     * @return 新增数据
      */
-    @PostMapping
-    public ResponseEntity<IsrpOrderModel> add(IsrpOrderModel isrpOrderModel) {
+    @RolesAuthorization(value = {"manager"})
+    @PostMapping("/add")
+    public ResponseEntity<IsrpOrderModel> add(@RequestBody Map<String, String> orderModelName) {
+        IsrpOrderModel isrpOrderModel = new IsrpOrderModel();
+        isrpOrderModel.setOrderModelName(orderModelName.get("orderModelName"));
         return ResponseEntity.ok(this.isrpOrderModelService.insert(isrpOrderModel));
     }
 
@@ -75,8 +86,9 @@ public class IsrpOrderModelController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Integer id) {
+    @RolesAuthorization(value = {"manager"})
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.isrpOrderModelService.deleteById(id));
     }
 

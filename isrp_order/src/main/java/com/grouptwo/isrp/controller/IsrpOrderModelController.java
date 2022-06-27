@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * 订单模式表(IsrpOrderModel)表控制层
  *
  * @author makejava
- * @since 2022-06-19 19:08:33
+ * @since 2022-06-27 10:03:47
  */
 @RestController
 @RequestMapping("isrpOrderModel")
@@ -28,7 +28,7 @@ public class IsrpOrderModelController {
      * 分页查询
      *
      * @param isrpOrderModel 筛选条件
-     * @param pageRequest      分页对象
+     * @param pageRequest    分页对象
      * @return 查询结果
      */
     @GetMapping

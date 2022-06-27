@@ -13,12 +13,13 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="goodsCategorySecondId" column="goods_category_second_id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="orderModelId" column="order_model_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="IsrpGoodsMap">
         select
-          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
+          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id, order_model_id
         from isrp_goods
         where goods_id = #{goodsId}
     </select>
@@ -26,7 +27,8 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="IsrpGoodsMap">
         select
-          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
+        goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time,
+        goods_category_second_id, user_id, order_model_id
         from isrp_goods
         <where>
             <if test="goodsId != null">
@@ -58,6 +60,9 @@
             </if>
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
+            </if>
+            <if test="orderModelId != null">
+                and order_model_id = #{orderModelId}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -98,42 +103,37 @@
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
             </if>
+            <if test="orderModelId != null">
+                and order_model_id = #{orderModelId}
+            </if>
         </where>
     </select>
-    <!--查询所有商品-->
-    <select id="selectGoods" resultMap="IsrpGoodsMap">
-        select
-            goods_id, goods_name, goods_desc, goods_img,
-               goods_price, goods_sale_count, goods_status, create_time,
-               goods_category_second_id, user_id
-        from isrp_goods
-    </select>
-    <select id="queryAllGoods" resultMap="IsrpGoodsMap">
-        select
-            goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
 
-        from isrp_goods
-    </select>
-
-    <!--新增商品-->
+    <!--新增所有列-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
-        values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId})
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id, order_model_id)
+        values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId}, #{orderModelId})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status,
+        create_time, goods_category_second_id, user_id, order_model_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId}, #{entity.userId})
+            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice},
+            #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId},
+            #{entity.userId}, #{entity.orderModelId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id)
+        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status,
+        create_time, goods_category_second_id, user_id, order_model_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId}, #{entity.userId})
+            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice},
+            #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId},
+            #{entity.userId}, #{entity.orderModelId})
         </foreach>
         on duplicate key update
         goods_name = values(goods_name),
@@ -144,7 +144,8 @@
         goods_status = values(goods_status),
         create_time = values(create_time),
         goods_category_second_id = values(goods_category_second_id),
-        user_id = values(user_id)
+        user_id = values(user_id),
+        order_model_id = values(order_model_id)
     </insert>
 
     <!--通过主键修改数据-->
@@ -177,6 +178,9 @@
             </if>
             <if test="userId != null and userId != ''">
                 user_id = #{userId},
+            </if>
+            <if test="orderModelId != null">
+                order_model_id = #{orderModelId},
             </if>
         </set>
         where goods_id = #{goodsId}

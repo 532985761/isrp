@@ -181,13 +181,7 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         String url = "http://localhost:9527/isrpUser/isrpUser/activation/" +user.getUserId();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation", context);
-
-        try {
-            mailClient.sendMail(user.getEmail(), "激活账号", content);
-
-        }catch (Exception e){
-            map.put("Msg","邮件发送失败，请检查邮箱格式");
-        }
+        mailClient.sendMail(user.getEmail(), "激活账号", content);
         return map;
     }
 

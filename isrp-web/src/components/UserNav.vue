@@ -5,12 +5,12 @@
     :ellipsis="false"
     background-color="#545c64"
     text-color="#fff"
-    
+
   >
     <el-menu-item index="0">
       <el-image
-        style="width: 150px; height: 50px; border-radius: 15px"
-        src="/src/assets/zzlogo.png"
+        style="width: 50px; height: 50px; border-radius: 15px"
+        src="/src/assets/znzzlogo.png"
         class="mt-0.5"
       />
       <span class="ml-3"> 欢迎来到智租网平台</span></el-menu-item
@@ -36,24 +36,29 @@
       <el-row :gutter="10">
         <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"></el-col>
         <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11" class="mt-6">
-          <div>
+          <div style="display:inline-block">
             <el-input
               v-model="keyWord"
-              class="w-150"
+              class="w-195"
               size="large"
               placeholder="在此搜索你想租赁的商品"
               :suffix-icon="Search"
             />
             <el-button type="primary" class="h-10">点击搜索</el-button>
-          </div>
+
+          </div> <div style="display:inline-block;float:right"> <el-image
+ class="h-120px w-245px"
+        src="/src/assets/znzzlogo.png"
+      
+      /></div>
 
           <!-- <div style="float: right;border: 1px solid black" class="mt-4 -ml-30 border-gray-500" >
             <el-icon ><ShoppingCartFull /></el-icon><span class="ml-4 border-red-500">查看购物车</span>
           </div> -->
           <el-row
-            ><el-col :span="4" class="mt-5"
+            ><el-col :span="5" class="mt-5"
               ><div
-                class="h-10 text-center text-1.5xl"
+                class="h-10 text-center text-1.5xl w-190px"
                 style="
                   background-color: #fc3737;
                   color: white;
@@ -66,7 +71,7 @@
                   ><ArrowRightBold
                 /></el-icon></div
             ></el-col>
-            <el-col :span="14" class="mt-5"
+            <el-col :span="17" class="mt-5"
               ><el-tabs
                 v-model="activeName"
                 class="demo-tabs ml-10"
@@ -80,7 +85,7 @@
                 <el-tab-pane
                   label="已租代售"
                   name="4"
-                ></el-tab-pane> 
+                ></el-tab-pane>
                  <el-tab-pane
                   label="智慧租赁招聘中心"
                   name="6"
@@ -104,18 +109,16 @@ let keyWord = ref("")
 const userstore = userStore();
 
 
-const activeName = ref("2");
+const activeName = ref("5");
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab.props, event);
   if(tab.props.name == 5){
-    console.log("23232323");
-    
-    router.push("/user/index")
-  
+    router.push("/isrpUser")
+
   }
   if(tab.props.name == 3){
-     router.push("/user/goodsdetail")
+     router.push("/isrpUser/goodsdetail")
 
   }
 };

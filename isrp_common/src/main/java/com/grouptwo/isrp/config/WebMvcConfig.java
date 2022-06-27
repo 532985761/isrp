@@ -34,6 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         // 授权认证
                         "/isrpAuth/authentication",
                         "/isrpUser/emailInner/**",
+                        "/isrpUser/activation/**",
                         // 静态资源
                         "/templates/**"
                         );

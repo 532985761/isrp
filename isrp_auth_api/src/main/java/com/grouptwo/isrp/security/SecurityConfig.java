@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/captcha",
                 // 授权认证
                 "/isrpAuth/authentication",
-                "/isrpUser/emailInner/**"
+                "/isrpUser/emailInner/**",
+                "/isrpUser/activation/**"
                 // 测试
                 // "/t/**"
         );

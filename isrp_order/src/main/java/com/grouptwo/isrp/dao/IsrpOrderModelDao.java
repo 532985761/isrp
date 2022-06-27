@@ -11,7 +11,7 @@ import java.util.List;
  * 订单模式表(IsrpOrderModel)表数据库访问层
  *
  * @author makejava
- * @since 2022-06-19 19:08:33
+ * @since 2022-06-27 10:03:48
  */
 @Mapper
 public interface IsrpOrderModelDao {
@@ -28,7 +28,7 @@ public interface IsrpOrderModelDao {
      * 查询指定行数据
      *
      * @param isrpOrderModel 查询条件
-     * @param pageable         分页对象
+     * @param pageable       分页对象
      * @return 对象列表
      */
     List<IsrpOrderModel> queryAllByLimit(IsrpOrderModel isrpOrderModel, @Param("pageable") Pageable pageable);

@@ -27,12 +27,14 @@ public class IsrpGoodsCategorySecondController {
     /**
      * 分页查询
      *
-     * @param isrpGoodsCategorySecond 筛选条件
-     * @param pageRequest      分页对象
-     * @return 查询结果
+     * @param page
+     * @param size
+     * @return
      */
-    @GetMapping
-    public ResponseEntity<Page<IsrpGoodsCategorySecond>> queryByPage(IsrpGoodsCategorySecond isrpGoodsCategorySecond, PageRequest pageRequest) {
+    @GetMapping("/queryByPage/{page}/{size}")
+    public ResponseEntity<Page<IsrpGoodsCategorySecond>> queryByPage(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        IsrpGoodsCategorySecond isrpGoodsCategorySecond = new IsrpGoodsCategorySecond();
+        PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(this.isrpGoodsCategorySecondService.queryByPage(isrpGoodsCategorySecond, pageRequest));
     }
 

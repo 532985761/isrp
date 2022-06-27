@@ -38,6 +38,7 @@ http.interceptors.response.use(
       ElMessage({
         message: arr.data,
         type: "warning",
+        duration: 2 * 1000,
       });
     }
     // 关闭加载
@@ -52,6 +53,7 @@ http.interceptors.response.use(
         ElMessage({
           message: "为保证安全请您重新输入管理员网址",
           type: "warning",
+          duration: 2 * 1000,
         });
       }
     }
@@ -59,6 +61,7 @@ http.interceptors.response.use(
     ElMessage({
       message: err.response.data,
       type: "error",
+      duration: 2 * 1000,
     });
     // 关闭加载
     close()

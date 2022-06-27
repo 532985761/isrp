@@ -4,13 +4,11 @@ import com.grouptwo.isrp.entity.IsrpGoods;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.List;
-
 /**
  * 商品表(IsrpGoods)表服务接口
  *
  * @author makejava
- * @since 2022-06-22 10:05:16
+ * @since 2022-06-27 10:08:18
  */
 public interface IsrpGoodsService {
 
@@ -25,8 +23,8 @@ public interface IsrpGoodsService {
     /**
      * 分页查询
      *
-     * @param isrpGoods 筛选条件
-     * @param pageRequest      分页对象
+     * @param isrpGoods   筛选条件
+     * @param pageRequest 分页对象
      * @return 查询结果
      */
     Page<IsrpGoods> queryByPage(IsrpGoods isrpGoods, PageRequest pageRequest);
@@ -55,11 +53,4 @@ public interface IsrpGoodsService {
      */
     boolean deleteById(Long goodsId);
 
-    /**
-     * 查询所有商品信息
-     * @return
-     */
-    List<IsrpGoods> queryAllGoods();
-
-    List<IsrpGoods> selectGoods();
 }

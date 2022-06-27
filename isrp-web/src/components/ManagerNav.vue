@@ -7,56 +7,53 @@
       <el-container>
         <el-aside :width="navWidth">
           <div class="text-center">
-            <div v-if="isCollapse == false">
-              <el-button
-                :loading="loading"
-                :icon="CaretLeft"
-                circle
-                @click="(isCollapse = true), (loading = true)"
-              />
-            </div>
-            <div v-if="isCollapse == true">
-              <el-button
-                :loading="loading"
-                :icon="CaretRight"
-                circle
-                @click="(isCollapse = false), (loading = true)"
-              />
-            </div>
+            <el-button
+              :loading="loading"
+              :icon="isCollapse == false ? CaretLeft : CaretRight"
+              circle
+              @click="(isCollapse = !isCollapse), (loading = true)"
+            />
           </div>
-
           <el-menu
-            default-active="1"
+            :default-active="managerNavActive"
             :collapse="isCollapse"
-            @open="handleOpen"
             router
           >
-            <el-menu-item index="1" disabled>
+            <el-menu-item
+              index="/isrpManager/userid=isrp_grouptwo/8888"
+              disabled
+            >
               <el-icon><avatar /></el-icon>
               <template #title>
                 欢迎您, {{ userStore().info.nickname }}</template
               >
             </el-menu-item>
-            <el-menu-item index="/manager/orderModel">
+            <el-menu-item
+              index="/isrpManager/userid=isrp_grouptwo/8888/orderModel"
+            >
               <el-icon><tickets /></el-icon>
               <template #title>订单模式管理</template>
             </el-menu-item>
-            <el-menu-item index="/manager/orderProcess">
+            <el-menu-item
+              index="/isrpManager/userid=isrp_grouptwo/8888/orderProcess"
+            >
               <el-icon><van /></el-icon>
               <template #title>订单流程管理</template>
             </el-menu-item>
-            <el-menu-item index="/manager/user">
+            <el-menu-item index="/isrpManager/userid=isrp_grouptwo/8888/user">
               <el-icon><user /></el-icon>
               <template #title>用户管理</template>
             </el-menu-item>
-            <el-menu-item index="5" class="text-red-600">
-              <el-icon><close /></el-icon>
-              <template #title>退出</template>
-            </el-menu-item>
+            <div @click="logout">
+              <el-menu-item class="text-red-600">
+                <el-icon><close /></el-icon>
+                <template #title>退出</template>
+              </el-menu-item>
+            </div>
           </el-menu>
         </el-aside>
         <el-container>
-          <el-main class="h-[76vh]"></el-main>
+          <el-main class="h-[76vh]"><router-view /></el-main>
           <el-footer class="text-center text-sm"
             >Copyright 2022 By 2组 All Rights Reserved
           </el-footer>
@@ -67,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import {
   User,
   Tickets,
@@ -78,15 +75,25 @@ import {
   Avatar,
 } from "@element-plus/icons-vue";
 import { userStore } from "@/store/user";
+import { ElMessage } from "element-plus";
+import router from "@/router";
 
 const loading = ref(false);
 const isCollapse = ref(false);
 const navWidth = ref("200px");
-const handleOpen = (key: string, keyPath: string[]) => {
-  navWidth.value = "200px";
-  loading.value = false;
-};
+const managerNavActive = ref("/isrpManager/userid=isrp_grouptwo/8888");
+
+onMounted(() => {
+  const userstore = userStore();
+  managerNavActive.value = userstore.navActive;
+});
+
 // 回调函数异常;
+// const handleOpen = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath, "close");
+//   navWidth.value = "200px";
+//   loading.value = false;
+// };
 // const handleClose = (key: string, keyPath: string[]) => {
 //   console.log(key, keyPath, "close");
 //   navWidth.value = "100px";
@@ -94,12 +101,30 @@ const handleOpen = (key: string, keyPath: string[]) => {
 // };
 watch(isCollapse, (newValue) => {
   if (newValue == true) {
-    setTimeout(() => {
-      navWidth.value = "70px";
-      loading.value = false;
-    }, 400);
+    setNavWidth("70px");
+  }
+  if (newValue == false) {
+    setNavWidth("200px");
   }
 });
+
+const setNavWidth = (width: string) => {
+  setTimeout(() => {
+    navWidth.value = width;
+    loading.value = false;
+  }, 400);
+};
+const logout = () => {
+  userStore().logout();
+  router.push(
+    "/managerLogin/userid=isrp_grouptwo/password=wbw2022isrp_grouptwo/8888"
+  );
+  ElMessage({
+    message: "退出成功",
+    type: "success",
+    duration: 2 * 1000,
+  });
+};
 </script>
 
 <style scoped>

@@ -38,11 +38,11 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 532985761@qq.com
-    password: klfpcmopwqaubhij
+    username: 2581386936@qq.com
+    password: olwmnjnndvzteaaf
     protocol: smtps
     properties:
-      from: 532985761@qq.com
+      from: 2581386936@qq.com
       mail:
         smtp:
           ssl:

@@ -40,6 +40,16 @@ public class IsrpUserServiceImpl implements IsrpUserService {
 
     @Resource
     private AuthClient authClient;
+
+    @Resource
+    private MailSend mailClient;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
+    @Resource
+    private TemplateEngine templateEngine;
+
     /**
      * 登录认证授权
      * @param loginFormPojo
@@ -56,15 +66,6 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         }
         return new ResponseEntity(resObject.get("message"), HttpStatus.valueOf(status));
     }
-    @Resource
-    private MailSend mailClient;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
-    @Resource
-    private TemplateEngine templateEngine;
-
 
     /**
      * 通过ID查询单条数据

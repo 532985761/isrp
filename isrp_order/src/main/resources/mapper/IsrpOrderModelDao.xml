@@ -21,11 +21,11 @@
         order_model_id, order_model_name
         from isrp_order_model
         <where>
-            <if test="orderModelId != null">
-                and order_model_id = #{orderModelId}
+            <if test="isrpOrderModel.orderModelId != null">
+                and order_model_id = #{isrpOrderModel.orderModelId}
             </if>
-            <if test="orderModelName != null and orderModelName != ''">
-                and order_model_name = #{orderModelName}
+            <if test="isrpOrderModel.orderModelName != null and isrpOrderModel.orderModelName != ''">
+                and order_model_name = #{isrpOrderModel.orderModelName}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}

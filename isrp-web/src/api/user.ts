@@ -74,3 +74,14 @@ export function getOneUserInfo (userId:string) {
     
 //     return http.post('/isrpUser/isrpUser/register',JSON.stringify(user))
 // }
+
+/**
+ * 分页查询用户
+ * 
+ * @param page 
+ * @param size 
+ * @returns 
+ */
+export function queryUserByPage (page:number, size:number) {
+    return http.get('/isrpUser/isrpUser/queryByPage/' + page + "/" + size)
+}

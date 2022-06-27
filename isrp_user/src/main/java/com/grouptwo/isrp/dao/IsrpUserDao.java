@@ -4,6 +4,7 @@ import com.grouptwo.isrp.entity.IsrpUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface IsrpUserDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<IsrpUser> queryAllByLimit(IsrpUser isrpUser, @Param("pageable") Pageable pageable);
+    List<IsrpUser> queryAllByLimit(@Param("isrpUser") IsrpUser isrpUser, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

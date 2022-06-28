@@ -1,7 +1,7 @@
 package com.grouptwo.isrp.service.impl;
 
-import com.grouptwo.isrp.dao.IsrpGoodsDao;
 import com.grouptwo.isrp.entity.IsrpGoods;
+import com.grouptwo.isrp.dao.IsrpGoodsDao;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -9,12 +9,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表服务实现类
  *
  * @author makejava
- * @since 2022-06-27 10:08:18
+ * @since 2022-06-22 10:05:16
  */
 @Service("isrpGoodsService")
 public class IsrpGoodsServiceImpl implements IsrpGoodsService {
@@ -35,8 +36,8 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     /**
      * 分页查询
      *
-     * @param isrpGoods   筛选条件
-     * @param pageRequest 分页对象
+     * @param isrpGoods 筛选条件
+     * @param pageRequest      分页对象
      * @return 查询结果
      */
     @Override
@@ -78,5 +79,24 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     @Override
     public boolean deleteById(Long goodsId) {
         return this.isrpGoodsDao.deleteById(goodsId) > 0;
+    }
+
+    /**
+     * 查询商品信息
+     * @return
+     */
+//    @Override
+//    public List<IsrpGoods> selectGoods() {
+//        return this.isrpGoodsDao.selectGoods();
+//    }
+
+    @Override
+    public List<IsrpGoods> queryAllGoods() {
+        return this.isrpGoodsDao.queryAllGoods();
+    }
+
+    @Override
+    public List<IsrpGoods> selectGoods() {
+        return isrpGoodsDao.queryAllGoods();
     }
 }

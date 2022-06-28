@@ -4,10 +4,12 @@ import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品表(IsrpGoods)表控制层
@@ -40,11 +42,11 @@ public class IsrpGoodsController {
      *
      * @return 查询结果
      */
-//    @GetMapping("/selectAllGoods")
-//    public ResponseEntity selectGoods() {
-//        System.out.println(isrpGoodsService.selectGoods());
-//        return ResponseEntity.ok(this.isrpGoodsService.selectGoods());
-//    }
+    @GetMapping("/selectAllGoods")
+    public ResponseEntity selectGoods() {
+        System.out.println(isrpGoodsService.selectGoods());
+        return ResponseEntity.ok(this.isrpGoodsService.selectGoods());
+    }
     /**
      * 通过主键查询单条数据
      *
@@ -94,11 +96,11 @@ public class IsrpGoodsController {
      * 获取所有商品信息
      *
      */
-//    @PostMapping("/getGoodsInfo")
-//    public ResponseEntity getGoodsInfo(){
-//        System.out.println(isrpGoodsService.queryAllGoods());
-//        return ResponseEntity.ok(isrpGoodsService.queryAllGoods());
-//    }
+    @PostMapping("/getGoodsInfo")
+    public ResponseEntity getGoodsInfo(){
+        System.out.println(isrpGoodsService.queryAllGoods());
+        return ResponseEntity.ok(isrpGoodsService.queryAllGoods());
+    }
 
 }
 

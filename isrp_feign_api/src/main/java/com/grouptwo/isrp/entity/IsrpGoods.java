@@ -1,6 +1,10 @@
 package com.grouptwo.isrp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -43,7 +47,9 @@ public class IsrpGoods implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     private Integer goodsCategorySecondId;
     /**
@@ -112,11 +118,11 @@ public class IsrpGoods implements Serializable {
         this.goodsStatus = goodsStatus;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-	<title>操作结果</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>操作结果</title>
     <title>激活账号</title>
 </head>
 <body>
@@ -18,22 +18,21 @@
 <!--			<a th:href="${url}">此链接</a>,前往地址：<span th:utext="${url.toString()}"></span> 激活您的账号!-->
 <!--		</p>-->
 <!--	</div>-->
-	<div class="nk-container">
+<div class="nk-container">
 
-		<!-- 内容 -->
-		<div class="main">
-			<div class="container mt-5">
-				<div class="jumbotron">
-					<h1 th:text="${operate}" style="text-align: center;letter-spacing: 5px;font-family: 华文细黑,serif">智能租租网注册验证提示信息！</h1>
-					<p class="lead" th:text="${msg}"></p>
-					<hr class="my-4">
-							<p style="text-align: center;">
-								邮箱为<b th:text="${name}"></b>的亲爱的用户，欢迎你注册智租网, 请点击
-								<a th:href="${url}">此链接</a>,前往地址：<span th:utext="${url.toString()}"></span> 激活您的账号!
-							</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- 内容 -->
+    <div class="main">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <h1 style="text-align: center;letter-spacing: 5px;font-family: 华文细黑,serif">智能租租网注册验证提示信息！</h1>
+                <hr class="my-4">
+                <p style="text-align: center;">
+                    邮箱为<b th:text="${email}"></b>的亲爱的用户，欢迎你注册智租网, 请点击
+                    <a th:href="${url}">此链接</a>,前往地址：<span th:utext="${url.toString()}"></span> 激活您的账号!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

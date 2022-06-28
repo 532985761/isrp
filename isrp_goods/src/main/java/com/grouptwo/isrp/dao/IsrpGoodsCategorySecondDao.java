@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.dao;
 
+import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -82,5 +83,6 @@ public interface IsrpGoodsCategorySecondDao {
      */
     int deleteById(Integer goodsCategorySecondId);
 
+    int getGoodsCategoryFirst(int id);
 }
 

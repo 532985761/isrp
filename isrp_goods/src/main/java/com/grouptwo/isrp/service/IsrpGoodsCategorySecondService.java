@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.service;
 
+import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,4 +54,5 @@ public interface IsrpGoodsCategorySecondService {
      */
     boolean deleteById(Integer goodsCategorySecondId);
 
+    int getGoodsCategory(int id);
 }

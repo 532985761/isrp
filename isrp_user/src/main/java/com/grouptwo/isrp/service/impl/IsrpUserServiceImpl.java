@@ -221,6 +221,8 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         user.setStatus(0);
         user.setSex(0);
         user.setSign("未知");
+        user.setIdCardNum("未知");
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setUserId(String.valueOf(new SnowflakeIdWorker(0L,0L).nextId()));
         isrpUserDao.insert(user);
 

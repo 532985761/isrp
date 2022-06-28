@@ -21,11 +21,11 @@
           goods_category_first_id, goods_category_first_name
         from isrp_goods_category_first
         <where>
-            <if test="goodsCategoryFirstId != null">
+            <if test="isrpGoodsCategoryFirst.goodsCategoryFirstId != null">
                 and goods_category_first_id = #{goodsCategoryFirstId}
             </if>
-            <if test="goodsCategoryFirstName != null and goodsCategoryFirstName != ''">
-                and goods_category_first_name = #{goodsCategoryFirstName}
+            <if test="isrpGoodsCategoryFirst.goodsCategoryFirstName != null and isrpGoodsCategoryFirst.goodsCategoryFirstName != ''">
+                and goods_category_first_name = #{isrpGoodsCategoryFirst.goodsCategoryFirstName}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}

@@ -85,9 +85,15 @@ NProcess
 ```
 npm install --save nprogress
 ```
+
 Moment
 ```
 npm install moment --save
+```
+
+mitt
+```
+npm install --save mitt 
 ```
 #### 后端配置
 

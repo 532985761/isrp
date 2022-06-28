@@ -28,11 +28,11 @@ public class IsrpGoodsCategoryFirstController {
      * 分页查询
      *
      * @param isrpGoodsCategoryFirst 筛选条件
-     * @param pageRequest      分页对象
      * @return 查询结果
      */
-    @GetMapping("/")
-    public ResponseEntity<Page<IsrpGoodsCategoryFirst>> queryByPage(IsrpGoodsCategoryFirst isrpGoodsCategoryFirst, PageRequest pageRequest) {
+    @GetMapping("/queryByPageGetGoodsCategoryFirst")
+    public ResponseEntity<Page<IsrpGoodsCategoryFirst>> queryByPage(IsrpGoodsCategoryFirst isrpGoodsCategoryFirst,int page,int size) {
+      PageRequest pageRequest = PageRequest.of(page-1,size);
         return ResponseEntity.ok(this.isrpGoodsCategoryFirstService.queryByPage(isrpGoodsCategoryFirst, pageRequest));
     }
 

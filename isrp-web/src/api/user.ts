@@ -85,3 +85,24 @@ export function getOneUserInfo (userId:string) {
 export function queryUserByPage (page:number, size:number) {
     return http.get('/isrpUser/isrpUser/queryByPage/' + page + "/" + size)
 }
+
+/**
+ * 分页查询用户
+ * 
+ * @param page 
+ * @param size 
+ * @returns 
+ */
+export function addUser (user:any) {
+    return http.post('/isrpUser/isrpUser/add', user)
+}
+
+/**
+ * 删除用户
+ * 
+ * @param userId 
+ * @returns 
+ */
+export function deleteUser (userId:any) {
+    return http.delete('/isrpUser/isrpUser/delete/' + userId)
+}

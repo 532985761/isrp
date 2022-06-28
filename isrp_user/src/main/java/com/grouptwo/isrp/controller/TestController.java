@@ -25,6 +25,6 @@ public class TestController {
 
     @GetMapping("/testfeign/{id}")
     public String testFeign(@PathVariable("id") int id){
-         return    testClient.test(id);
+         return testClient.test(id);
     }
 }

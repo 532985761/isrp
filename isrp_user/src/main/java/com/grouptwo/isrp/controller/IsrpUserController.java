@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.server.HttpServerRequest;
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.pojo.IsrpUserAddPojo;
 import com.grouptwo.isrp.pojo.LoginForm;
 import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
@@ -143,15 +144,15 @@ public class IsrpUserController {
     }
 
     /**
-     * 新增数据
+     * 管理员新增用户
      *
-     * @param isrpUser 实体
+     * @param isrpUserAddPojo 实体
      * @return 新增结果
      */
     @RolesAuthorization(value = {"manager"})
     @PostMapping("/add")
-    public ResponseEntity<IsrpUser> add(IsrpUser isrpUser) {
-        return ResponseEntity.ok(this.isrpUserService.insert(isrpUser));
+    public ResponseEntity<IsrpUser> add(@RequestBody IsrpUserAddPojo isrpUserAddPojo) {
+        return ResponseEntity.ok(this.isrpUserService.insert(isrpUserAddPojo));
     }
 
     /**
@@ -172,8 +173,8 @@ public class IsrpUserController {
      * @return 删除是否成功
      */
     @RolesAuthorization(value = {"manager"})
-    @DeleteMapping("/delete")
-    public ResponseEntity<Boolean> deleteById(String id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") String id) {
         return ResponseEntity.ok(this.isrpUserService.deleteById(id));
     }
 

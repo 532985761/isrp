@@ -26,7 +26,6 @@
     <el-table-column label="商品图片" width="170">
       <template #default="scope">
         <el-image :src="scope.row.goodsImg">
-         
           <template #placeholder>
             <div class="image-slot">Loading<span class="dot">...</span></div>
           </template>
@@ -39,15 +38,32 @@
     <el-table-column prop="goodsSaleCount" label="销量" width="120" />
     <el-table-column prop="createTime" label="发布时间" width="175" />
     <el-table-column fixed="right" label="操作" width="200">
-      <template #default>
+      <template #default="scope">
         <el-button
           link
           type="primary"
           size="small"
-          @click="dialogFormVisible = true"
+          @click="
+            getGoodsInfo(
+              scope.row.goodsId,
+              scope.row.goodsName,
+              scope.row.goodsImg,
+              scope.row.goodsPrice,
+              scope.row.goodsDesc,
+              scope.row.goodsStatus,
+              userstore.info.userId
+            ),
+              (dialogFormVisible = true)
+          "
           >修改商品</el-button
         >
-        <el-button link type="warning" size="small">删除商品</el-button>
+        <el-button
+          link
+          type="warning"
+          size="small"
+          @click="deleteGoods(scope.row.goodsId)"
+          >删除商品</el-button
+        >
       </template>
     </el-table-column>
   </el-table>
@@ -70,6 +86,13 @@
                   @click="handlePictureCardPreview(file)"
                 >
                   <el-icon><zoom-in /></el-icon>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <el-icon><Delete /></el-icon>
                 </span>
               </span>
             </div>
@@ -94,9 +117,9 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="dialogFormVisible = false"
-          >Confirm</el-button
+          >确定修改</el-button
         >
       </span>
     </template>
@@ -105,14 +128,43 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
-import { getAllGoods } from "@/api/goods";
-import { on } from "events";
-import type { UploadFile } from 'element-plus'
-
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
+import { selectGoodsByUserId } from "@/api/goods";
+import { userStore } from "@/store/user";
+import type { UploadFile } from "element-plus";
+import { deleteGoodsByGoodsId } from "@/api/goods";
+import { ElMessage } from "element-plus";
+const disabled = ref(false);
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
 const formLabelWidth = "140px";
 const dialogFormVisible = ref(false);
+const userstore = userStore();
+const getGoodsInfo = (
+  goodsId,
+  goodsName,
+  goodsImg,
+  goodsPrice,
+  goodsDesc,
+  goodsStatus,
+  userId
+) => {
+  form.goodsId = goodsId;
+  form.goodsName = goodsName;
+  form.goodsImg = goodsImg;
+  form.goodsPrice = goodsPrice;
+  form.goodsDesc = goodsDesc;
+  form.goodsStatus = goodsStatus;
+};
+const deleteGoods = (goodsId) => {
+  deleteGoodsByGoodsId(goodsId).then(() => {
+    getAllGoodsFun();
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+
+  });
+};
 const form = reactive({
   goodsName: "",
   goodsId: "",
@@ -123,31 +175,23 @@ const form = reactive({
   createTime: "",
   goodsImg: "",
 });
-// const goodsInfo =  [{
-//   goodsName: "",
-//   goodsId: "",
-//   goodsPrice: "",
-//   goodsDesc: "",
-//   goodsState: "",
-//   goodsSaleCount: "",
-//   createTime: "",
-//   goodsImg: "",
-// }];
 const handlePictureCardPreview = (file: UploadFile) => {
-  dialogImageUrl.value = file.url!
-  dialogVisible.value = true
-}
-
+  dialogImageUrl.value = file.url!;
+  dialogVisible.value = true;
+};
+const handleRemove = (file: UploadFile) => {
+  console.log(file);
+};
 let goodsInfo: any = ref([]);
-// async function getAllGoodsFun() {
-//   getAllGoods().then((res:any)=>{
-//       goodsInfo = res
-//       console.log(res.data);
-
-//   })
-// }
+const getAllGoodsFun = () => {
+  selectGoodsByUserId(userstore.info.userId).then((res: any) => {
+    goodsInfo.value = res.data;
+  });
+};
 onMounted(async () => {
-  goodsInfo.value = await getAllGoods().then((res: any) => res.data);
+  goodsInfo.value = await selectGoodsByUserId(userstore.info.userId).then(
+    (res: any) => res.data
+  );
   console.log(goodsInfo.value);
 });
 </script>

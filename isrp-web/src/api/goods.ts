@@ -1,12 +1,12 @@
-import http from "@/axios";
+import http from '@/axios'
 
 /**
  * 测试接口
  *
  * @returns
  */
-export function testGoodsApi() {
-  return http.get("/isrpGoods/t/test");
+export function testGoodsApi () {
+    return http.get('/isrpGoods/t/test')
 }
 /**
  * 查询所有商品
@@ -21,6 +21,18 @@ export function queryByPageGetGoodsCategoryFirst() {
   return http.get(
     "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=1&size=4"
   );
+}
+/**
+ * 通过userId查询商品信息
+ */
+export function selectGoodsByUserId(userId){
+    return http.get('/isrpGoods/isrpGoods/selectGoodsByUserId/'+userId)
+}
+/**
+ * 通过goodsId删除商品
+ */
+export function deleteGoodsByGoodsId(goodsId){
+    return http.get('/isrpGoods/isrpGoods/deleteGoodsById/'+goodsId)
 }
 /**
  * 查询商品二级分类

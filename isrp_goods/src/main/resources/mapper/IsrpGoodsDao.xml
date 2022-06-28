@@ -133,6 +133,13 @@
 
         from isrp_goods
     </select>
+<!--通过userId查询商品信息-->
+    <select id="selectGoodsByUserId" resultMap="IsrpGoodsMap">
+        select
+            goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
+        from isrp_goods
+        where user_id = #{userId}
+    </select>
     <insert id="insertOrUpdateBatch" keyProperty="goodsId" useGeneratedKeys="true">
         insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status,
         create_time, goods_category_second_id, user_id, order_model_id)

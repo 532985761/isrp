@@ -82,5 +82,7 @@ public interface IsrpGoodsDao {
     int deleteById(Long goodsId);
 
     List<IsrpGoods> queryAllGoods();
+
+    List<IsrpGoods> selectGoodsByUserId(String userId);
 }
 

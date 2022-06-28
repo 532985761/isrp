@@ -30,7 +30,7 @@ public interface IsrpGoodsDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<IsrpGoods> queryAllByLimit(IsrpGoods isrpGoods, @Param("pageable") Pageable pageable);
+    List<IsrpGoods> queryAllByLimit(@Param("isrpGoods") IsrpGoods isrpGoods, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

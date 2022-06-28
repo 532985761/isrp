@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -183,6 +184,8 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         user.setStatus(0);
         user.setSex(0);
         user.setSign("未知");
+        user.setIdCardNum("未知");
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setUserId(String.valueOf(new SnowflakeIdWorker(0L,0L).nextId()));
         isrpUserDao.insert(user);
 

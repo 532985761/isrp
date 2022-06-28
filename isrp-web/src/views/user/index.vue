@@ -29,7 +29,9 @@
             v-for="(i, index) in goodsCategoryFirst"
             :key="index"
             :index="index + ''"
-            @click="selectMenu(i.goodsCategoryFirstName, i.goodsCategoryFirstId)"
+            @click="
+              selectMenu(i.goodsCategoryFirstName, i.goodsCategoryFirstId)
+            "
           >
             <el-icon><Coin /></el-icon>
             <span
@@ -57,10 +59,16 @@
           <div
             style="display: inline-block"
             class="ml-4 mt-2"
-            v-for="(i,index) in goodsCategorySecond" :key="index"
+            v-for="(i, index) in goodsCategorySecond"
+            :key="index"
           >
-            <el-button v-if="i.goodsCategorySecondName !== ''" plain>{{i.goodsCategorySecondName}}</el-button>
-            <span v-else>暂无分类</span>
+             <router-link
+                :to="{name:'rentCenter',params:{firstId:firstId,secondId:i.goodsCategorySecondId}}"
+                ><el-button  plain>
+             {{ i.goodsCategorySecondName }}</el-button
+            ></router-link
+              >
+
           </div>
         </el-card>
       </el-card>
@@ -74,7 +82,7 @@
         <el-avatar
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         /><br />
-        <el-tag> 欢迎你,{{userInfo.info.nickname}}</el-tag>
+        <el-tag> 欢迎你,{{ userInfo.info.nickname }}</el-tag>
         <el-divider>
           <el-icon><star-filled /></el-icon>
         </el-divider>
@@ -110,7 +118,7 @@
       ><div
         class="grid-content ep-bg-purple-light h-115px w-full bg-dark-400 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" >
+        <el-carousel :interval="4000" height="115px">
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -121,7 +129,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-11 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" >
+        <el-carousel :interval="4000" height="115px">
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -132,7 +140,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-22 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" >
+        <el-carousel :interval="4000" height="115px">
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -143,7 +151,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-32 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" >
+        <el-carousel :interval="4000" height="115px">
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -228,14 +236,17 @@ const userInfo = userStore();
 //获取商品陪你二级分类信息
 //获取第二栏左侧导航商品二级信息
 let goodsCategorySecond: any = ref({});
+const firstId = ref()
 const selectMenu: any = (name, index) => {
+  console.log(name,index);
+  firstId.value = index;
   showTab.value = true;
   setTimeout(() => {
     showTab.value = false;
   }, 10);
- tabName.value = name;
-  
-   queryByPageGetGoodsCategorySecond(index,1,1000).then((res) => {
+  tabName.value = name;
+
+  queryByPageGetGoodsCategorySecond(index, 1, 1000).then((res) => {
     goodsCategorySecond.value = res.data.content;
   });
 };
@@ -251,9 +262,6 @@ onMounted(async () => {
     goodsCategoryFirst.value = res.data.content;
   });
 });
-
-
-
 </script>
 
 <style>

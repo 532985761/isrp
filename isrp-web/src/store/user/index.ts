@@ -7,14 +7,14 @@ const key = "pinia-user"
 export const userStore = defineStore(Names.user, {
     state: () => {
         return {
-            test: useCookies().get(key) != null ? useCookies().get(key).test : null,
-            test2: useCookies().get(key) != null ? useCookies().get(key).test2 : null,
+            test: useCookies().get(key) != null ? useCookies().get(key).test : "",
+            test2: useCookies().get(key) != null ? useCookies().get(key).test2 : "",
             // 用户信息
-            info: useCookies().get(key) != null ? useCookies().get(key).info : null,
+            info: useCookies().get(key) != null ? useCookies().get(key).info : "",
             // 用户token
-            token: useCookies().get(key) != null ? useCookies().get(key).token : null,
+            token: useCookies().get(key) != null ? useCookies().get(key).token : "",
             // 导航栏默认页
-            navActive: useCookies().get(key) != null ? useCookies().get(key).navActive : null,
+            navActive: useCookies().get(key) != null ? useCookies().get(key).navActive : "",
         }
     },
     getters: {
@@ -30,8 +30,8 @@ export const userStore = defineStore(Names.user, {
             this.token = tokenHeader + ' ' + token
         },
         logout() {
-            this.info = null
-            this.token = null
+            this.info = ""
+            this.token = ""
         }
     }
 })

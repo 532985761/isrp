@@ -24,11 +24,17 @@
           class="mt-2"
           :size="40"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-        /><span class="ml-3">欢迎你：{{ userstore.info.nickname }}</span>
+        /><span class="ml-3">欢迎你：{{ nickname }}</span>
       </template>
-      <el-menu-item index="2-1"><el-icon><UserFilled /></el-icon>个人信息</el-menu-item>
-      <el-menu-item index="2-2"><el-icon><Shop /></el-icon>我的订单</el-menu-item>
-        <el-menu-item index="2-3" ><el-icon><CircleCloseFilled /></el-icon>退出登录</el-menu-item>
+      <el-menu-item index="2-1"
+        ><el-icon><UserFilled /></el-icon>个人信息</el-menu-item
+      >
+      <el-menu-item index="2-2"
+        ><el-icon><Shop /></el-icon>我的订单</el-menu-item
+      >
+      <el-menu-item index="2-3" @click="logout">
+        <el-icon><CircleCloseFilled /></el-icon>退出登录</el-menu-item
+      >
     </el-sub-menu>
   </el-menu>
   <el-row class="bg-light-600">
@@ -88,19 +94,19 @@
                 @tab-click="handleClick"
               >
                 <el-tab-pane label="首页" name="5"> </el-tab-pane>
+                <el-tab-pane label="智慧租中心" name="6"></el-tab-pane>
                 <el-tab-pane label="秒杀活动" name="1"></el-tab-pane>
                 <el-tab-pane label="共享租赁" name="2"></el-tab-pane>
                 <el-tab-pane label="先租后买" name="3"></el-tab-pane>
-                <el-tab-pane label="已租代售" name="4"></el-tab-pane>
                 <el-tab-pane
-                  label="智慧租赁招聘中心"
-                  name="6"
+                  label="已租代售"
+                  name="4"
                 ></el-tab-pane> </el-tabs></el-col
           ></el-row>
         </el-col> </el-row
     ></el-col>
   </el-row>
-  <router-view />
+  <router-view ></router-view>
   <el-footer>
     <el-divider>
       <span class="italic text-lg">CopyRight By @grouptwo</span>
@@ -116,17 +122,30 @@
 
 <script lang="ts" setup>
 import index from "@/views/user/index.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { userStore } from "@/store/user";
 import { Search } from "@element-plus/icons-vue";
 import type { TabsPaneContext } from "element-plus";
 import router from "@/router";
-
+import { ElMessage } from "element-plus";
+import VueEvent from "@/utils/event";
+import { useRouter } from "vue-router";
 let keyWord = ref("");
+// 退出
 const userstore = userStore();
+const logout = () => {
+  router.push("/userLogin");
+  userStore().logout();
+  ElMessage({
+    message: "退出成功",
+    type: "success",
+    duration: 2 * 1000,
+  });
+};
 
+
+const nickname = userstore.info.nickname;
 const activeName = ref("5");
-
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab.props, event);
   if (tab.props.name == 5) {
@@ -135,7 +154,14 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   if (tab.props.name == 3) {
     router.push("/isrpUser/goodsdetail");
   }
+  if (tab.props.name == 6) {
+    router.push("/isrpUser/rentCenter/1/1");
+  }
 };
+//激活导航栏
+VueEvent.on("tomsg", (value: any) => {
+  activeName.value = value.data;
+});
 </script>
 
 <style>

@@ -41,47 +41,47 @@
           user_id, nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign
         from isrp_user
         <where>
-            <if test="userId != null and userId != ''">
-                and user_id = #{userId}
+            <if test="isrpUser.userId != null and isrpUser.userId != ''">
+                and user_id = #{isrpUser.userId}
             </if>
-            <if test="nickname != null and nickname != ''">
-                and nickname = #{nickname}
+            <if test="isrpUser.nickname != null and isrpUser.nickname != ''">
+                and nickname = #{isrpUser.nickname}
             </if>
-            <if test="headerImg != null and headerImg != ''">
-                and header_img = #{headerImg}
+            <if test="isrpUser.headerImg != null and isrpUser.headerImg != ''">
+                and header_img = #{isrpUser.headerImg}
             </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
+            <if test="isrpUser.password != null and isrpUser.password != ''">
+                and password = #{isrpUser.password}
             </if>
-            <if test="role != null">
-                and role = #{role}
+            <if test="isrpUser.role != null">
+                and role = #{isrpUser.role}
             </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
+            <if test="isrpUser.phone != null and isrpUser.phone != ''">
+                and phone = #{isrpUser.phone}
             </if>
-            <if test="email != null and email != ''">
-                and email = #{email}
+            <if test="isrpUser.email != null and isrpUser.email != ''">
+                and email = #{isrpUser.email}
             </if>
-            <if test="idCardNum != null and idCardNum != ''">
-                and id_card_num = #{idCardNum}
+            <if test="isrpUser.idCardNum != null and isrpUser.idCardNum != ''">
+                and id_card_num = #{isrpUser.idCardNum}
             </if>
-            <if test="sex != null">
-                and sex = #{sex}
+            <if test="isrpUser.sex != null">
+                and sex = #{isrpUser.sex}
             </if>
-            <if test="status != null">
-                and status = #{status}
+            <if test="isrpUser.status != null">
+                and status = #{isrpUser.status}
             </if>
-            <if test="addressCity != null and addressCity != ''">
-                and address_city = #{addressCity}
+            <if test="isrpUser.addressCity != null and isrpUser.addressCity != ''">
+                and address_city = #{isrpUser.addressCity}
             </if>
-            <if test="birth != null">
-                and birth = #{birth}
+            <if test="isrpUser.birth != null">
+                and birth = #{isrpUser.birth}
             </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
+            <if test="isrpUser.createTime != null">
+                and create_time = #{isrpUser.createTime}
             </if>
-            <if test="sign != null and sign != ''">
-                and sign = #{sign}
+            <if test="isrpUser.sign != null and isrpUser.sign != ''">
+                and sign = #{isrpUser.sign}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -136,11 +136,14 @@
             </if>
         </where>
     </select>
+    <select id="getuserStatusByUserId" resultType="java.lang.Integer">
+        select  status from isrp_user where user_id = #{userId}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into isrp_user(nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign)
-        values (#{nickname}, #{headerImg}, #{password}, #{role}, #{phone}, #{email}, #{idCardNum}, #{sex}, #{status}, #{addressCity}, #{birth}, #{createTime}, #{sign})
+        insert into isrp_user(user_id,nickname, header_img, password, role, phone, email, id_card_num, sex, status, address_city, birth, create_time, sign)
+        values (#{userId},#{nickname}, #{headerImg}, #{password}, #{role}, #{phone}, #{email}, #{idCardNum}, #{sex}, #{status}, #{addressCity}, #{birth}, #{createTime}, #{sign})
     </insert>
 
     <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
@@ -218,6 +221,9 @@
             </if>
         </set>
         where user_id = #{userId}
+    </update>
+    <update id="changeStatus">
+        update isrp_user set status = 1 where user_id = #{userId}
     </update>
 
     <!--通过主键删除-->

@@ -38,11 +38,11 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 532985761@qq.com
-    password: mbiytteaqvizcbah
+    username: 2581386936@qq.com
+    password: olwmnjnndvzteaaf
     protocol: smtps
     properties:
-      from: 532985761@qq.com
+      from: 2581386936@qq.com
       mail:
         smtp:
           ssl:
@@ -52,6 +52,11 @@ feign:
     enabled: true # 支持httpclient的开关
     max-connections: 200
     max-connections-per-route: 50
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 50000
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 server:

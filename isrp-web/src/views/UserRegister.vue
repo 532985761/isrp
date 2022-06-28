@@ -17,15 +17,21 @@
       class="demo-ruleForm"
     >
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="ruleForm.email" placeholder="请输入邮箱"/>
+        <el-input v-model="ruleForm.email" placeholder="请输入邮箱" />
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input v-model="ruleForm.pass" type="password" autocomplete="off" placeholder="请输入密码" />
+        <el-input
+          v-model="ruleForm.pass"
+          type="password"
+          autocomplete="off"
+          placeholder="请输入密码"
+        />
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input
           v-model="ruleForm.checkPass"
-          type="password" placeholder="请确认密码"
+          type="password"
+          placeholder="请确认密码"
           autocomplete="off"
         />
       </el-form-item>
@@ -43,7 +49,8 @@
           /> </el-select
       ></el-form-item>
       <el-form-item label="城市选择">
-        <el-cascader placeholder="请选择城市"
+        <el-cascader
+          placeholder="请选择城市"
           class="m-2 -ml-0.5 -mt-0.5"
           :options="options1"
           v-model="selectedOptions"
@@ -60,7 +67,11 @@
           type="danger"
           >取消</el-button
         >
-        <el-button type="primary" class="w-60" @click="confirmRegister"
+        <el-button
+          type="primary"
+          class="w-60"
+          @click="confirmRegister"
+          v-loading="loading"
           >确认注册</el-button
         >
       </span>
@@ -90,9 +101,7 @@ const ruleForm = reactive({
   email: "",
 });
 const selectCity = (res: any) => {
-  console.log(CodeToText[res[1]]);
-
-  city.value = CodeToText[res[1]];
+  city.value = CodeToText[res[2]];
 };
 let centerDialogVisible = ref(false);
 const ruleFormRef = ref<FormInstance>();
@@ -103,21 +112,15 @@ const showDialog = (data: any) => {
 defineExpose({
   showDialog,
 });
-const checkAge = (rule: any, value: any, callback: any) => {
+const checkEmail = (rule: any, value: any, callback: any) => {
   if (!value) {
-    return callback(new Error("Please input the age"));
+    return callback(new Error("请输入邮箱"));
   }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error("Please input digits"));
-    } else {
-      if (value < 18) {
-        callback(new Error("Age must be greater than 18"));
-      } else {
-        callback();
-      }
-    }
-  }, 1000);
+  const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+  if (!regEmail.test(value)) {
+    // 合法的邮箱
+    return callback(new Error("请输入正确的邮箱"));
+  }
 };
 
 const validatePass = (rule: any, value: any, callback: any) => {
@@ -144,7 +147,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 const rules = reactive({
   pass: [{ validator: validatePass, trigger: "blur" }],
   checkPass: [{ validator: validatePass2, trigger: "blur" }],
-  age: [{ validator: checkAge, trigger: "blur" }],
+  email: [{ validator: checkEmail, trigger: "blur" }],
 });
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -188,6 +191,7 @@ async function confirmRegister() {
     role: identity.value,
     addressCity: city.value,
   };
+
   await registerUser(userForm)
     .then((res: any) => {
       if (res.status == 200) {
@@ -209,5 +213,4 @@ async function confirmRegister() {
   flex-direction: row;
   justify-content: space-between;
 }
-
 </style>

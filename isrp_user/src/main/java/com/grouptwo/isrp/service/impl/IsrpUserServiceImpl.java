@@ -5,12 +5,14 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.client.AuthClient;
+import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.dao.IsrpUserDao;
 import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.pojo.LoginForm;
 import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
 import com.grouptwo.isrp.utils.MailSend;
+import com.grouptwo.isrp.utils.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,6 +42,19 @@ public class IsrpUserServiceImpl implements IsrpUserService {
 
     @Resource
     private AuthClient authClient;
+
+    @Resource
+    private MailSend mailClient;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
+    @Resource
+    private TemplateEngine templateEngine;
+
+    @Resource
+    private UserClient userClient;
+
     /**
      * 登录认证授权
      * @param loginFormPojo
@@ -56,14 +71,6 @@ public class IsrpUserServiceImpl implements IsrpUserService {
         }
         return new ResponseEntity(resObject.get("message"), HttpStatus.valueOf(status));
     }
-    @Resource
-    private MailSend mailClient;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
-    @Resource
-    private TemplateEngine templateEngine;
 
 
     /**
@@ -149,6 +156,10 @@ public class IsrpUserServiceImpl implements IsrpUserService {
             map.put("Msg","邮箱不能为空");
             return map;
         }
+        if (userClient.queryByEmail(user.getEmail()) != null){
+            map.put("Msg","邮箱已经存在，请重新输入！");
+            return map;
+        }
         if (StrUtil.isBlank(user.getPassword())){
             map.put("Msg","密码不能为空");
             return map;
@@ -166,28 +177,23 @@ public class IsrpUserServiceImpl implements IsrpUserService {
             map.put("emailMsg",true);
             return map;
         }
-//        user.setNickname(user.getEmail());
-//        user.setHeaderImg("https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png");
-//        user.setPhone("未知");
-//        user.setStatus(0);
-//        user.setSex(0);
-//        user.setSign("未知");
-//        isrpUserDao.insert(user);
-//        user.setUserId();
+        user.setNickname(user.getEmail());
+        user.setHeaderImg("https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png");
+        user.setPhone("未知");
+        user.setStatus(0);
+        user.setSex(0);
+        user.setSign("未知");
+        user.setUserId(String.valueOf(new SnowflakeIdWorker(0L,0L).nextId()));
+        isrpUserDao.insert(user);
+
         // 激活邮件
         Context context = new Context();
         context.setVariable("email", user.getEmail());
         // http://localhost:8080/bbs/activation/id/code
-        String url = "http://localhost:9527/isrpUser/isrpUser/activation/" +user.getUserId();
+        String url = "http://localhost:9527/isrpUser/activation/" +user.getUserId();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation", context);
-
-        try {
-            mailClient.sendMail(user.getEmail(), "激活账号", content);
-
-        }catch (Exception e){
-            map.put("Msg","邮件发送失败，请检查邮箱格式");
-        }
+        mailClient.sendMail(user.getEmail(), "激活账号", content);
         return map;
     }
 

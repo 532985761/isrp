@@ -85,6 +85,10 @@ NProcess
 ```
 npm install --save nprogress
 ```
+mitt
+```
+npm install --save mitt 
+```
 #### 后端配置
 
 * 网关接口 http://localhost:9527/

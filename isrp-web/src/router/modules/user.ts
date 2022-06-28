@@ -13,12 +13,20 @@ export const user: Array<RouteRecordRaw> = [
       {
         // 用户首页
         path: "index",
+        name: 'index',
         component: () => import("@/views/user/index.vue"),
       },
       {
         // 商品详情
         path: "goodsdetail",
+        name: 'goodsdetail',
         component: () => import("@/views/user/components/GoodsDetail.vue"),
+      },
+      {
+        // 商品详情
+        path: "rentCenter/:firstId/:secondId",
+        name: 'rentCenter',
+        component: () => import("@/views/user-rent-center/index.vue"),
       },
     ],
   },

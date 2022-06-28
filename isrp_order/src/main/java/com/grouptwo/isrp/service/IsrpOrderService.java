@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品订单表(IsrpOrder)表服务接口
@@ -60,4 +61,6 @@ public interface IsrpOrderService {
      *
      */
     List<IsrpOrder> selectAllOrders();
+
+    Map<String, Object> insertOrderByGoodsId(Integer goodsId);
 }

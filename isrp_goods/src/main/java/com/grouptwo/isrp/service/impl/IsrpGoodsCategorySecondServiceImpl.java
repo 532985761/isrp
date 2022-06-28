@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.service.impl;
 
 import com.grouptwo.isrp.dao.IsrpGoodsCategorySecondDao;
+import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import org.springframework.data.domain.Page;
@@ -78,5 +79,15 @@ public class IsrpGoodsCategorySecondServiceImpl implements IsrpGoodsCategorySeco
     @Override
     public boolean deleteById(Integer goodsCategorySecondId) {
         return this.isrpGoodsCategorySecondDao.deleteById(goodsCategorySecondId) > 0;
+    }
+
+    /**
+     * 获取一级商品分类ID
+     * @param id
+     * @return
+     */
+    @Override
+    public int getGoodsCategory(int id) {
+        return isrpGoodsCategorySecondDao.getGoodsCategoryFirst(id);
     }
 }

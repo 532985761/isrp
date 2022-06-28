@@ -31,7 +31,7 @@ public interface IsrpGoodsCategoryFirstDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<IsrpGoodsCategoryFirst> queryAllByLimit(IsrpGoodsCategoryFirst isrpGoodsCategoryFirst, @Param("pageable") Pageable pageable);
+    List<IsrpGoodsCategoryFirst> queryAllByLimit(@Param("isrpGoodsCategoryFirst") IsrpGoodsCategoryFirst isrpGoodsCategoryFirst, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

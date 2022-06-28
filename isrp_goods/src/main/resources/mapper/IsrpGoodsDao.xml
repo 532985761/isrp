@@ -31,38 +31,38 @@
         goods_category_second_id, user_id, order_model_id
         from isrp_goods
         <where>
-            <if test="goodsId != null">
-                and goods_id = #{goodsId}
+            <if test="isrpGoods.goodsId != null">
+                and goods_id = #{isrpGoods.goodsId}
             </if>
-            <if test="goodsName != null and goodsName != ''">
-                and goods_name = #{goodsName}
+            <if test="isrpGoods.goodsName != null and goodsName != ''">
+                and goods_name = #{isrpGoods.goodsName}
             </if>
-            <if test="goodsDesc != null and goodsDesc != ''">
-                and goods_desc = #{goodsDesc}
+            <if test="isrpGoods.goodsDesc != null and goodsDesc != ''">
+                and goods_desc = #{isrpGoods.goodsDesc}
             </if>
-            <if test="goodsImg != null and goodsImg != ''">
-                and goods_img = #{goodsImg}
+            <if test="isrpGoods.goodsImg != null and goodsImg != ''">
+                and goods_img = #{isrpGoods.goodsImg}
             </if>
-            <if test="goodsPrice != null">
-                and goods_price = #{goodsPrice}
+            <if test="isrpGoods.goodsPrice != null">
+                and goods_price = #{isrpGoods.goodsPrice}
             </if>
-            <if test="goodsSaleCount != null">
-                and goods_sale_count = #{goodsSaleCount}
+            <if test="isrpGoods.goodsSaleCount != null">
+                and goods_sale_count = #{isrpGoods.goodsSaleCount}
             </if>
-            <if test="goodsStatus != null">
-                and goods_status = #{goodsStatus}
+            <if test="isrpGoods.goodsStatus != null">
+                and goods_status = #{isrpGoods.goodsStatus}
             </if>
-            <if test="createTime != null">
+            <if test="isrpGoods.createTime != null">
                 and create_time = #{createTime}
             </if>
-            <if test="goodsCategorySecondId != null">
-                and goods_category_second_id = #{goodsCategorySecondId}
+            <if test="isrpGoods.goodsCategorySecondId != null">
+                and goods_category_second_id = #{isrpGoods.goodsCategorySecondId}
             </if>
-            <if test="userId != null and userId != ''">
+            <if test="isrpGoods.userId != null and userId != ''">
                 and user_id = #{userId}
             </if>
-            <if test="orderModelId != null">
-                and order_model_id = #{orderModelId}
+            <if test="isrpGoods.orderModelId != null">
+                and order_model_id = #{isrpGoods.orderModelId}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -112,7 +112,9 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
         insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id, order_model_id)
-        values (#{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId}, #{orderModelId})
+        values (
+
+                #{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId}, #{orderModelId})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsId" useGeneratedKeys="true">

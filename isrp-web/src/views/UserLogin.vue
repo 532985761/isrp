@@ -1,5 +1,5 @@
 <template>
-  <el-row class="min-h-screen ">
+  <el-row class="min-h-screen">
     <el-col
       :lg="16"
       class="flex items-center justify-center flex-col bg-sky-500"
@@ -11,13 +11,13 @@
     </el-col>
     <el-col
       :lg="8"
-      class="flex items-center justify-center flex-col bg-light-50 scale-in-hor-right"
+      class="flex items-center justify-center flex-col bg-light-50"
     >
       <h2 class="font-bold text-2xl text-gray-600">欢迎尊贵用户回来</h2>
       <div class="flex items-center justify-center my-5">
         <span class="h-[1px] w-70 bg-gray-200"></span>
       </div>
-      <div>
+      <div class="scale-in-hor-right">
         <!-- <el-form style="width: 290px" :model="loginForm">
           <el-form-item label="账&nbsp;&nbsp;&nbsp;号:">
             <el-input
@@ -74,11 +74,10 @@
             <el-button type="primary" @click="submitForm(loginFormRef)"
               >登录</el-button
             >
-            <el-button   @click="$router.go(-1)">返回上一页</el-button>
+            <el-button @click="$router.go(-1)">返回上一页</el-button>
           </el-form-item>
         </el-form>
       </div>
-
     </el-col>
   </el-row>
 </template>
@@ -150,6 +149,19 @@ const refreshCode = () => {
  * w: http://animista.net, t: @cssanimista
  * ---------------------------------------------- */
 
-@keyframes scale-in-hor-right{0%{transform:scaleX(0);transform-origin:100% 100%;opacity:1}100%{transform:scaleX(1);transform-origin:100% 100%;opacity:1}}
-.scale-in-hor-right{animation:scale-in-hor-right .5s cubic-bezier(.25,.46,.45,.94) both}
+@keyframes scale-in-hor-right {
+  0% {
+    transform: scaleX(0);
+    transform-origin: 100% 100%;
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: 100% 100%;
+    opacity: 1;
+  }
+}
+.scale-in-hor-right {
+  animation: scale-in-hor-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
 </style>

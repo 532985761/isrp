@@ -1,13 +1,17 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.service.IsrpOrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 商品订单表(IsrpOrder)表控制层
@@ -86,6 +90,19 @@ public class IsrpOrderController {
         public ResponseEntity selectAllOrders(){
         return ResponseEntity.ok(this.isrpOrderService.selectAllOrders());
         }
+    /**
+     * 用户下单
+     */
+    @PostMapping("/userToOrder")
+    public ResponseEntity userToOrder(Integer goodsId){
+        Map<String,Object> map = isrpOrderService.insertOrderByGoodsId(goodsId);
+        if (map == null || map.isEmpty()) {
+            return new ResponseEntity("下单成功", HttpStatus.OK);
+        }else{
+            return new ResponseEntity(map.get("msg"), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+    }
 
 }
 

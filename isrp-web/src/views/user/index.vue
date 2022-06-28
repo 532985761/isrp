@@ -7,7 +7,7 @@
         class="h-300px w-190px bg-blue-200"
       >
         <div
-          v-for="i in 4"
+          v-for="i in goodsCategoryFirst"
           :key="i"
           style="
             display: inline-block;
@@ -19,26 +19,29 @@
           <span
             class="font-serif;font-bold"
             style="color: black; font-size: 12px"
-            >商品名称</span
+            >{{ i.goodsCategoryFirstName }}</span
           >
         </div>
 
-        <el-menu @select="selectMenu" class="el-menu-vertical-demo mt-2">
+        <el-menu class="el-menu-vertical-demo mt-2">
           <el-menu-item
             class="bg-light-200"
-            v-for="(i, index) in 4"
+            v-for="(i, index) in goodsCategoryFirst"
             :key="index"
             :index="index + ''"
-            @click="showTabTrue"
+            @click="selectMenu(i.goodsCategoryFirstName, i.goodsCategoryFirstId)"
           >
             <el-icon><Coin /></el-icon>
             <span
-              >电器/手机&nbsp;&nbsp;&nbsp;<el-icon><CaretRight /></el-icon>
+              >{{ i.goodsCategoryFirstName }}&nbsp;&nbsp;&nbsp;<el-icon
+                ><CaretRight
+              /></el-icon>
             </span>
           </el-menu-item>
         </el-menu>
       </div>
     </el-col>
+    <!-- 商品左侧第二级分类 -->
     <el-col :lg="11">
       <el-card class="bg-dark-100">
         <el-carousel :interval="4000" height="258px" v-if="showTab">
@@ -51,9 +54,18 @@
             {{ tabName }}
           </div>
           <el-divider></el-divider>
+          <div
+            style="display: inline-block"
+            class="ml-4 mt-2"
+            v-for="(i,index) in goodsCategorySecond" :key="index"
+          >
+            <el-button v-if="i.goodsCategorySecondName !== ''" plain>{{i.goodsCategorySecondName}}</el-button>
+            <span v-else>暂无分类</span>
+          </div>
         </el-card>
       </el-card>
     </el-col>
+    <!--右侧用户信息 -->
     <el-col :lg="4">
       <div
         class="bg-light-50 h-300px"
@@ -62,7 +74,7 @@
         <el-avatar
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         /><br />
-        <el-tag> 欢迎你,zhz</el-tag>
+        <el-tag> 欢迎你,{{userInfo.info.nickname}}</el-tag>
         <el-divider>
           <el-icon><star-filled /></el-icon>
         </el-divider>
@@ -98,7 +110,7 @@
       ><div
         class="grid-content ep-bg-purple-light h-115px w-full bg-dark-400 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" v-if="showTab">
+        <el-carousel :interval="4000" height="115px" >
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -109,7 +121,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-11 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" v-if="showTab">
+        <el-carousel :interval="4000" height="115px" >
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -120,7 +132,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-22 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" v-if="showTab">
+        <el-carousel :interval="4000" height="115px" >
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -131,7 +143,7 @@
       ><div
         class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-32 mt-4"
       >
-        <el-carousel :interval="4000" height="115px" v-if="showTab">
+        <el-carousel :interval="4000" height="115px" >
           <el-carousel-item v-for="item in 3" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
@@ -166,66 +178,82 @@
         <el-divider content-position="right"
           ><span class="font-serif text-2xl font-bold">热租商品</span>
         </el-divider>
-        <el-card class="w-240px h-300px ml-9 mt-4" v-for="i in 8" :key="i" style="display:inline-block"></el-card>
+        <el-card
+          class="w-240px h-300px ml-9 mt-4"
+          v-for="i in 8"
+          :key="i"
+          style="display: inline-block"
+        ></el-card>
       </div>
     </el-col>
-    <el-col :span="3"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :span="3"></el-col>
   </el-row>
-       <el-divider>
-          <span style="font-weight: bold" class="italic text-2xl"
-            >商品浏览区</span
-          >
-          <span
-            style="font-weight: bold"
-            class="italic text-xl text-green-500"
-          >
-            <el-icon><star-filled /></el-icon>选择您的随心租</span
-          >
-        </el-divider>
-    <el-row :gutter="20" class="h-800px">
+  <el-divider>
+    <span style="font-weight: bold" class="italic text-2xl">商品浏览区</span>
+    <span style="font-weight: bold" class="italic text-xl text-green-500">
+      <el-icon><star-filled /></el-icon>选择您的随心租</span
+    >
+  </el-divider>
+  <el-row :gutter="20" class="h-800px">
     <el-col :span="3"></el-col>
     <el-col :span="18" class="bg-light-400"
       ><div class="grid-content ep-bg-purple">
         <el-divider content-position="right"
           ><span class="font-serif text-2xl font-bold">随心租</span>
         </el-divider>
-        <el-card class="w-240px h-300px ml-9 mt-4" v-for="i in 8" :key="i" style="display:inline-block"></el-card>
+        <el-card
+          class="w-240px h-300px ml-9 mt-4"
+          v-for="i in 8"
+          :key="i"
+          style="display: inline-block"
+        ></el-card>
       </div>
     </el-col>
-    <el-col :span="3"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :span="3"></el-col>
   </el-row>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import {
+  queryByPageGetGoodsCategoryFirst,
+  queryByPageGetGoodsCategorySecond,
+} from "@/api/goods";
+import { userStore } from "@/store/user";
 const dialogTableVisible = ref(false);
 const shopname = ref("");
 const showTab = ref(true);
 const tabName = ref("");
-const selectMenu = (a) => {
-  if (a == 1) {
-    tabName.value = "1";
-  }
-  if (a == 2) {
-    tabName.value = "2";
-  }
-  if (a == 3) {
-    tabName.value = "3";
-  }
-  if (a == 0) {
-    tabName.value = "0";
-  }
-};
-const showTabTrue = () => {
+const userInfo = userStore();
+//获取商品陪你二级分类信息
+//获取第二栏左侧导航商品二级信息
+let goodsCategorySecond: any = ref({});
+const selectMenu: any = (name, index) => {
   showTab.value = true;
-
   setTimeout(() => {
-    (showTab.value = false), console.log("55555");
+    showTab.value = false;
   }, 10);
+ tabName.value = name;
+  
+   queryByPageGetGoodsCategorySecond(index,1,1000).then((res) => {
+    goodsCategorySecond.value = res.data.content;
+  });
 };
+
 const showTabFalse = () => {
   showTab.value = false;
 };
+//获取第二栏左侧导航商品信息
+let goodsCategoryFirst: any = ref({});
+
+onMounted(async () => {
+  await queryByPageGetGoodsCategoryFirst().then((res) => {
+    goodsCategoryFirst.value = res.data.content;
+  });
+});
+
+
+
 </script>
 
 <style>

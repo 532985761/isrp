@@ -1,6 +1,8 @@
 package com.grouptwo.isrp.service.impl;
 
+import com.grouptwo.isrp.client.GoodsClient;
 import com.grouptwo.isrp.dao.IsrpOrderDao;
+import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.service.IsrpOrderService;
 import org.springframework.data.domain.Page;
@@ -9,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品订单表(IsrpOrder)表服务实现类
@@ -21,6 +25,8 @@ import java.util.List;
 public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Resource
     private IsrpOrderDao isrpOrderDao;
+    @Resource
+    private GoodsClient goodsClient;
 
     /**
      * 通过ID查询单条数据
@@ -88,5 +94,17 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Override
     public List<IsrpOrder> selectAllOrders() {
         return this.isrpOrderDao.selectAllOrders();
+    }
+
+    @Override
+    public Map<String, Object> insertOrderByGoodsId(Integer goodsId) {
+        IsrpGoods goods = goodsClient.queryByGoodsId(goodsId);
+        Map<String, Object> map = new HashMap<>();
+        //查询商品是否可以租
+        if (goods.getGoodsStatus() == 0){
+            map.put("msg","商品已被租赁，请选择其他商品");
+            return map;
+        }
+        return map;
     }
 }

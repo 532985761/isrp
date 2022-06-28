@@ -31,10 +31,11 @@ public class IsrpGoodsCategorySecondController {
      * @param size
      * @return
      */
-    @GetMapping("/queryByPage/{page}/{size}")
-    public ResponseEntity<Page<IsrpGoodsCategorySecond>> queryByPage(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    @GetMapping("/queryByPageGoodsCategorySecond")
+    public ResponseEntity<Page<IsrpGoodsCategorySecond>> queryByPage(int index,int page,int size) {
         IsrpGoodsCategorySecond isrpGoodsCategorySecond = new IsrpGoodsCategorySecond();
-        PageRequest pageRequest = PageRequest.of(page, size);
+        isrpGoodsCategorySecond.setGoodsCategoryFirstId(index);
+        PageRequest pageRequest = PageRequest.of(page-1, size);
         return ResponseEntity.ok(this.isrpGoodsCategorySecondService.queryByPage(isrpGoodsCategorySecond, pageRequest));
     }
 

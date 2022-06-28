@@ -8,7 +8,7 @@ import com.grouptwo.isrp.client.AuthClient;
 import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.dao.IsrpUserDao;
 import com.grouptwo.isrp.entity.IsrpUser;
-import com.grouptwo.isrp.pojo.LoginForm;
+import com.grouptwo.isrp.pojo.IsrpUserAddPojo;
 import com.grouptwo.isrp.pojo.LoginFormPojo;
 import com.grouptwo.isrp.service.IsrpUserService;
 import com.grouptwo.isrp.utils.MailSend;
@@ -19,12 +19,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import javax.annotation.Resource;
-import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,17 +109,54 @@ public class IsrpUserServiceImpl implements IsrpUserService {
     @Override
     public Page<IsrpUser> queryByPage(IsrpUser isrpUser, PageRequest pageRequest) {
         long total = this.isrpUserDao.count(isrpUser);
-        return new PageImpl<>(this.isrpUserDao.queryAllByLimit(isrpUser, pageRequest), pageRequest, total);
+        List<IsrpUser> users = this.isrpUserDao.queryAllByLimit(isrpUser, pageRequest);
+        for(IsrpUser user : users) {
+            user.setPassword(null);
+        }
+        return new PageImpl<>(users, pageRequest, total);
     }
 
     /**
      * 新增数据
      *
-     * @param isrpUser 实例对象
+     * @param isrpUserAddPojo 实例对象
      * @return 实例对象
      */
     @Override
-    public IsrpUser insert(IsrpUser isrpUser) {
+    public IsrpUser insert(IsrpUserAddPojo isrpUserAddPojo) {
+        IsrpUser isrpUser = new IsrpUser();
+        BeanUtil.copyProperties(isrpUserAddPojo, isrpUser);
+        if ("".equals(isrpUser.getHeaderImg())) {
+            isrpUser.setHeaderImg(null);
+        }
+        if ("".equals(isrpUser.getRole())) {
+            isrpUser.setRole(null);
+        }
+        if ("".equals(isrpUser.getPhone())) {
+            isrpUser.setPhone(null);
+        }
+        if ("".equals(isrpUser.getEmail())) {
+            isrpUser.setEmail(null);
+        }
+        if ("".equals(isrpUser.getIdCardNum())) {
+            isrpUser.setIdCardNum(null);
+        }
+        if ("".equals(isrpUser.getSex())) {
+            isrpUser.setSex(null);
+        }
+        if ("".equals(isrpUser.getAddressCity())) {
+            isrpUser.setAddressCity(null);
+        }
+        if ("".equals(isrpUser.getBirth())) {
+            isrpUser.setBirth(null);
+        }
+        if ("".equals(isrpUser.getSign())) {
+            isrpUser.setSign(null);
+        }
+        isrpUser.setUserId(String.valueOf(new SnowflakeIdWorker(0, 0).nextId()));
+        isrpUser.setPassword(new BCryptPasswordEncoder().encode(isrpUser.getPassword()));
+        isrpUser.setStatus(1);
+        isrpUser.setCreateTime(LocalDateTime.now());
         this.isrpUserDao.insert(isrpUser);
         return isrpUser;
     }

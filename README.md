@@ -85,6 +85,10 @@ NProcess
 ```
 npm install --save nprogress
 ```
+Moment
+```
+npm install moment --save
+```
 #### 后端配置
 
 * 网关接口 http://localhost:9527/

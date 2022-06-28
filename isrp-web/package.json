@@ -13,6 +13,7 @@
     "axios": "^0.27.2",
     "element-china-area-data": "^5.0.2",
     "element-plus": "^2.2.6",
+    "moment": "^2.29.3",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "universal-cookie": "^4.0.4",

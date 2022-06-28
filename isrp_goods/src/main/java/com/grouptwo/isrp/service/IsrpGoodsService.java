@@ -57,9 +57,20 @@ public interface IsrpGoodsService {
 
     /**
      * 查询所有商品信息
-     * @return
+     * @return 返回商品数据
      */
     List<IsrpGoods> queryAllGoods();
 
+    /**
+     * 查询所有商品信息
+     * @return 返回商品数据
+     */
     List<IsrpGoods> selectGoods();
+
+    /**
+     * 通过userId查询商品信息
+     * @param userId
+     * @return 返回用户的商品信息
+     */
+    List<IsrpGoods> selectGoodsByUserId(String userId);
 }

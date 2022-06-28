@@ -4,7 +4,7 @@
       <el-header style="--el-header-padding:0px">
         <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" background-color=" #909399">
           <el-menu-item>
-            <img src="../assets/zzlogo.png" alt="" style="margin-top:7px ;"/>
+            <img src="@/assets/111.png" alt="" style="width: 63px; height: 56px;margin-top: 1px;" />
           </el-menu-item>
           <el-menu-item index="0"> 智能化共享租赁平台 </el-menu-item>
           <div class="flex-grow" />

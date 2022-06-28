@@ -1,5 +1,6 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class IsrpGoodsController {
      * @param pageRequest      分页对象
      * @return 查询结果
      */
+    @RolesAuthorization(value = {"business"})
     @GetMapping
     public ResponseEntity<Page<IsrpGoods>> queryByPage(IsrpGoods isrpGoods, PageRequest pageRequest) {
         return ResponseEntity.ok(this.isrpGoodsService.queryByPage(isrpGoods, pageRequest));
@@ -42,6 +44,7 @@ public class IsrpGoodsController {
      *
      * @return 查询结果
      */
+    @RolesAuthorization(value = {"business"})
     @GetMapping("/selectAllGoods")
     public ResponseEntity selectGoods() {
         System.out.println(isrpGoodsService.selectGoods());
@@ -53,6 +56,7 @@ public class IsrpGoodsController {
      * @param id 主键
      * @return 单条数据
      */
+    @RolesAuthorization(value = {"business"})
     @GetMapping("{id}")
     public ResponseEntity<IsrpGoods> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.isrpGoodsService.queryById(id));
@@ -64,6 +68,7 @@ public class IsrpGoodsController {
      * @param isrpGoods 实体
      * @return 新增结果
      */
+    @RolesAuthorization(value = {"business"})
     @PostMapping("/insertGoods")
     public ResponseEntity<IsrpGoods> add(@RequestBody IsrpGoods isrpGoods) {
         return ResponseEntity.ok(this.isrpGoodsService.insert(isrpGoods));
@@ -75,6 +80,7 @@ public class IsrpGoodsController {
      * @param isrpGoods 实体
      * @return 编辑结果
      */
+    @RolesAuthorization(value = {"business"})
     @PostMapping("/editGoods")
     public ResponseEntity<IsrpGoods> edit(@RequestBody IsrpGoods isrpGoods) {
         System.out.println(isrpGoods);
@@ -87,6 +93,7 @@ public class IsrpGoodsController {
      * @param goodsId 主键
      * @return 删除是否成功
      */
+    @RolesAuthorization(value = {"business"})
     @GetMapping("/deleteGoodsById/{goodsId}")
     public ResponseEntity<Boolean> deleteById(@PathVariable("goodsId") Long goodsId) {
         return ResponseEntity.ok(this.isrpGoodsService.deleteById(goodsId));
@@ -96,11 +103,22 @@ public class IsrpGoodsController {
      * 获取所有商品信息
      *
      */
+    @RolesAuthorization(value = {"business"})
     @PostMapping("/getGoodsInfo")
     public ResponseEntity getGoodsInfo(){
         System.out.println(isrpGoodsService.queryAllGoods());
         return ResponseEntity.ok(isrpGoodsService.queryAllGoods());
     }
+
+    /**
+     * 通过userId查询商品信息
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectGoodsByUserId/{userId}")
+    public ResponseEntity selectGoodsByUserId(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByUserId(userId));
+    }
+
 
 }
 

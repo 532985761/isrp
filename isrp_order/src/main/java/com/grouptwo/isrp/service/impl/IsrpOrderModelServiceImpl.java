@@ -2,6 +2,7 @@ package com.grouptwo.isrp.service.impl;
 
 import com.grouptwo.isrp.dao.IsrpOrderModelDao;
 import com.grouptwo.isrp.entity.IsrpOrderModel;
+import com.grouptwo.isrp.pojo.IsrpOrderModelProcess;
 import com.grouptwo.isrp.service.IsrpOrderModelService;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单模式表(IsrpOrderModel)表服务实现类
@@ -43,6 +45,17 @@ public class IsrpOrderModelServiceImpl implements IsrpOrderModelService {
     public Page<IsrpOrderModel> queryByPage(IsrpOrderModel isrpOrderModel, PageRequest pageRequest) {
         long total = this.isrpOrderModelDao.count(isrpOrderModel);
         return new PageImpl<>(this.isrpOrderModelDao.queryAllByLimit(isrpOrderModel, pageRequest), pageRequest, total);
+    }
+
+    /**
+     * 分页查询model和process
+     *
+     * @param orderModel
+     * @return
+     */
+    @Override
+    public List<IsrpOrderModelProcess> queryModelAndProcessByLimit(IsrpOrderModel orderModel) {
+        return this.isrpOrderModelDao.queryIsrpOrderModelProcessAllByLimit(orderModel);
     }
 
     /**

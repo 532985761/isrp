@@ -36,7 +36,7 @@ router.beforeEach(async(to, from, next) => {
     const token = userStore().token
     const info = userStore().info
     // 没有info或token
-    if(token == null || info == null) {
+    if(token == null || info == null || token == '' || info == '') {
       next("/")
     }
     // 访问管理员

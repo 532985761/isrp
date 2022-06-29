@@ -1,19 +1,16 @@
 <template>
   <div>
     <manager-order-process-title />
-    <!-- <manager-user-add @get-time-stamp="getTimeStamp" />
-    <manager-user-table :timestamp="timestamp" /> -->
+    <el-alert
+      title="请注意：删除和修改订单流程会对系统造成较大影响"
+      type="error"
+    />
+    <manager-order-process-add />
+    <manager-order-process-table />
   </div>
 </template>
 <script lang="ts" setup>
 import managerOrderProcessTitle from "./components/managerOrderProcessTitle.vue";
-// import managerUserAdd from "./components/managerUserAdd.vue";
-// import managerUserTable from "./components/managerUserTable.vue";
-// import { ref } from "vue";
-
-// const timestamp = ref("");
-
-// const getTimeStamp = (nowTime: string) => {
-//   timestamp.value = nowTime;
-// };
+import managerOrderProcessTable from "./components/managerOrderProcessTable.vue";
+import managerOrderProcessAdd from "./components/managerOrderProcessAdd.vue";
 </script>

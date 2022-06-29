@@ -37,8 +37,22 @@ export function deleteGoodsByGoodsId(goodsId){
 /**
  * 查询商品二级分类
  */
-export function queryByPageGetGoodsCategorySecond(index:number,page: number, size: number) {
+export function queryByPageGetGoodsCategorySecond(
+  index: number,
+  page: number,
+  size: number
+) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategorySecond/queryByPageGoodsCategorySecond?index="+index+"&page=1&size=50"
+    "/isrpGoods/isrpGoodsCategorySecond/queryByPageGoodsCategorySecond?index=" +
+      index +
+      "&page=1&size=50"
+  );
+}
+/**
+ * 查询商品二级分类获得一级分类信息
+ */
+export function getRentCenterInfoFromGoodsCategoryId(firstId:any,secondId:any) {
+  return http.get(
+    "/isrpGoods/isrpGoodsCategorySecond/getRentCenterInfoFromGoodsCategoryId?firstId=" + firstId+"&secondId="+secondId
   );
 }

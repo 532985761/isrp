@@ -47,10 +47,10 @@ public class IsrpOrderModelController {
      * @param id 主键
      * @return 单条数据
      */
-    @RolesAuthorization(value = {"manager"})
+    @RolesAuthorization(value = {"manager","user"})
     @GetMapping("{id}")
-    public ResponseEntity<IsrpOrderModel> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.isrpOrderModelService.queryById(id));
+    public IsrpOrderModel queryById(@PathVariable("id") Integer id) {
+        return  this.isrpOrderModelService.queryById(id);
     }
 
 

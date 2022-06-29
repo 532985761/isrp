@@ -1,9 +1,12 @@
 package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.annotation.RolesAuthorization;
+import com.grouptwo.isrp.client.OrderClient;
+import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
+import com.grouptwo.isrp.entity.IsrpUser;
 import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
@@ -14,9 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 商品二级分类表(IsrpGoodsCategorySecond)表控制层
@@ -38,6 +43,11 @@ public class IsrpGoodsCategorySecondController {
 
     @Resource
     private IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
+
+    @Resource
+    private UserClient userClient;
+    @Resource
+    private OrderClient orderClient;
 
     /**
      * 分页查询
@@ -101,27 +111,6 @@ public class IsrpGoodsCategorySecondController {
     /**
      * 根据商品二级id获取信息
      */
-    @RolesAuthorization
-    @GetMapping("/getRentCenterInfoFromGoodsCategoryId")
-    public ResponseEntity getRentCenterInfoFromGoodsCategoryId(int firstId,int secondId){
-        Map<String,Object> map = new HashMap<>();
-        //获取一二级分类信息
-        IsrpGoodsCategorySecond isrpGoodsCategorySecond = isrpGoodsCategorySecondService.queryById(secondId);
-        map.put("goodsCategorySecond",isrpGoodsCategorySecond);
-        IsrpGoodsCategoryFirst isrpGoodsCategoryFirst = isrpGoodsCategoryFirstService.queryById(firstId);
-        map.put("goodsCategoryFirst",isrpGoodsCategoryFirst);
-        IsrpGoodsCategorySecond goodsFirst = new IsrpGoodsCategorySecond();
-        goodsFirst.setGoodsCategoryFirstId(firstId);
-        PageRequest pageRequestCategorySecond = PageRequest.of(0,500);
-        map.put("allSecondGoods",isrpGoodsCategorySecondService.queryByPage(goodsFirst,pageRequestCategorySecond));
-        //找到二级分类下的商品信息
-        IsrpGoods goods = new IsrpGoods();
-        goods.setGoodsCategorySecondId(secondId);
-        PageRequest pageRequest = PageRequest.of(0,10);
-        Page<IsrpGoods> page =  isrpGoodsService.queryByPage(goods,pageRequest);
-        map.put("page",page);
-    return  new ResponseEntity(map, HttpStatus.OK);
-    }
 
 }
 

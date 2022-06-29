@@ -51,8 +51,8 @@ export function queryByPageGetGoodsCategorySecond(
 /**
  * 查询商品二级分类获得一级分类信息
  */
-export function getRentCenterInfoFromGoodsCategoryId(firstId:any,secondId:any) {
+export function getRentCenterInfoFromGoodsCategoryId(firstId:string,secondId:string) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategorySecond/getRentCenterInfoFromGoodsCategoryId?firstId=" + firstId+"&secondId="+secondId
+    "/isrpGoods/isrpGoods/getRentCenterInfoFromGoodsCategoryId?firstId="+firstId+"&secondId="+secondId
   );
 }

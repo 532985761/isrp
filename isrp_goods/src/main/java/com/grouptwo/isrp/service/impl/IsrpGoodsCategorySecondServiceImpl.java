@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品二级分类表(IsrpGoodsCategorySecond)表服务实现类
@@ -89,5 +90,10 @@ public class IsrpGoodsCategorySecondServiceImpl implements IsrpGoodsCategorySeco
     @Override
     public int getGoodsCategory(int id) {
         return isrpGoodsCategorySecondDao.getGoodsCategoryFirst(id);
+    }
+
+    @Override
+    public List<IsrpGoodsCategorySecond> getGoodsCategorySecondByFirstId(int firstId) {
+        return isrpGoodsCategorySecondDao.getGoodsCategorySecondByFirstId(firstId);
     }
 }

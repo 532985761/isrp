@@ -41,19 +41,30 @@ http.interceptors.response.use(
       });
     }
     // 关闭加载
-    close()
+    close();
     return arr;
   },
   (err) => {
+    if(err.code == "ECONNABORTED") {
+      ElMessage({
+        message: "请求超时",
+        type: "warning",
+        duration: 2 * 1000,
+      });
+      close();
+      return;
+    }
     if(err.response.status == 401) {
       router.push('/')
       if(userStore().info.role == 2){
         // 管理员过期提示
         ElMessage({
-          message: "为保证安全请您重新输入管理员网址",
+          message: "认证过期，为保证安全请您重新输入管理员网址",
           type: "warning",
           duration: 2 * 1000,
         });
+        close();
+        return;
       }
     }
     // 对异常处理

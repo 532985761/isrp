@@ -147,7 +147,6 @@ const logout = () => {
 const nickname = userstore.info.nickname;
 const activeName = ref("5");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab.props, event);
   if (tab.props.name == 5) {
     router.push("/isrpUser");
   }

@@ -13,12 +13,8 @@
           首页</el-breadcrumb-item
         >
         <el-breadcrumb-item>租赁中心</el-breadcrumb-item>
-        <el-breadcrumb-item>{{
-          info.goodsCategoryFirst.goodsCategoryFirstName
-        }}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{
-          info.goodsCategorySecond.goodsCategorySecondName
-        }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{info.firstName}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{info.secondName}}</el-breadcrumb-item>
       </el-breadcrumb></el-col
     >
   </el-row>
@@ -32,7 +28,8 @@
           class="text item font-mono text-lg font-semibold"
           style="font-weight: bold"
         >
-          {{ info.goodsCategorySecond.goodsCategorySecondName }}
+          <!-- 本二级分类名称 -->
+          <!-- {{ info.secondList }} -->
         </div>
         <el-divider style="margin-top: 5px" content-position="left"
           ><span class=""></span>
@@ -45,8 +42,7 @@
             round
             v-for="(i, index) in goodsCategoryFirst"
             :type="
-              i.goodsCategoryFirstName ==
-              info.goodsCategoryFirst.goodsCategoryFirstName
+              i.goodsCategoryFirstId == router.currentRoute.value.params.firstId
                 ? 'warning'
                 : ''
             "
@@ -54,7 +50,7 @@
             @click="
               changeGoodsInfo(
                 i.goodsCategoryFirstId,
-                info.goodsCategorySecond.goodsCategorySecondId
+                router.currentRoute.value.params.secondId
               )
             "
           >
@@ -67,17 +63,17 @@
           商品选项： <el-divider direction="vertical" border-style="dashed" />
           <el-button
             round
-            v-for="(i, index) in info.allSecondGoods.content"
+            v-for="(i, index) in info.secondList"
             :key="index"
             :type="
-              i.goodsCategorySecondName ==
-              info.goodsCategorySecond.goodsCategorySecondName
+              i.goodsCategorySecondId ==
+              router.currentRoute.value.params.secondId
                 ? 'warning'
                 : ''
             "
             @click="
               changeGoodsInfo(
-                info.goodsCategoryFirst.goodsCategoryFirstId,
+                router.currentRoute.value.params.firstId,
                 i.goodsCategorySecondId
               )
             "
@@ -91,18 +87,16 @@
       ><div class="grid-content ep-bg-purple-light"
     /></el-col>
   </el-row>
-  
+
   <!-- 正文内容 -->
-  <el-divider>
-    <el-icon><star-filled /></el-icon>
-  </el-divider>
+  <el-divider> 商品分类专区 </el-divider>
   <el-row :gutter="10">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
       ><div class="grid-content ep-bg-purple"
     /></el-col>
-    <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11"
-      ><el-card>
-        <el-descriptions class="margin-top mt-5" title="商品名称" :column="2" border v-for="(i,index) in info.allSecondGoods.content" :key="index">
+    <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11">
+      <el-card v-for="(i, index) in goodsDetail" :key="index">
+        <el-descriptions class="margin-top mt-5" :column="2" :title="'商品名称：'+i.goods.goodsName" border>
           <template #extra>
             <el-button type="primary">查看待租商品详情</el-button>
             <el-button type="danger">立即下单租用</el-button>
@@ -116,7 +110,7 @@
                 出租人
               </div>
             </template>
-            kooriookami
+            {{ i.user.nickname }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template #label>
@@ -138,7 +132,7 @@
                 所在位置
               </div>
             </template>
-            Suzhou
+           {{ i.user.addressCity}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template #label>
@@ -149,7 +143,7 @@
                 租赁方式
               </div>
             </template>
-            <el-tag size="small">以租代售</el-tag>
+            <el-tag size="small">{{i.goodsModal.orderModelName}}</el-tag>
           </el-descriptions-item>
           <el-descriptions-item width="200px">
             <template #label>
@@ -159,8 +153,9 @@
                 </el-icon>
                 商品租用价格
               </div>
-            </template>
-            100
+            </template>            <el-tag size="large" type="danger">
+            {{i.goods.goodsPrice}}元</el-tag>
+
           </el-descriptions-item>
           <el-descriptions-item>
             <template #label>
@@ -172,13 +167,14 @@
               </div>
             </template>
             <el-image class="h-100px w-198px" src="/src/assets/znzzlogo.png" />
-          </el-descriptions-item>  </el-descriptions><el-divider>
-    <el-icon><CaretBottom /></el-icon>
-  </el-divider>
-          </el-card
+          </el-descriptions-item>
+          546546</el-descriptions
+        ><el-divider>
+          <el-icon><CaretBottom /></el-icon>
+        </el-divider> </el-card
     ></el-col>
   </el-row>
-
+  {{ goodsDetail }}
 </template>
 <script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
@@ -191,71 +187,24 @@ import {
 } from "@/api/goods";
 import VueEvent from "@/utils/event";
 
-let info: any = ref({
-  goodsCategoryFirst: {
-    goodsCategoryFirstId: 3,
-    goodsCategoryFirstName: "房产",
-  },
-  goodsCategorySecond: {
-    goodsCategorySecondId: 9,
-    goodsCategoryFirstId: 3,
-    goodsCategorySecondName: "汤臣一品豪居",
-  },
-  allSecondGoods: {
-    content: [
-      {
-        goodsCategorySecondId: 9,
-        goodsCategoryFirstId: 3,
-        goodsCategorySecondName: "汤臣一品豪居",
-      },
-    ],
-    pageable: {
-      sort: { sorted: false, unsorted: true, empty: true },
-      offset: 0,
-      pageSize: 500,
-      pageNumber: 0,
-      paged: true,
-      unpaged: false,
-    },
-    last: true,
-    totalElements: 1,
-    totalPages: 1,
-    size: 500,
-    number: 0,
-    sort: { sorted: false, unsorted: true, empty: true },
-    first: true,
-    numberOfElements: 1,
-    empty: false,
-  },
-  page: {
-    content: [],
-    pageable: {
-      sort: { sorted: false, unsorted: true, empty: true },
-      offset: 0,
-      pageSize: 10,
-      pageNumber: 0,
-      paged: true,
-      unpaged: false,
-    },
-    last: true,
-    totalElements: 0,
-    totalPages: 0,
-    size: 10,
-    number: 0,
-    sort: { sorted: false, unsorted: true, empty: true },
-    first: true,
-    numberOfElements: 0,
-    empty: true,
-  },
-});
+let info: any = ref({});
 const activeName = ref("6");
+const goodsCategoryFirst = ref();
 onBeforeMount(() => {
   getRentCenterInfoFromGoodsCategoryId(
-    router.currentRoute.value.params.firstId,
-    router.currentRoute.value.params.secondId
+    router.currentRoute.value.params.firstId.toString(),
+    router.currentRoute.value.params.secondId.toString()
   ).then((res) => {
-    // 获取二级分类名
+    // 获取初始信息
+
     info.value = res.data;
+    goodsDetail.value = res.data.goodsInfo;
+
+    console.log(info.value);
+  });
+  //查询所有一级分类
+  queryByPageGetGoodsCategoryFirst().then((res) => {
+    goodsCategoryFirst.value = res.data.content;
   });
 });
 //激活导航条
@@ -264,22 +213,54 @@ const selectRouterLine = () => {
   VueEvent.emit("tomsg", { data: "5" });
 };
 
-const goodsCategoryFirst = ref();
-onMounted(async () => {
-  await queryByPageGetGoodsCategoryFirst().then((res) => {
-    goodsCategoryFirst.value = res.data.content;
-  });
-});
+const goodsDetail = ref([
+  {
+    goods: {
+      goodsId: 32,
+      goodsName: "aaa",
+      goodsDesc: "发布商品时间测试",
+      goodsImg: "比基尼",
+      goodsPrice: 5000,
+      goodsSaleCount: 0,
+      goodsStatus: 1,
+      createTime: "2022-06-29 15:08:30",
+      goodsCategorySecondId: 7,
+      userId: "431188825079808",
+      orderModelId: 1,
+    },
+    user: {
+      userId: "431188825079808",
+      nickname: "wbw",
+      headerImg:
+        "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      password: null,
+      role: 1,
+      phone: "未知",
+      email: "wbw@163.com",
+      idCardNum: "未知",
+      sex: 2,
+      status: 1,
+      addressCity: "唐山",
+      birth: null,
+      createTime: "2022-06-25 10:04:19",
+      sign: "无",
+    },
+    goodsModal: { orderModelId: 1, orderModelName: "先租后买" },
+  },
+
+]);
 //改变激活状态
 const changeGoodsInfo = async (one, two) => {
   await router.push("/isrpUser/rentCenter/" + one + "/" + two);
 
-  await getRentCenterInfoFromGoodsCategoryId(
-    router.currentRoute.value.params.firstId,
-    router.currentRoute.value.params.secondId
+  getRentCenterInfoFromGoodsCategoryId(
+    router.currentRoute.value.params.firstId.toString(),
+    router.currentRoute.value.params.secondId.toString()
   ).then((res) => {
     // 获取所有后端信息
     info.value = res.data;
+    goodsDetail.value = res.data.goodsInfo;
+    console.log(goodsDetail.value);
   });
 };
 </script>

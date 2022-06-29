@@ -82,5 +82,13 @@ public interface IsrpOrderProcessDao {
      */
     int deleteById(Integer orderProcessId);
 
+    /**
+     * 通过orderModelId批量删除
+     *
+     * @param orderModelId
+     * @return
+     */
+    int deleteByModelId(Integer orderModelId);
+
 }
 

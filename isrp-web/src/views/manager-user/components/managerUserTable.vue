@@ -11,10 +11,10 @@
       <el-empty style="width: 100%" />
     </div>
     <div v-else>
-      <el-table :data="tableData" style="width: 100%" height="350">
-        <el-table-column prop="userId" label="用户编号" width="200" />
-        <el-table-column prop="nickname" label="用户昵称" width="200" />
-        <el-table-column prop="headerImg" label="用户头像" width="200">
+      <el-table :data="tableData" style="width: 100%" height="380">
+        <el-table-column prop="userId" label="用户编号" width="150" />
+        <el-table-column prop="nickname" label="用户昵称" width="150" />
+        <el-table-column prop="headerImg" label="用户头像" width="150">
           <template #default="scope">
             <el-image
               :src="scope.row.headerImg"
@@ -22,7 +22,7 @@
             ></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="role" label="用户角色" width="200">
+        <el-table-column prop="role" label="用户角色" width="150">
           <template #default="scope">
             <div v-if="scope.row.role == 0">用户</div>
             <div v-if="scope.row.role == 1">商家</div>
@@ -37,7 +37,7 @@
         <el-table-column
           prop="email"
           label="用户邮箱"
-          width="200"
+          width="150"
           fixed
         ></el-table-column>
         <el-table-column
@@ -45,14 +45,14 @@
           label="用户身份证"
           width="200"
         ></el-table-column>
-        <el-table-column prop="sex" label="用户性别" width="200">
+        <el-table-column prop="sex" label="用户性别" width="150">
           <template #default="scope">
             <div v-if="scope.row.sex == 0">女</div>
             <div v-if="scope.row.sex == 1">男</div>
             <div v-if="scope.row.sex == 2">未知</div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="用户状态" width="200">
+        <el-table-column prop="status" label="用户状态" width="150">
           <template #default="scope">
             <div class="text-red-500" v-if="scope.row.status == 0">禁用</div>
             <div class="text-green-500" v-if="scope.row.status == 1">正常</div>
@@ -63,7 +63,7 @@
           label="用户城市"
           width="200"
         ></el-table-column>
-        <el-table-column prop="birth" label="用户生日" width="200">
+        <el-table-column prop="birth" label="用户生日" width="150">
           <template #default="scope">
             <div v-if="scope.row.birth == null">未知</div>
             <div v-else>{{ scope.row.birth }}</div>
@@ -79,7 +79,7 @@
           label="个性签名"
           width="200"
         ></el-table-column>
-        <el-table-column label="操作" width="550">
+        <el-table-column label="操作" width="100" fixed="right">
           <template #default="scope">
             <el-button
               link
@@ -175,13 +175,13 @@ const handleCurrentChange = (val: number) => {
   currentPage.value = val;
   initData();
 };
-const deleteRow = (scope: any) => {
-  ElMessageBox.confirm(`您确定删除订单模式： ${scope.email} ?`, "提示", {
+const deleteRow = (row: any) => {
+  ElMessageBox.confirm(`您确定删除订单模式： ${row.email} ?`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
   })
     .then(() => {
-      deleteUser(scope.userId).then((res) => {
+      deleteUser(row.userId).then((res) => {
         if (res.status == 200) {
           initData();
           ElMessage({

@@ -49,3 +49,32 @@ export function deleteOrderModel (orderModelId:number) {
 export function editOrderModel (orderModel:any) {
     return http.put('/isrpOrder/isrpOrderModel/edit', orderModel)
 }
+
+/**
+ * 查询订单模式和订单流程
+ * 
+ * @returns 
+ */
+export function queryModelAndProcess () {
+    return http.get('/isrpOrder/isrpOrderModel/queryModelAndProcess')
+}
+
+/**
+ * 批量添加流程
+ * 
+ * @param form 
+ * @returns 
+ */
+export function addProcessBatch (form : any) {
+    return http.post('/isrpOrder/isrpOrderProcess/addBatch', form)
+}
+
+/**
+ * 根据ModelId删除流程
+ * 
+ * @param number 
+ * @returns 
+ */
+export function deleteProcessByModelId (orderModelId : number) {
+    return http.delete('/isrpOrder/isrpOrderProcess/delete/' + orderModelId)
+}

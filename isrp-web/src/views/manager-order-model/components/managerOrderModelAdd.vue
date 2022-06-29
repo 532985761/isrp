@@ -1,5 +1,5 @@
 <template>
-  <el-button class="mt-4 w-screen" style="width: 100%" @click="onAddItem"
+  <el-button class="mt-4" style="width: 100%" @click="onAddItem"
     >添加订单模式</el-button
   >
   <el-drawer v-model="drawer" :direction="direction">

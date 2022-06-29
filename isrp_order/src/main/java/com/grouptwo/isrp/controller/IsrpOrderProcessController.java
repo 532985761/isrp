@@ -1,6 +1,8 @@
 package com.grouptwo.isrp.controller;
 
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import com.grouptwo.isrp.service.IsrpOrderProcessService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单流程表(IsrpOrderProcess)表控制层
@@ -42,7 +45,7 @@ public class IsrpOrderProcessController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("id")
     public ResponseEntity<IsrpOrderProcess> queryById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.isrpOrderProcessService.queryById(id));
     }
@@ -56,6 +59,18 @@ public class IsrpOrderProcessController {
     @PostMapping
     public ResponseEntity<IsrpOrderProcess> add(IsrpOrderProcess isrpOrderProcess) {
         return ResponseEntity.ok(this.isrpOrderProcessService.insert(isrpOrderProcess));
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param isrpOrderProcessPojoList 实体
+     * @return 新增结果
+     */
+    @RolesAuthorization(value = {"manager"})
+    @PostMapping("/addBatch")
+    public ResponseEntity<Integer> addBatch(@RequestBody List<IsrpOrderProcessPojo> isrpOrderProcessPojoList) {
+        return ResponseEntity.ok(this.isrpOrderProcessService.insertBatch(isrpOrderProcessPojoList));
     }
 
     /**
@@ -78,6 +93,12 @@ public class IsrpOrderProcessController {
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Integer id) {
         return ResponseEntity.ok(this.isrpOrderProcessService.deleteById(id));
+    }
+
+    @RolesAuthorization(value = {"manager"})
+    @DeleteMapping("/delete/{orderModelId}")
+    public ResponseEntity<Integer> deleteByOrderModelId(@PathVariable("orderModelId") Integer orderModelId) {
+        return ResponseEntity.ok(this.isrpOrderProcessService.deleteByModelId(orderModelId));
     }
 
 }

@@ -7,6 +7,15 @@
         <result property="orderModelName" column="order_model_name" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap type="com.grouptwo.isrp.pojo.IsrpOrderModelProcess" id="IsrpOrderModelProcessMap">
+        <result property="orderModelId" column="order_model_id" jdbcType="INTEGER"/>
+        <result property="orderModelName" column="order_model_name" jdbcType="VARCHAR"/>
+        <collection property="orderProcessList" ofType="com.grouptwo.isrp.entity.IsrpOrderProcess">
+            <result property="orderProcessId" column="order_process_id" jdbcType="INTEGER"/>
+            <result property="orderProcessName" column="order_process_name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
     <!--查询单个-->
     <select id="queryById" resultMap="IsrpOrderModelMap">
         select
@@ -29,6 +38,23 @@
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--查询指定行model和process数据-->
+    <select id="queryIsrpOrderModelProcessAllByLimit" resultMap="IsrpOrderModelProcessMap">
+        select
+        m.*, p.order_process_id, p.order_process_name
+        from isrp_order_model m
+        left join isrp_order_process p on m.order_model_id = p.order_model_id
+        <where>
+            <if test="isrpOrderModel.orderModelId != null">
+                and m.order_model_id = #{isrpOrderModel.orderModelId}
+            </if>
+            <if test="isrpOrderModel.orderModelName != null and isrpOrderModel.orderModelName != ''">
+                and m.order_model_name = #{isrpOrderModel.orderModelName}
+            </if>
+        </where>
+        order by p.order_process_id asc
     </select>
 
     <!--统计总行数-->

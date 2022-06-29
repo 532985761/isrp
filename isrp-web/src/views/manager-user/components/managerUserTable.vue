@@ -80,7 +80,7 @@
           width="200"
         ></el-table-column>
         <el-table-column label="操作" width="550">
-          <!-- <template #default="scope">
+          <template #default="scope">
             <el-button
               link
               type="danger"
@@ -89,7 +89,7 @@
             >
               删除
             </el-button>
-          </template> -->
+          </template>
         </el-table-column>
       </el-table>
       <div class="flex justify-center m-1">
@@ -127,7 +127,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, watch, ref, toRef } from "vue";
-import { queryUserByPage } from "@/api/user";
+import { queryUserByPage, deleteUser } from "@/api/user";
 import { ElMessage, ElMessageBox } from "element-plus";
 
 const props = defineProps({
@@ -175,29 +175,25 @@ const handleCurrentChange = (val: number) => {
   currentPage.value = val;
   initData();
 };
-// const deleteRow = (scope: any) => {
-//   ElMessageBox.confirm(
-//     `您确定删除订单模式： ${scope.orderModelName} ?`,
-//     "提示",
-//     {
-//       confirmButtonText: "确定",
-//       cancelButtonText: "取消",
-//     }
-//   )
-//     .then(() => {
-//       deleteOrderModel(scope.orderModelId).then((res) => {
-//         if (res.status == 200) {
-//           initData();
-//           ElMessage({
-//             message: "删除成功",
-//             type: "success",
-//             duration: 2000,
-//           });
-//         }
-//       });
-//     })
-//     .catch(() => {
-//       // catch error
-//     });
-// };
+const deleteRow = (scope: any) => {
+  ElMessageBox.confirm(`您确定删除订单模式： ${scope.email} ?`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+  })
+    .then(() => {
+      deleteUser(scope.userId).then((res) => {
+        if (res.status == 200) {
+          initData();
+          ElMessage({
+            message: "删除成功",
+            type: "success",
+            duration: 2000,
+          });
+        }
+      });
+    })
+    .catch(() => {
+      // catch error
+    });
+};
 </script>

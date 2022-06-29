@@ -11,6 +11,7 @@
         <el-form
           ref="formRef"
           :model="validateForm"
+          label-position="top"
           label-width="100px"
           class="demo-ruleForm"
           size="large"
@@ -21,7 +22,7 @@
             :rules="[{ required: true, message: '模式名称不能为空' }]"
           >
             <el-input
-              v-model.number="validateForm.orderModelName"
+              v-model.string="validateForm.orderModelName"
               type="text"
               autocomplete="off"
             />
@@ -41,8 +42,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { ElMessage, ElMessageBox } from "element-plus";
-import type { FormInstance } from "element-plus";
+import { ElMessage, ElMessageBox, FormInstance } from "element-plus";
 import { addOrderModel } from "@/api/order";
 
 const drawer = ref(false);

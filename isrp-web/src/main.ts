@@ -4,6 +4,7 @@ import { useCookies } from '@vueuse/integrations/useCookies'
 import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 import App from './App.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -36,7 +37,7 @@ store.use(piniaPlugin({
 }))
 app.use(store)
 // Element-Plus
-app.use(ElementPlus)
+app.use(ElementPlus, {locale})
 // 路由
 app.use(router)
 

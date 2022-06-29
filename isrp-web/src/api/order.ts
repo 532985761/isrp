@@ -39,3 +39,13 @@ export function addOrderModel (orderModelName:string) {
 export function deleteOrderModel (orderModelId:number) {
     return http.delete('/isrpOrder/isrpOrderModel/delete/' + orderModelId)
 }
+
+/**
+ * 修改订单模式
+ * 
+ * @param orderModel 
+ * @returns 
+ */
+export function editOrderModel (orderModel:any) {
+    return http.put('/isrpOrder/isrpOrderModel/edit', orderModel)
+}

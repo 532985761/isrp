@@ -98,20 +98,20 @@ public class IsrpOrder implements Serializable {
     /**
      * 发货时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime deliveryTime;
     /**
      * 收货时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime receiveTime;
     /**
      * 评论时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifyTime;
 
 

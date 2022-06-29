@@ -56,7 +56,7 @@ feign:
     config:
       default:
         connect-timeout: 5000
-        read-timeout: 50000
+        read-timeout: 5000
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 server:

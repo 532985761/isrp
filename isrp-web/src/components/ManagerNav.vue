@@ -1,8 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-header class="text-center m-5 text-3xl font-bold"
-        >智能化共享租赁平台系统 <span class="text-sm">管理平台v1.0</span>
+      <el-header
+        class="m-5 text-3xl font-bold flex justify-center items-center"
+      >
+        <el-image class="h-[35px]" src="/src/assets/znzzlogo.png"></el-image>
+        智能化共享租赁平台系统
+        <span class="text-sm">| 管理平台v1.0</span>
       </el-header>
       <el-container>
         <el-aside :width="navWidth">

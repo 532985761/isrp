@@ -75,8 +75,9 @@ public class IsrpOrderModelController {
      * @param isrpOrderModel 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<IsrpOrderModel> edit(IsrpOrderModel isrpOrderModel) {
+    @RolesAuthorization(value = {"manager"})
+    @PutMapping("edit")
+    public ResponseEntity<IsrpOrderModel> edit(@RequestBody IsrpOrderModel isrpOrderModel) {
         return ResponseEntity.ok(this.isrpOrderModelService.update(isrpOrderModel));
     }
 

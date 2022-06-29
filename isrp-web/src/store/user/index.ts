@@ -29,6 +29,7 @@ export const userStore = defineStore(Names.user, {
         setToken(tokenHeader:any, token:any){
             this.token = tokenHeader + ' ' + token
         },
+        // 退出登录
         logout() {
             this.info = ""
             this.token = ""

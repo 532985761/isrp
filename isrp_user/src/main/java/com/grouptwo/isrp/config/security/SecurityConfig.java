@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private IsrpUserService isrpUserService;
+    private IsrpUserService userService;
 
     @Resource
     private RestAuthorizationEntityPoint restAuthorizationEntityPoint;
@@ -72,8 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 授权认证
                 "/isrpAuth/authentication",
                 "/isrpUser/emailInner/**",
-                //用户账号激活
+                "/isrpUser/activation/**",
                 "/activation/**"
+                // 测试
+                // "/t/**"
         );
     }
 
@@ -82,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return username -> {
-            SysUserDetails user = JSON.parseObject(JSON.toJSONString(isrpUserService.queryByEmail(username)), SysUserDetails.class);
+            SysUserDetails user = JSON.parseObject(JSON.toJSONString(userService.queryByEmail(username)), SysUserDetails.class);
             if(null != user) {
                 return user;
             }

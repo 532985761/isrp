@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.pojo.IsrpUserAddPojo;
 import com.grouptwo.isrp.pojo.LoginForm;
 import com.grouptwo.isrp.pojo.LoginFormPojo;
 import org.springframework.data.domain.Page;
@@ -56,10 +57,10 @@ public interface IsrpUserService {
     /**
      * 新增数据
      *
-     * @param isrpUser 实例对象
+     * @param isrpUserAddPojo 实例对象
      * @return 实例对象
      */
-    IsrpUser insert(IsrpUser isrpUser);
+    IsrpUser insert(IsrpUserAddPojo isrpUserAddPojo);
 
     /**
      * 修改数据

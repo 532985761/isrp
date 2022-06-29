@@ -17,9 +17,9 @@ export function getAllGoods() {
 /**
  * 查询商品一级分类
  */
-export function queryByPageGetGoodsCategoryFirst() {
+export function queryByPageGetGoodsCategoryFirst(page:number, size:number) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=1&size=4"
+    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=+"+page+"&size="+size
   );
 }
 /**

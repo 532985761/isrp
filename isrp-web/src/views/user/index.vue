@@ -259,7 +259,7 @@ const showTabFalse = () => {
 let goodsCategoryFirst: any = ref({});
 
 onMounted(async () => {
-  await queryByPageGetGoodsCategoryFirst().then((res) => {
+  await queryByPageGetGoodsCategoryFirst(1,4).then((res) => {
     goodsCategoryFirst.value = res.data.content;
   });
 });

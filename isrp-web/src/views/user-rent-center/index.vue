@@ -13,8 +13,8 @@
           首页</el-breadcrumb-item
         >
         <el-breadcrumb-item>租赁中心</el-breadcrumb-item>
-        <el-breadcrumb-item>{{info.firstName}}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{info.secondName}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ info.goodsCategoryFirst }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ info.goodsCategorySecond }}</el-breadcrumb-item>
       </el-breadcrumb></el-col
     >
   </el-row>
@@ -96,12 +96,18 @@
     /></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11">
       <el-card v-for="(i, index) in goodsDetail" :key="index">
-        <el-descriptions class="margin-top mt-5" :column="2" :title="'商品名称：'+i.goods.goodsName" border>
+        <el-descriptions
+          class="margin-top mt-5"
+          :column="2"
+          :title="'商品名称：' + i.goods.goodsName"
+          border
+          
+        >
           <template #extra>
             <el-button type="primary">查看待租商品详情</el-button>
-            <el-button type="danger">立即下单租用</el-button>
+            <el-button type="danger" @click="rentGoods">立即下单租用</el-button>
           </template>
-          <el-descriptions-item>
+          <el-descriptions-item align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -112,7 +118,7 @@
             </template>
             {{ i.user.nickname }}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -123,7 +129,7 @@
             </template>
             给商家发消息
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -132,9 +138,9 @@
                 所在位置
               </div>
             </template>
-           {{ i.user.addressCity}}
+            {{ i.user.addressCity }}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -143,9 +149,9 @@
                 租赁方式
               </div>
             </template>
-            <el-tag size="small">{{i.goodsModal.orderModelName}}</el-tag>
+            <el-tag size="small">{{ i.goodsModal.orderModelName }}</el-tag>
           </el-descriptions-item>
-          <el-descriptions-item width="200px">
+          <el-descriptions-item width="200px" align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -153,11 +159,12 @@
                 </el-icon>
                 商品租用价格
               </div>
-            </template>            <el-tag size="large" type="danger">
-            {{i.goods.goodsPrice}}元</el-tag>
-
+            </template>
+            <el-tag size="large" type="danger">
+              {{ i.goods.goodsPrice }}元</el-tag
+            >
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item align="center">
             <template #label>
               <div class="cell-item">
                 <el-icon>
@@ -168,13 +175,26 @@
             </template>
             <el-image class="h-100px w-198px" src="/src/assets/znzzlogo.png" />
           </el-descriptions-item>
-          546546</el-descriptions
+          </el-descriptions
         ><el-divider>
           <el-icon><CaretBottom /></el-icon>
         </el-divider> </el-card
     ></el-col>
   </el-row>
-  {{ goodsDetail }}
+<!-- 模态框 -->
+   <el-dialog v-model="centerDialogVisible" title="提示信息" width="30%" center>
+    <span
+      >确认加入购物车吗？</span
+    >
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false"
+          >确认</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
@@ -190,6 +210,7 @@ import VueEvent from "@/utils/event";
 let info: any = ref({});
 const activeName = ref("6");
 const goodsCategoryFirst = ref();
+const centerDialogVisible = ref(false)
 onBeforeMount(() => {
   getRentCenterInfoFromGoodsCategoryId(
     router.currentRoute.value.params.firstId.toString(),
@@ -203,7 +224,7 @@ onBeforeMount(() => {
     console.log(info.value);
   });
   //查询所有一级分类
-  queryByPageGetGoodsCategoryFirst().then((res) => {
+  queryByPageGetGoodsCategoryFirst(1, 100).then((res) => {
     goodsCategoryFirst.value = res.data.content;
   });
 });
@@ -247,7 +268,6 @@ const goodsDetail = ref([
     },
     goodsModal: { orderModelId: 1, orderModelName: "先租后买" },
   },
-
 ]);
 //改变激活状态
 const changeGoodsInfo = async (one, two) => {
@@ -263,5 +283,9 @@ const changeGoodsInfo = async (one, two) => {
     console.log(goodsDetail.value);
   });
 };
+//加入购物车
+const rentGoods = ()=>{
+  centerDialogVisible.value = true
+}
 </script>
 <style></style>

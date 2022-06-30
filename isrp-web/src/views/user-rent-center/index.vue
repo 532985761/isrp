@@ -9,7 +9,7 @@
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item
           :to="{ path: '/isrpUser/index' }"
-         
+
         >
           首页</el-breadcrumb-item
         >
@@ -287,10 +287,10 @@ const rentGoods = () => {
 };
 //查看商品详情
 const lookGoodsDetail = (id)=>{
-      router.push("/isrpUser/goodsdetail/2");
+      router.push("/isrpUser/goodsdetail/"+id);
     // getGoodsDetails().then((res) => {})
     console.log(id);
-    
+
 
 }
 </script>

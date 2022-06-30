@@ -1,12 +1,12 @@
-import http from '@/axios'
+import http from "@/axios";
 
 /**
  * 测试接口
  *
  * @returns
  */
-export function testGoodsApi () {
-    return http.get('/isrpGoods/t/test')
+export function testGoodsApi() {
+  return http.get("/isrpGoods/t/test");
 }
 /**
  * 查询所有商品
@@ -17,22 +17,25 @@ export function getAllGoods() {
 /**
  * 查询商品一级分类
  */
-export function queryByPageGetGoodsCategoryFirst(page:number, size:number) {
+export function queryByPageGetGoodsCategoryFirst(page: number, size: number) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=+"+page+"&size="+size
+    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=+" +
+      page +
+      "&size=" +
+      size
   );
 }
 /**
  * 通过userId查询商品信息
  */
-export function selectGoodsByUserId(userId){
-    return http.get('/isrpGoods/isrpGoods/selectGoodsByUserId/'+userId)
+export function selectGoodsByUserId(userId) {
+  return http.get("/isrpGoods/isrpGoods/selectGoodsByUserId/" + userId);
 }
 /**
  * 通过goodsId删除商品
  */
-export function deleteGoodsByGoodsId(goodsId){
-    return http.get('/isrpGoods/isrpGoods/deleteGoodsById/'+goodsId)
+export function deleteGoodsByGoodsId(goodsId) {
+  return http.get("/isrpGoods/isrpGoods/deleteGoodsById/" + goodsId);
 }
 /**
  * 查询商品二级分类
@@ -51,10 +54,23 @@ export function queryByPageGetGoodsCategorySecond(
 /**
  * 查询商品二级分类获得一级分类信息
  */
-export function getRentCenterInfoFromGoodsCategoryId(firstId:string,secondId:string) {
+export function getRentCenterInfoFromGoodsCategoryId(
+  firstId: string,
+  secondId: string
+) {
   return http.get(
-    "/isrpGoods/isrpGoods/getRentCenterInfoFromGoodsCategoryId?firstId="+firstId+"&secondId="+secondId
+    "/isrpGoods/isrpGoods/getRentCenterInfoFromGoodsCategoryId?firstId=" +
+      firstId +
+      "&secondId=" +
+      secondId
   );
+}
+
+/**
+ * 查询商品详情
+ */
+export function getGoodsDetailsByGoodsId(id:number) {
+  return http.get("/isrpGoods/isrpGoods/getGoodsDetailsByGoodsId/"+id);
 }
 /**
  * 搜索商品

@@ -3,6 +3,7 @@ package com.grouptwo.isrp.service;
 import com.grouptwo.isrp.entity.IsrpGoods;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -83,4 +84,6 @@ public interface IsrpGoodsService {
     List<IsrpGoods> selectGoodsByGoodsName(String goodsName);
 
     Map<String, Object> getGoodsInfo(int firstId, int secondId);
+
+    Map<String,Object> getGoodsDetailsByGoodsId(Long id);
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品表(IsrpGoods)表服务接口
@@ -73,4 +74,6 @@ public interface IsrpGoodsService {
      * @return 返回用户的商品信息
      */
     List<IsrpGoods> selectGoodsByUserId(String userId);
+
+    Map<String, Object> getGoodsInfo(int firstId, int secondId);
 }

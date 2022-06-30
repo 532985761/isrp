@@ -84,5 +84,7 @@ public interface IsrpGoodsCategorySecondDao {
     int deleteById(Integer goodsCategorySecondId);
 
     int getGoodsCategoryFirst(int id);
+
+    List<IsrpGoodsCategorySecond> getGoodsCategorySecondByFirstId(int firstId);
 }
 

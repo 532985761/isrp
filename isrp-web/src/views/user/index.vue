@@ -62,13 +62,15 @@
             v-for="(i, index) in goodsCategorySecond"
             :key="index"
           >
-             <router-link
-                :to="{name:'rentCenter',params:{firstId:firstId,secondId:i.goodsCategorySecondId}}"
-                ><el-button  plain>
-             {{ i.goodsCategorySecondName }}</el-button
-            ></router-link
-              >
-
+            <router-link
+              :to="{
+                name: 'rentCenter',
+                params: { firstId: firstId, secondId: i.goodsCategorySecondId },
+              }"
+              ><el-button plain>
+                {{ i.goodsCategorySecondName }}</el-button
+              ></router-link
+            >
           </div>
         </el-card>
       </el-card>
@@ -236,9 +238,8 @@ const userInfo = userStore();
 //获取商品陪你二级分类信息
 //获取第二栏左侧导航商品二级信息
 let goodsCategorySecond: any = ref({});
-const firstId = ref()
+const firstId = ref();
 const selectMenu: any = (name, index) => {
-  console.log(name,index);
   firstId.value = index;
   showTab.value = true;
   setTimeout(() => {
@@ -258,7 +259,7 @@ const showTabFalse = () => {
 let goodsCategoryFirst: any = ref({});
 
 onMounted(async () => {
-  await queryByPageGetGoodsCategoryFirst().then((res) => {
+  await queryByPageGetGoodsCategoryFirst(1,4).then((res) => {
     goodsCategoryFirst.value = res.data.content;
   });
 });

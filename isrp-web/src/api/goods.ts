@@ -17,9 +17,9 @@ export function getAllGoods() {
 /**
  * 查询商品一级分类
  */
-export function queryByPageGetGoodsCategoryFirst() {
+export function queryByPageGetGoodsCategoryFirst(page:number, size:number) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=1&size=4"
+    "/isrpGoods/isrpGoodsCategoryFirst/queryByPageGetGoodsCategoryFirst?page=+"+page+"&size="+size
   );
 }
 /**
@@ -51,8 +51,8 @@ export function queryByPageGetGoodsCategorySecond(
 /**
  * 查询商品二级分类获得一级分类信息
  */
-export function getRentCenterInfoFromGoodsCategoryId(firstId:any,secondId:any) {
+export function getRentCenterInfoFromGoodsCategoryId(firstId:string,secondId:string) {
   return http.get(
-    "/isrpGoods/isrpGoodsCategorySecond/getRentCenterInfoFromGoodsCategoryId?firstId=" + firstId+"&secondId="+secondId
+    "/isrpGoods/isrpGoods/getRentCenterInfoFromGoodsCategoryId?firstId="+firstId+"&secondId="+secondId
   );
 }

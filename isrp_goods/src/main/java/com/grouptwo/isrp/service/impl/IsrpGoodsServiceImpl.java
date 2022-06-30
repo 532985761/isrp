@@ -170,4 +170,18 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     public List<IsrpGoods> selectGoodsByGoodsName(String goodsName) {
         return isrpGoodsDao.selectGoodsByGoodsName(goodsName);
     }
+
+    @Override
+    public Map<String, Object> getGoodsDetailsByGoodsId(Long id) {
+        Map<String,Object> map = new HashMap<>();
+         IsrpGoodsCategorySecond isrpGoodsCategorySecond = isrpGoodsCategorySecondService.queryById(isrpGoodsService.queryById(id)
+                .getGoodsCategorySecondId());
+        map.put("goodsCategorySecond",isrpGoodsCategorySecond.getGoodsCategorySecondName());
+         IsrpGoodsCategoryFirst isrpGoodsCategoryFirst = isrpGoodsCategoryFirstService.queryById(isrpGoodsCategorySecond.getGoodsCategoryFirstId());
+        map.put("goodsCategoryFirst",isrpGoodsCategoryFirst.getGoodsCategoryFirstName());
+        map.put("user",userClient.queryUserById(isrpGoodsService.queryById(id).getUserId()));
+        map.put("goods",isrpGoodsService.queryById(id));
+        map.put("model",orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId()));
+        return map;
+    }
 }

@@ -10,7 +10,7 @@
           ><el-icon><Back /></el-icon>&nbsp;&nbsp;返回主页</el-button
         >
 </router-link>
-       
+
         请选择需要下单的商品进行操作
 
         <!-- <el-button>返回上一页</el-button> -->
@@ -46,7 +46,7 @@
             class="ml-15"
             width="160"
           >
-            <template #default="scope">
+            <template #default>
               <span class="ml-18">x1</span>
             </template>
           </el-table-column>
@@ -115,7 +115,7 @@
             class="w-200px h-60px -mt-4"
             >结算</el-button
           ></router-link>
-         
+
         </div>
       </el-card>
     </el-col>

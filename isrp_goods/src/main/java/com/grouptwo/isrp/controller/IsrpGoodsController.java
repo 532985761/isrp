@@ -142,13 +142,27 @@ public class IsrpGoodsController {
     public ResponseEntity selectGoodsByUserId(@PathVariable("userId") String userId) {
         return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByUserId(userId));
     }
-    @RolesAuthorization
+
+    @RolesAuthorization(value = {"user"})
     @GetMapping("/getRentCenterInfoFromGoodsCategoryId")
     public ResponseEntity getRentCenterInfoFromGoodsCategoryId(int firstId,int secondId){
         Map<String,Object> list = isrpGoodsService.getGoodsInfo(firstId,secondId);
 
         return  new ResponseEntity(list, HttpStatus.OK);
     }
+
+    /**
+     * 根据商品ID获取对应的商品信息和商户信息
+     * @param id
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/getGoodsDetailsByGoodsId/{id}")
+    public ResponseEntity getGoodsDetailsByGoodsId(@PathVariable("id") Long id){
+        return new ResponseEntity(isrpGoodsService.getGoodsDetailsByGoodsId(id),HttpStatus.OK);
+    }
+
+
     /**
      * 搜索商品列表
      */

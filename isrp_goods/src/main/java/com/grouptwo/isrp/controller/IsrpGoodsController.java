@@ -81,7 +81,11 @@ public class IsrpGoodsController {
     public ResponseEntity<IsrpGoods> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.isrpGoodsService.queryById(id));
     }
-
+//    @GetMapping("/getGoods/{goodsIds}")
+//    public ResponseEntity getGoods(@PathVariable("goodsIds") List<Long> goodsIds){
+//        System.out.println(goodsIds);
+//        return new ResponseEntity("ok",HttpStatus.OK);
+//    }
     /**
      * 新增商品
      *
@@ -145,7 +149,13 @@ public class IsrpGoodsController {
 
         return  new ResponseEntity(list, HttpStatus.OK);
     }
-
-
+    /**
+     * 搜索商品列表
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectGoodsByGoodsName/{goodsName}")
+    public ResponseEntity selectGoodsByGoodsName(@PathVariable( "goodsName" ) String goodsName){
+        return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByGoodsName(goodsName));
+    }
 }
 

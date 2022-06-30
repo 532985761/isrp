@@ -160,4 +160,14 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
         map.put("goodsInfo",list);
         return map;
     }
+
+    /**
+     * 搜索商品信息
+     * @param goodsName
+     * @return 商品信息列表
+     */
+    @Override
+    public List<IsrpGoods> selectGoodsByGoodsName(String goodsName) {
+        return isrpGoodsDao.selectGoodsByGoodsName(goodsName);
+    }
 }

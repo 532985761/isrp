@@ -103,6 +103,29 @@ public class IsrpOrderController {
         }
 
     }
-
+    /**
+     * 通过商家id查询待支付订单
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectOrderIndexByShopUserId/{shopUserId}")
+    public ResponseEntity selectOrderIndexByShopUserId(@PathVariable("shopUserId") String shopUserId){
+        return ResponseEntity.ok(this.isrpOrderService.selectOrderIndexByShopUserId(shopUserId));
+    }
+    /**
+     * 通过商家id 查询已完成订单
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectOrderFinishByShopUserId/{shopUserId}")
+    public ResponseEntity selectOrderFinishByShopUserId(@PathVariable("shopUserId") String shopUserId){
+        return ResponseEntity.ok(this.isrpOrderService.selectOrderFinishByShopUserId(shopUserId));
+    }
+    /**
+     * 通过商家id查询所有订单
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectOrderAllByShopUserId/{shopUserId}")
+    public ResponseEntity selectOrderAllByShopUserId(@PathVariable("shopUserId") String shopUserId){
+        return ResponseEntity.ok(this.isrpOrderService.selectOrderAllByShopUserId(shopUserId));
+    }
 }
 

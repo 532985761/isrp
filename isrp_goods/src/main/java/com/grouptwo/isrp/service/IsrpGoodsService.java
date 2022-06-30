@@ -75,5 +75,12 @@ public interface IsrpGoodsService {
      */
     List<IsrpGoods> selectGoodsByUserId(String userId);
 
+    /**
+     * 搜索商品列表
+     * @param goodsName
+     * @return 对应的商品列表信息
+     */
+    List<IsrpGoods> selectGoodsByGoodsName(String goodsName);
+
     Map<String, Object> getGoodsInfo(int firstId, int secondId);
 }

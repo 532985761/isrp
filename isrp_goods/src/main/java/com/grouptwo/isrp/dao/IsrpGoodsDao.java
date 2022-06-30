@@ -83,6 +83,18 @@ public interface IsrpGoodsDao {
 
     List<IsrpGoods> queryAllGoods();
 
+    /**
+     * 通过goodsId查询商品
+     * @param userId
+     * @return
+     */
     List<IsrpGoods> selectGoodsByUserId(String userId);
+
+    /**
+     * 搜索商品
+     * @param goodsName
+     * @return 商品信息列表
+     */
+    List<IsrpGoods> selectGoodsByGoodsName(String goodsName);
 }
 

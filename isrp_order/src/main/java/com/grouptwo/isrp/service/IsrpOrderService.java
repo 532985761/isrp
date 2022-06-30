@@ -63,4 +63,26 @@ public interface IsrpOrderService {
     List<IsrpOrder> selectAllOrders();
 
     Map<String, Object> insertOrderByGoodsId(Integer goodsId);
+
+    /**
+     * 通过商家id查询待支付订单
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderIndexByShopUserId(String shopUserId);
+
+    /**
+     * 通过商家id查询已完成的订单
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderFinishByShopUserId(String shopUserId);
+    /**
+     * 通过商家id查询所有的订单
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId);
+
+//    Map<String,Object> getUserAndOrderInfo(String userId);
 }

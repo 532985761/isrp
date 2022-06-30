@@ -18,21 +18,40 @@ export const user: Array<RouteRecordRaw> = [
       },
       {
         // 商品详情
-        path: "goodsdetail",
+        path: "goodsdetail/:id",
         name: 'goodsdetail',
-        component: () => import("@/views/user/components/GoodsDetail.vue"),
+        component: () => import("@/views/goods-detail/GoodsDetail.vue"),
       },
       {
-        // 商品详情
+        // 租赁中心
         path: "rentCenter/:firstId/:secondId",
         name: 'rentCenter',
         component: () => import("@/views/user-rent-center/index.vue"),
       },
+      {
+        // 购物车页面
+        path: "userCart",
+        component: () => import("@/views/user-cart/index.vue"),
+      },
+      {
+        // 提交订单页
+        path: "confirmOrder",
+        name:"confirmOrder",
+        component: () => import("@/views/user-cart-to-order/index.vue"),
+      },
+      // {
+      //   // 商品详情页
+      //   path: "goodsdetail/:id",
+      //   name:"goodsDetail",
+      //   component: () => import("@/views/goods-detail/index.vue"),
+      // },
     ],
   },
   {
     // 登录页面
     path: "/userLogin",
+    name: "/userLogin",
     component: () => import("@/views/UserLogin.vue"),
   },
+  
 ];

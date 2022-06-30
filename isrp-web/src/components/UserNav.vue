@@ -15,7 +15,10 @@
       <span class="ml-3"> 欢迎来到智租网平台</span></el-menu-item
     >
     <div class="flex-grow" />
-    <el-menu-item index="1">我的购物车</el-menu-item>
+    <router-link to="/isrpUser/userCart"
+      ><el-menu-item index="1">我的购物车</el-menu-item></router-link
+    >
+
     <el-menu-item index="3"> </el-menu-item>
 
     <el-sub-menu index="2">
@@ -37,6 +40,8 @@
       >
     </el-sub-menu>
   </el-menu>
+
+  
   <el-row class="bg-light-600">
     <el-col :span="24"
       ><div class="grid-content ep-bg-purple-dark">
@@ -48,65 +53,9 @@
       </div></el-col
     >
   </el-row>
-  <el-row>
-    <el-col :span="24" class="bg-light-600">
-      <el-row :gutter="10">
-        <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"></el-col>
-        <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11" class="mt-6">
-          <div style="display: inline-block">
-            <el-input
-              v-model="keyWord"
-              class="w-195"
-              size="large"
-              placeholder="在此搜索你想租赁的商品"
-              :suffix-icon="Search"
-            />
-            <el-button type="primary" class="h-10">点击搜索</el-button>
-          </div>
-          <div style="display: inline-block; float: right" class="w-222px">
-            <el-image
-              class="h-100px w-198px kenburns-top"
-              src="/src/assets/znzzlogo.png"
-            />
-          </div>
 
-          <!-- <div style="float: right;border: 1px solid black" class="mt-4 -ml-30 border-gray-500" >
-            <el-icon ><ShoppingCartFull /></el-icon><span class="ml-4 border-red-500">查看购物车</span>
-          </div> -->
-          <el-row
-            ><el-col :span="5" class="mt-5"
-              ><div
-                class="h-10 text-center text-1.5xl w-190px"
-                style="
-                  background-color: #fc3737;
-                  color: white;
-                  font-family: 'Lucida Calligraphy', cursive, serif, sans-serif;
-                "
-              >
-                <el-icon><HotWater /></el-icon>
-                <span style="line-height: 40px">热门推荐商品</span>
-                &nbsp;<el-icon :size="13"><ArrowRightBold /></el-icon></div
-            ></el-col>
-            <el-col :span="17" class="mt-5"
-              ><el-tabs
-                v-model="activeName"
-                class="demo-tabs ml-10"
-                @tab-click="handleClick"
-              >
-                <el-tab-pane label="首页" name="5"> </el-tab-pane>
-                <el-tab-pane label="智慧租中心" name="6"></el-tab-pane>
-                <el-tab-pane label="秒杀活动" name="1"></el-tab-pane>
-                <el-tab-pane label="共享租赁" name="2"></el-tab-pane>
-                <el-tab-pane label="先租后买" name="3"></el-tab-pane>
-                <el-tab-pane
-                  label="已租代售"
-                  name="4"
-                ></el-tab-pane> </el-tabs></el-col
-          ></el-row>
-        </el-col> </el-row
-    ></el-col>
-  </el-row>
-  <router-view ></router-view>
+  <router-view></router-view>
+  <!-- 底部 -->
   <el-footer>
     <el-divider>
       <span class="italic text-lg">CopyRight By @grouptwo</span>
@@ -143,7 +92,6 @@ const logout = () => {
   });
 };
 
-
 const nickname = userstore.info.nickname;
 const activeName = ref("5");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
@@ -160,6 +108,11 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 //激活导航栏
 VueEvent.on("tomsg", (value: any) => {
   activeName.value = value.data;
+});
+//显示div
+const showDiv = ref(true);
+VueEvent.on("showDiv", (value: any) => {
+  showDiv.value = value.data;
 });
 </script>
 

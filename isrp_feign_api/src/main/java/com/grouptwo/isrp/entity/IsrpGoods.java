@@ -12,14 +12,22 @@ import java.io.Serializable;
  * 商品表(IsrpGoods)实体类
  *
  * @author makejava
- * @since 2022-06-27 10:08:13
+ * @since 2022-06-30 16:12:38
  */
 public class IsrpGoods implements Serializable {
-    private static final long serialVersionUID = -92215280515976064L;
+    private static final long serialVersionUID = -64811633993740194L;
     /**
      * 商品ID
      */
     private Long goodsId;
+    /**
+     * 二级分类ID
+     */
+    private Integer goodsCategorySecondId;
+    /**
+     * 用户ID
+     */
+    private String userId;
     /**
      * 商品名称
      */
@@ -41,25 +49,27 @@ public class IsrpGoods implements Serializable {
      */
     private Long goodsSaleCount;
     /**
-     * 商品状态:1为暂未被购买;0为已购买
+     * 订单模式ID
+     */
+    private Integer orderModelId;
+    /**
+     * 商品状态:1为已发布商品;0为待审核
      */
     private Integer goodsStatus;
     /**
      * 创建时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime createTime;
-
-    private Integer goodsCategorySecondId;
     /**
-     * 用户ID
+     * 限制租用时间，以租代售，先租后买
      */
-    private String userId;
+    private Double rentLimitDays;
     /**
-     * 订单模式ID
+     * 每天租用价钱
      */
-    private Integer orderModelId;
+    private Double rentPricePerDay;
 
 
     public Long getGoodsId() {
@@ -68,6 +78,22 @@ public class IsrpGoods implements Serializable {
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public Integer getGoodsCategorySecondId() {
+        return goodsCategorySecondId;
+    }
+
+    public void setGoodsCategorySecondId(Integer goodsCategorySecondId) {
+        this.goodsCategorySecondId = goodsCategorySecondId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getGoodsName() {
@@ -110,6 +136,14 @@ public class IsrpGoods implements Serializable {
         this.goodsSaleCount = goodsSaleCount;
     }
 
+    public Integer getOrderModelId() {
+        return orderModelId;
+    }
+
+    public void setOrderModelId(Integer orderModelId) {
+        this.orderModelId = orderModelId;
+    }
+
     public Integer getGoodsStatus() {
         return goodsStatus;
     }
@@ -126,28 +160,20 @@ public class IsrpGoods implements Serializable {
         this.createTime = createTime;
     }
 
-    public Integer getGoodsCategorySecondId() {
-        return goodsCategorySecondId;
+    public Double getRentLimitDays() {
+        return rentLimitDays;
     }
 
-    public void setGoodsCategorySecondId(Integer goodsCategorySecondId) {
-        this.goodsCategorySecondId = goodsCategorySecondId;
+    public void setRentLimitDays(Double rentLimitDays) {
+        this.rentLimitDays = rentLimitDays;
     }
 
-    public String getUserId() {
-        return userId;
+    public Double getRentPricePerDay() {
+        return rentPricePerDay;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Integer getOrderModelId() {
-        return orderModelId;
-    }
-
-    public void setOrderModelId(Integer orderModelId) {
-        this.orderModelId = orderModelId;
+    public void setRentPricePerDay(Double rentPricePerDay) {
+        this.rentPricePerDay = rentPricePerDay;
     }
 
 }

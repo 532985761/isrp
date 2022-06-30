@@ -3,6 +3,7 @@ package com.grouptwo.isrp.controller;
 import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.service.IsrpOrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,5 +38,15 @@ public class TestController {
     }
 
 
+
+
+    /**
+     * 测试调用feign接口查找用户信息根据ID
+     */
+//    @GetMapping("/getUserAndOrderInfo/{id}")
+//    public ResponseEntity getUserById(@PathVariable("id") String userId){
+//
+//        return new ResponseEntity( isrpOrderService.getUserAndOrderInfo(userId), HttpStatus.OK);
+//    }
 
 }

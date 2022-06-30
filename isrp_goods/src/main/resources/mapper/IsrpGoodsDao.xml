@@ -202,6 +202,17 @@
             rent_price_per_day        from isrp_goods
         where user_id = #{userId}
     </select>
+<!--搜索商品-->
+    <select id="selectGoodsByGoodsName" resultMap="IsrpGoodsMap">
+      SELECT
+        goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time,
+        goods_category_second_id, user_id, order_model_id
+      FROM isrp_goods
+      where goods_name like concat('%',#{goodsName},'%')
+
+
+
+    </select>
 
     <insert id="insertOrUpdateBatch" keyProperty="goodsId" useGeneratedKeys="true">
         insert into isrp_goods(goods_category_second_id, user_id, goods_name, goods_desc, goods_img, goods_price,

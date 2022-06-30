@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,4 +18,6 @@ public interface GoodsClient {
     @GetMapping("/isrpGoods/isrpGoods/{goodsId}")
     IsrpGoods queryByGoodsId(@PathVariable("goodsId") Integer goodsId);
 
+//    @GetMapping("/isrpGoods/isrpGoods/getGoods/{goodsIds}")
+//    Map queryByGoodsIds(@PathVariable("goodsIds") List<Long> goodsIds);
 }

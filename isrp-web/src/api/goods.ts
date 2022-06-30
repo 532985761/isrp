@@ -56,3 +56,9 @@ export function getRentCenterInfoFromGoodsCategoryId(firstId:string,secondId:str
     "/isrpGoods/isrpGoods/getRentCenterInfoFromGoodsCategoryId?firstId="+firstId+"&secondId="+secondId
   );
 }
+/**
+ * 搜索商品
+ */
+export function selectGoodsByGoodsName(goodsName:string){
+  return http.get('/isrpGoods/isrpGoods/selectGoodsByGoodsName/'+goodsName)
+}

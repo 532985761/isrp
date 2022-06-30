@@ -87,5 +87,25 @@ public interface IsrpOrderDao {
      *
      */
     List<IsrpOrder> selectAllOrders();
+
+    /**
+     * 通过商家id查询待支付订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderIndexByShopUserId(String shopUserId);
+
+    /**
+     * 通过商家id查询已完成订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderFinishByShopUserId(String shopUserId);
+    /**
+     * 通过商家id查询所有订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId);
 }
 

@@ -4,43 +4,73 @@
 
     <resultMap type="com.grouptwo.isrp.entity.IsrpGoods" id="IsrpGoodsMap">
         <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="goodsCategorySecondId" column="goods_category_second_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="goodsDesc" column="goods_desc" jdbcType="VARCHAR"/>
         <result property="goodsImg" column="goods_img" jdbcType="VARCHAR"/>
         <result property="goodsPrice" column="goods_price" jdbcType="VARCHAR"/>
         <result property="goodsSaleCount" column="goods_sale_count" jdbcType="INTEGER"/>
+        <result property="orderModelId" column="order_model_id" jdbcType="INTEGER"/>
         <result property="goodsStatus" column="goods_status" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="goodsCategorySecondId" column="goods_category_second_id" jdbcType="INTEGER"/>
-        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
-        <result property="orderModelId" column="order_model_id" jdbcType="INTEGER"/>
+        <result property="rentLimitDays" column="rent_limit_days" jdbcType="NUMERIC"/>
+        <result property="rentPricePerDay" column="rent_price_per_day" jdbcType="NUMERIC"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="IsrpGoodsMap">
         select
-          goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id, order_model_id
-        from isrp_goods
+            goods_id,
+            goods_category_second_id,
+            user_id,
+            goods_name,
+            goods_desc,
+            goods_img,
+            goods_price,
+            goods_sale_count,
+            order_model_id,
+            goods_status,
+            create_time,
+            rent_limit_days,
+            rent_price_per_day        from isrp_goods
         where goods_id = #{goodsId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="IsrpGoodsMap">
         select
-        goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time,
-        goods_category_second_id, user_id, order_model_id
+        goods_id,
+        goods_category_second_id,
+        user_id,
+        goods_name,
+        goods_desc,
+        goods_img,
+        goods_price,
+        goods_sale_count,
+        order_model_id,
+        goods_status,
+        create_time,
+        rent_limit_days,
+        rent_price_per_day
         from isrp_goods
         <where>
             <if test="isrpGoods.goodsId != null">
                 and goods_id = #{isrpGoods.goodsId}
             </if>
-            <if test="isrpGoods.goodsName != null and goodsName != ''">
+            <if test="isrpGoods.goodsCategorySecondId != null">
+                and goods_category_second_id = #{isrpGoods.goodsCategorySecondId}
+            </if>
+            <if test="isrpGoods.userId != null and isrpGoods.userId != ''">
+                and user_id = #{isrpGoods.userId}
+            </if>
+            <if test="isrpGoods.goodsName != null and isrpGoods.goodsName != ''">
                 and goods_name = #{isrpGoods.goodsName}
             </if>
-            <if test="isrpGoods.goodsDesc != null and goodsDesc != ''">
+            <if test="isrpGoods.goodsDesc != null and isrpGoods.goodsDesc != ''">
                 and goods_desc = #{isrpGoods.goodsDesc}
             </if>
-            <if test="isrpGoods.goodsImg != null and goodsImg != ''">
+            <if test="isrpGoods.goodsImg != null and isrpGoods.goodsImg != ''">
                 and goods_img = #{isrpGoods.goodsImg}
             </if>
             <if test="isrpGoods.goodsPrice != null">
@@ -49,20 +79,20 @@
             <if test="isrpGoods.goodsSaleCount != null">
                 and goods_sale_count = #{isrpGoods.goodsSaleCount}
             </if>
+            <if test="isrpGoods.orderModelId != null">
+                and order_model_id = #{isrpGoods.orderModelId}
+            </if>
             <if test="isrpGoods.goodsStatus != null">
                 and goods_status = #{isrpGoods.goodsStatus}
             </if>
             <if test="isrpGoods.createTime != null">
-                and create_time = #{createTime}
+                and create_time = #{isrpGoods.createTime}
             </if>
-            <if test="isrpGoods.goodsCategorySecondId != null">
-                and goods_category_second_id = #{isrpGoods.goodsCategorySecondId}
+            <if test="isrpGoods.rentLimitDays != null">
+                and rent_limit_days = #{isrpGoods.rentLimitDays}
             </if>
-            <if test="isrpGoods.userId != null and userId != ''">
-                and user_id = #{userId}
-            </if>
-            <if test="isrpGoods.orderModelId != null">
-                and order_model_id = #{isrpGoods.orderModelId}
+            <if test="isrpGoods.rentPricePerDay != null">
+                and rent_price_per_day = #{isrpGoods.rentPricePerDay}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -75,6 +105,12 @@
         <where>
             <if test="goodsId != null">
                 and goods_id = #{goodsId}
+            </if>
+            <if test="goodsCategorySecondId != null">
+                and goods_category_second_id = #{goodsCategorySecondId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
             </if>
             <if test="goodsName != null and goodsName != ''">
                 and goods_name = #{goodsName}
@@ -91,83 +127,116 @@
             <if test="goodsSaleCount != null">
                 and goods_sale_count = #{goodsSaleCount}
             </if>
+            <if test="orderModelId != null">
+                and order_model_id = #{orderModelId}
+            </if>
             <if test="goodsStatus != null">
                 and goods_status = #{goodsStatus}
             </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
             </if>
-            <if test="goodsCategorySecondId != null">
-                and goods_category_second_id = #{goodsCategorySecondId}
+            <if test="rentLimitDays != null">
+                and rent_limit_days = #{rentLimitDays}
             </if>
-            <if test="userId != null and userId != ''">
-                and user_id = #{userId}
-            </if>
-            <if test="orderModelId != null">
-                and order_model_id = #{orderModelId}
+            <if test="rentPricePerDay != null">
+                and rent_price_per_day = #{rentPricePerDay}
             </if>
         </where>
+
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id, order_model_id)
-        values (
-
-                #{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice}, #{goodsSaleCount}, #{goodsStatus}, #{createTime}, #{goodsCategorySecondId}, #{userId}, #{orderModelId})
+        insert into isrp_goods(goods_category_second_id, user_id, goods_name, goods_desc, goods_img, goods_price,
+                               goods_sale_count, order_model_id, goods_status, create_time, rent_limit_days,
+                               rent_price_per_day)
+        values (#{goodsCategorySecondId}, #{userId}, #{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice},
+                #{goodsSaleCount}, #{orderModelId}, #{goodsStatus}, #{createTime}, #{rentLimitDays}, #{rentPricePerDay})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status,
-        create_time, goods_category_second_id, user_id, order_model_id)
+        insert into isrp_goods(goods_category_second_id, user_id, goods_name, goods_desc, goods_img, goods_price,
+        goods_sale_count, order_model_id, goods_status, create_time, rent_limit_days, rent_price_per_day)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice},
-            #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId},
-            #{entity.userId}, #{entity.orderModelId})
+            (#{entity.goodsCategorySecondId}, #{entity.userId}, #{entity.goodsName}, #{entity.goodsDesc},
+            #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.orderModelId},
+            #{entity.goodsStatus}, #{entity.createTime}, #{entity.rentLimitDays}, #{entity.rentPricePerDay})
         </foreach>
     </insert>
     <!--查询所有商品-->
 
     <select id="queryAllGoods" resultMap="IsrpGoodsMap">
         select
-            goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
-
+            goods_id,
+            goods_category_second_id,
+            user_id,
+            goods_name,
+            goods_desc,
+            goods_img,
+            goods_price,
+            goods_sale_count,
+            order_model_id,
+            goods_status,
+            create_time,
+            rent_limit_days,
+            rent_price_per_day
         from isrp_goods
     </select>
 <!--通过userId查询商品信息-->
     <select id="selectGoodsByUserId" resultMap="IsrpGoodsMap">
         select
-            goods_id, goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status, create_time, goods_category_second_id, user_id
-        from isrp_goods
+            goods_id,
+            goods_category_second_id,
+            user_id,
+            goods_name,
+            goods_desc,
+            goods_img,
+            goods_price,
+            goods_sale_count,
+            order_model_id,
+            goods_status,
+            create_time,
+            rent_limit_days,
+            rent_price_per_day        from isrp_goods
         where user_id = #{userId}
     </select>
+
     <insert id="insertOrUpdateBatch" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into isrp_goods(goods_name, goods_desc, goods_img, goods_price, goods_sale_count, goods_status,
-        create_time, goods_category_second_id, user_id, order_model_id)
+        insert into isrp_goods(goods_category_second_id, user_id, goods_name, goods_desc, goods_img, goods_price,
+        goods_sale_count, order_model_id, goods_status, create_time, rent_limit_days, rent_price_per_day)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName}, #{entity.goodsDesc}, #{entity.goodsImg}, #{entity.goodsPrice},
-            #{entity.goodsSaleCount}, #{entity.goodsStatus}, #{entity.createTime}, #{entity.goodsCategorySecondId},
-            #{entity.userId}, #{entity.orderModelId})
+            (#{entity.goodsCategorySecondId}, #{entity.userId}, #{entity.goodsName}, #{entity.goodsDesc},
+            #{entity.goodsImg}, #{entity.goodsPrice}, #{entity.goodsSaleCount}, #{entity.orderModelId},
+            #{entity.goodsStatus}, #{entity.createTime}, #{entity.rentLimitDays}, #{entity.rentPricePerDay})
         </foreach>
         on duplicate key update
+        goods_category_second_id = values(goods_category_second_id),
+        user_id = values(user_id),
         goods_name = values(goods_name),
         goods_desc = values(goods_desc),
         goods_img = values(goods_img),
         goods_price = values(goods_price),
         goods_sale_count = values(goods_sale_count),
+        order_model_id = values(order_model_id),
         goods_status = values(goods_status),
         create_time = values(create_time),
-        goods_category_second_id = values(goods_category_second_id),
-        user_id = values(user_id),
-        order_model_id = values(order_model_id)
+        rent_limit_days = values(rent_limit_days),
+        rent_price_per_day = values(rent_price_per_day)
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update isrp_goods
         <set>
+            <if test="goodsCategorySecondId != null">
+                goods_category_second_id = #{goodsCategorySecondId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
             <if test="goodsName != null and goodsName != ''">
                 goods_name = #{goodsName},
             </if>
@@ -183,24 +252,25 @@
             <if test="goodsSaleCount != null">
                 goods_sale_count = #{goodsSaleCount},
             </if>
+            <if test="orderModelId != null">
+                order_model_id = #{orderModelId},
+            </if>
             <if test="goodsStatus != null">
                 goods_status = #{goodsStatus},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime},
             </if>
-            <if test="goodsCategorySecondId != null">
-                goods_category_second_id = #{goodsCategorySecondId},
+            <if test="rentLimitDays != null">
+                rent_limit_days = #{rentLimitDays},
             </if>
-            <if test="userId != null and userId != ''">
-                user_id = #{userId},
-            </if>
-            <if test="orderModelId != null">
-                order_model_id = #{orderModelId},
+            <if test="rentPricePerDay != null">
+                rent_price_per_day = #{rentPricePerDay},
             </if>
         </set>
         where goods_id = #{goodsId}
     </update>
+
 
     <!--通过主键删除-->
     <delete id="deleteById">

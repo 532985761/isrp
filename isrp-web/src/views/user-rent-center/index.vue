@@ -1,4 +1,5 @@
 <template>
+<MyHeader msg="6"></MyHeader>
   <!-- 面包屑导航 -->
   <el-row :gutter="10">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
@@ -8,7 +9,7 @@
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item
           :to="{ path: '/isrpUser/index' }"
-          @click="selectRouterLine"
+         
         >
           首页</el-breadcrumb-item
         >
@@ -95,16 +96,18 @@
       ><div class="grid-content ep-bg-purple"
     /></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11">
-      <el-card v-for="(i, index) in goodsDetail" :key="index">
+      <el-card v-for="(i, index) in goodsDetail" :key="index" class="mt-5">
         <el-descriptions
           class="margin-top mt-5"
           :column="2"
           :title="'商品名称：' + i.goods.goodsName"
           border
-          
         >
           <template #extra>
-            <el-button type="primary">查看待租商品详情</el-button>
+           <el-button type="primary" @click="lookGoodsDetail(i.goods.goodsId)"
+                >查看待租商品详情</el-button
+              >
+
             <el-button type="danger" @click="rentGoods">立即下单租用</el-button>
           </template>
           <el-descriptions-item align="center">
@@ -174,18 +177,13 @@
               </div>
             </template>
             <el-image class="h-100px w-198px" src="/src/assets/znzzlogo.png" />
-          </el-descriptions-item>
-          </el-descriptions
-        ><el-divider>
-          <el-icon><CaretBottom /></el-icon>
-        </el-divider> </el-card
+          </el-descriptions-item> </el-descriptions
+        ><el-divider> </el-divider> </el-card
     ></el-col>
   </el-row>
-<!-- 模态框 -->
-   <el-dialog v-model="centerDialogVisible" title="提示信息" width="30%" center>
-    <span
-      >确认加入购物车吗？</span
-    >
+  <!-- 模态框 -->
+  <el-dialog v-model="centerDialogVisible" title="提示信息" width="30%" center>
+    <span>确认加入购物车吗？</span>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -206,11 +204,13 @@ import {
   queryByPageGetGoodsCategorySecond,
 } from "@/api/goods";
 import VueEvent from "@/utils/event";
+import MyHeader from "@/views/user/components/header.vue"
 
 let info: any = ref({});
 const activeName = ref("6");
 const goodsCategoryFirst = ref();
-const centerDialogVisible = ref(false)
+const centerDialogVisible = ref(false);
+
 onBeforeMount(() => {
   getRentCenterInfoFromGoodsCategoryId(
     router.currentRoute.value.params.firstId.toString(),
@@ -229,10 +229,8 @@ onBeforeMount(() => {
   });
 });
 //激活导航条
-VueEvent.emit("tomsg", { data: "6" });
-const selectRouterLine = () => {
-  VueEvent.emit("tomsg", { data: "5" });
-};
+
+
 
 const goodsDetail = ref([
   {
@@ -284,8 +282,16 @@ const changeGoodsInfo = async (one, two) => {
   });
 };
 //加入购物车
-const rentGoods = ()=>{
-  centerDialogVisible.value = true
+const rentGoods = () => {
+  centerDialogVisible.value = true;
+};
+//查看商品详情
+const lookGoodsDetail = (id)=>{
+      router.push("/isrpUser/goodsdetail/2");
+    // getGoodsDetails().then((res) => {})
+    console.log(id);
+    
+
 }
 </script>
 <style></style>

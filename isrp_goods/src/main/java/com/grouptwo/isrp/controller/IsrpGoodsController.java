@@ -141,7 +141,6 @@ public class IsrpGoodsController {
     @RolesAuthorization
     @GetMapping("/getRentCenterInfoFromGoodsCategoryId")
     public ResponseEntity getRentCenterInfoFromGoodsCategoryId(int firstId,int secondId){
-        System.out.println(firstId+""+secondId);
         Map<String,Object> list = isrpGoodsService.getGoodsInfo(firstId,secondId);
 
         return  new ResponseEntity(list, HttpStatus.OK);

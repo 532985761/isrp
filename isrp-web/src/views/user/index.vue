@@ -1,4 +1,5 @@
 <template>
+  <MyHeader msg="5"></MyHeader>
   <el-row :gutter="10" class="bg-slate-200 h-300px">
     <el-col :lg="3"></el-col>
     <el-col :lg="3">
@@ -23,7 +24,7 @@
           >
         </div>
 
-        <el-menu class="el-menu-vertical-demo mt-2">
+        <el-menu class="el-menu-vertical-demo mt-2" v-loading="loading">
           <el-menu-item
             class="bg-light-200"
             v-for="(i, index) in goodsCategoryFirst"
@@ -45,13 +46,13 @@
     </el-col>
     <!-- 商品左侧第二级分类 -->
     <el-col :lg="11">
-      <el-card class="bg-dark-100">
+      <el-card class="bg-dark-100" >
         <el-carousel :interval="4000" height="258px" v-if="showTab">
           <el-carousel-item v-for="item in 6" :key="item">
             <h3 text="2xl" justify="center">{{ item }}</h3>
           </el-carousel-item>
         </el-carousel>
-        <el-card class="h-258px scale-in-hor-left" v-if="!showTab">
+        <el-card class="h-258px scale-in-hor-left" v-loading="loading1" v-if="!showTab">
           <div style="text-align: center; font-weight: bold" class="font-sans">
             {{ tabName }}
           </div>
@@ -230,11 +231,14 @@ import {
   queryByPageGetGoodsCategorySecond,
 } from "@/api/goods";
 import { userStore } from "@/store/user";
+import MyHeader from "./components/header.vue";
 const dialogTableVisible = ref(false);
 const shopname = ref("");
 const showTab = ref(true);
 const tabName = ref("");
 const userInfo = userStore();
+let loading = ref(true)
+let loading1= ref(true)
 //获取商品陪你二级分类信息
 //获取第二栏左侧导航商品二级信息
 let goodsCategorySecond: any = ref({});
@@ -246,9 +250,10 @@ const selectMenu: any = (name, index) => {
     showTab.value = false;
   }, 10);
   tabName.value = name;
-
+loading1.value = true
   queryByPageGetGoodsCategorySecond(index, 1, 1000).then((res) => {
     goodsCategorySecond.value = res.data.content;
+    loading1.value = false
   });
 };
 
@@ -259,8 +264,9 @@ const showTabFalse = () => {
 let goodsCategoryFirst: any = ref({});
 
 onMounted(async () => {
-  await queryByPageGetGoodsCategoryFirst(1,4).then((res) => {
+  await queryByPageGetGoodsCategoryFirst(1, 4).then((res) => {
     goodsCategoryFirst.value = res.data.content;
+    loading.value = false
   });
 });
 </script>

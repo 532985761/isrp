@@ -1,7 +1,9 @@
 package com.grouptwo.isrp.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.grouptwo.isrp.dao.IsrpOrderProcessDao;
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import com.grouptwo.isrp.service.IsrpOrderProcessService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 订单流程表(IsrpOrderProcess)表服务实现类
@@ -58,6 +62,24 @@ public class IsrpOrderProcessServiceImpl implements IsrpOrderProcessService {
     }
 
     /**
+     * 批量更新数据
+     *
+     * @param isrpOrderProcessPojoList 实例对象
+     * @return
+     */
+    @Override
+    public Integer insertBatch(List<IsrpOrderProcessPojo> isrpOrderProcessPojoList) {
+        List<IsrpOrderProcess> isrpOrderProcessList = new ArrayList<>();
+        for (IsrpOrderProcessPojo isrpOrderProcessPojo:isrpOrderProcessPojoList) {
+            IsrpOrderProcess isrpOrderProcess = new IsrpOrderProcess();
+            BeanUtil.copyProperties(isrpOrderProcessPojo, isrpOrderProcess);
+            isrpOrderProcess.setOrderProcessId(null);
+            isrpOrderProcessList.add(isrpOrderProcess);
+        }
+        return this.isrpOrderProcessDao.insertBatch(isrpOrderProcessList);
+    }
+
+    /**
      * 修改数据
      *
      * @param isrpOrderProcess 实例对象
@@ -78,5 +100,10 @@ public class IsrpOrderProcessServiceImpl implements IsrpOrderProcessService {
     @Override
     public boolean deleteById(Integer orderProcessId) {
         return this.isrpOrderProcessDao.deleteById(orderProcessId) > 0;
+    }
+
+    @Override
+    public Integer deleteByModelId(Integer orderModelId) {
+        return this.isrpOrderProcessDao.deleteByModelId(orderModelId);
     }
 }

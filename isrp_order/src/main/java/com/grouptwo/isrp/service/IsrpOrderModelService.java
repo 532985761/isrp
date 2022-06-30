@@ -1,8 +1,11 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpOrderModel;
+import com.grouptwo.isrp.pojo.IsrpOrderModelProcess;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 /**
  * 订单模式表(IsrpOrderModel)表服务接口
@@ -28,6 +31,14 @@ public interface IsrpOrderModelService {
      * @return 查询结果
      */
     Page<IsrpOrderModel> queryByPage(IsrpOrderModel isrpOrderModel, PageRequest pageRequest);
+
+    /**
+     * 分页查询model和process
+     *
+     * @param orderModel
+     * @return
+     */
+    List<IsrpOrderModelProcess> queryModelAndProcessByLimit(IsrpOrderModel orderModel);
 
     /**
      * 新增数据

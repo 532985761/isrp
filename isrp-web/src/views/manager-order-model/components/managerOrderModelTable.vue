@@ -11,15 +11,15 @@
       <el-empty style="width: 100%" />
     </div>
     <div v-else>
-      <el-table :data="tableData" style="width: 100%" height="350">
-        <el-table-column prop="orderModelId" label="模式编号" width="550" />
+      <el-table :data="tableData" style="width: 100%" height="340">
+        <el-table-column prop="orderModelId" label="模式编号" width="1160" />
         <el-table-column
           fixed
           prop="orderModelName"
           label="模式名称"
-          width="100"
+          width="150"
         />
-        <el-table-column label="操作" width="550">
+        <el-table-column label="操作" width="100" fixed="right">
           <template #default="scope">
             <el-button
               link
@@ -184,8 +184,8 @@ const handleCurrentChange = (val: number) => {
   currentPage.value = val;
   initData();
 };
-const changeEditOrderModel = (scope: any) => {
-  originForm.value = JSON.parse(JSON.stringify(scope));
+const changeEditOrderModel = (row: any) => {
+  originForm.value = JSON.parse(JSON.stringify(row));
   validateForm.value = JSON.parse(JSON.stringify(originForm.value));
   drawer.value = true;
 };
@@ -216,17 +216,13 @@ const editRow = () => {
       // catch error
     });
 };
-const deleteRow = (scope: any) => {
-  ElMessageBox.confirm(
-    `您确定删除订单模式： ${scope.orderModelName} ?`,
-    "提示",
-    {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-    }
-  )
+const deleteRow = (row: any) => {
+  ElMessageBox.confirm(`您确定删除订单模式： ${row.orderModelName} ?`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+  })
     .then(() => {
-      deleteOrderModel(scope.orderModelId).then((res) => {
+      deleteOrderModel(row.orderModelId).then((res) => {
         if (res.status == 200) {
           initData();
           ElMessage({

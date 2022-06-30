@@ -1,6 +1,10 @@
 <template>
   <div>
     <manager-order-model-title />
+    <el-alert
+      title="请注意：删除和修改订单模式会对系统造成较大影响"
+      type="error"
+    />
     <manager-order-model-add @get-time-stamp="getTimeStamp" />
     <manager-order-model-table :timestamp="timestamp" />
   </div>

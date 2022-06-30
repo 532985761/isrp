@@ -96,5 +96,10 @@
         delete from isrp_order_process where order_process_id = #{orderProcessId}
     </delete>
 
+    <!--通过orderModelId批量删除-->
+    <delete id="deleteByModelId">
+        delete from isrp_order_process where order_model_id = #{orderModelId}
+    </delete>
+
 </mapper>
 

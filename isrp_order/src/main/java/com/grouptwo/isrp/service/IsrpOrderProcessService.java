@@ -1,8 +1,11 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 /**
  * 订单流程表(IsrpOrderProcess)表服务接口
@@ -38,6 +41,14 @@ public interface IsrpOrderProcessService {
     IsrpOrderProcess insert(IsrpOrderProcess isrpOrderProcess);
 
     /**
+     * 批量新增数据
+     *
+     * @param isrpOrderProcessPojoList 实例对象
+     * @return 实例对象
+     */
+    Integer insertBatch(List<IsrpOrderProcessPojo> isrpOrderProcessPojoList);
+
+    /**
      * 修改数据
      *
      * @param isrpOrderProcess 实例对象
@@ -52,5 +63,13 @@ public interface IsrpOrderProcessService {
      * @return 是否成功
      */
     boolean deleteById(Integer orderProcessId);
+
+    /**
+     * 通过orderModelId批量删除
+     *
+     * @param orderModelId
+     * @return
+     */
+    Integer deleteByModelId(Integer orderModelId);
 
 }

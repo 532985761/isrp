@@ -2,6 +2,8 @@ package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrderModel;
+import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderModelProcess;
 import com.grouptwo.isrp.service.IsrpOrderModelService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +42,18 @@ public class IsrpOrderModelController {
         IsrpOrderModel isrpOrderModel = new IsrpOrderModel();
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         return ResponseEntity.ok(this.isrpOrderModelService.queryByPage(isrpOrderModel, pageRequest));
+    }
+
+    /**
+     * 分页查询
+     *
+     * @return 查询结果
+     */
+    @RolesAuthorization(value = {"manager"})
+    @GetMapping("/queryModelAndProcess")
+    public ResponseEntity<List<IsrpOrderModelProcess>> queryModelAndProcessByPage() {
+        IsrpOrderModel isrpOrderModel = new IsrpOrderModel();
+        return ResponseEntity.ok(this.isrpOrderModelService.queryModelAndProcessByLimit(isrpOrderModel));
     }
 
     /**

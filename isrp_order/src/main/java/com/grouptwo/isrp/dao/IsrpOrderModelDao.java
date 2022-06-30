@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.dao;
 
 import com.grouptwo.isrp.entity.IsrpOrderModel;
+import com.grouptwo.isrp.pojo.IsrpOrderModelProcess;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,13 @@ public interface IsrpOrderModelDao {
      */
     List<IsrpOrderModel> queryAllByLimit(@Param("isrpOrderModel") IsrpOrderModel isrpOrderModel, @Param("pageable") Pageable pageable);
 
+    /**
+     * 查询指定行model和process数据
+     *
+     * @param isrpOrderModel
+     * @return
+     */
+    List<IsrpOrderModelProcess> queryIsrpOrderModelProcessAllByLimit(@Param("isrpOrderModel") IsrpOrderModel isrpOrderModel);
     /**
      * 统计总行数
      *

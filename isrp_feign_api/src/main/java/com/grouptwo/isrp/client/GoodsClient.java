@@ -16,7 +16,7 @@ import java.util.Map;
 @FeignClient("isrp-goods")
 public interface GoodsClient {
     @GetMapping("/isrpGoods/isrpGoods/{goodsId}")
-    IsrpGoods queryByGoodsId(@PathVariable("goodsId") Integer goodsId);
+    Map queryByGoodsId(@PathVariable("goodsId") Integer goodsId);
 
 //    @GetMapping("/isrpGoods/isrpGoods/getGoods/{goodsIds}")
 //    Map queryByGoodsIds(@PathVariable("goodsIds") List<Long> goodsIds);

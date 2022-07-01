@@ -5,7 +5,7 @@
     <el-col :lg="3">
       <div
         style="border: px solid #ccc; text-align: center"
-        class="h-300px w-190px bg-blue-200"
+        class="h-300px w-190px bg-sky-500"
       >
         <div
           v-for="i in goodsCategoryFirst"
@@ -13,13 +13,13 @@
           style="
             display: inline-block;
             vertical-align: top;
-            border: 1px solid black;
+            border: 1px solid white;
           "
-          class="ml-2 mt-2 w-66px h-26px"
+          class="ml-3 mt-3 w-66px h-26px"
         >
           <span
             class="font-serif;font-bold"
-            style="color: black; font-size: 12px"
+            style="color: white; font-size: 12px"
             >{{ i.goodsCategoryFirstName }}</span
           >
         </div>
@@ -46,7 +46,7 @@
     </el-col>
     <!-- 商品左侧第二级分类 -->
     <el-col :lg="11">
-      <el-card class="bg-gray-100">
+      <el-card class="bg-gray-100 ml-3">
         <el-carousel :interval="4000" height="258px" v-if="showTab">
           <el-carousel-item v-for="item in 6" :key="item">
             <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
@@ -120,13 +120,15 @@
     </el-col>
   </el-row>
   <!-- 主页第二栏 -->
-  <el-row :gutter="10" class="bg-slate-200 h-150px">
+  <el-row :gutter="10" class="bg-slate-200 h-210px">
+    <el-divider>商品推荐</el-divider>
+
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
-      ><div class="grid-content ep-bg-purple"
-    /></el-col>
-    <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
+      ></el-col>
+
+    <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"  class="-mt-20px"
       ><div
-        class="grid-content ep-bg-purple-light h-110px w-full bg-dark-400 mt-4"
+        class="grid-content ep-bg-purple-light h-110px w-full bg-dark-400"
       >
         <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
@@ -138,8 +140,8 @@
         </el-carousel>
       </div>
     </el-col>
-    <el-col :lg="4"
-      ><div class="grid-content ep-bg-purple w-full bg-dark-400 ml-11 mt-4">
+    <el-col :lg="4" class="-mt-20px"
+      ><div class="grid-content ep-bg-purple w-full bg-dark-400 ml-11 ">
         <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
             <el-image
@@ -148,9 +150,9 @@
           </el-carousel-item>
         </el-carousel></div
     ></el-col>
-    <el-col :lg="4"
+    <el-col :lg="4" class="-mt-20px"
       ><div
-        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-22 mt-4"
+        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-22 "
       >
         <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
@@ -160,9 +162,9 @@
           </el-carousel-item>
         </el-carousel></div
     ></el-col>
-    <el-col :lg="4"
+    <el-col :lg="4" class="-mt-20px"
       ><div
-        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-32 mt-4"
+        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-32 "
       >
         <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
@@ -195,7 +197,7 @@
     <el-col :span="18" class="bg-light-400"
       ><div class="grid-content ep-bg-purple">
         <el-divider content-position="right"
-          ><span class="font-serif text-2xl font-bold">热租商品</span>
+          ><span class="font-serif text-2xl font-bold text-yellow-500 "  >热租商品</span>
         </el-divider>
         <el-card
           class="w-240px h-300px ml-9 mt-4"
@@ -218,7 +220,7 @@
     <el-col :span="18" class="bg-light-400"
       ><div class="grid-content ep-bg-purple">
         <el-divider content-position="right"
-          ><span class="font-serif text-2xl font-bold">随心租</span>
+          ><span class="font-serif text-2xl font-bold text-green-500">随心租</span>
         </el-divider>
         <el-card
           class="w-240px h-300px ml-9 mt-4"

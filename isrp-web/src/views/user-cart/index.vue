@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="2"><div class="grid-content ep-bg-purple" /></el-col>
-    <el-col :span="20" class="mt-5">
+    <el-col :span="1"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :span="22" class="mt-5">
       <el-card
         style="text-align: center"
         class="font-serif text-3xl font-medium"
@@ -11,7 +11,8 @@
         >
 </router-link>
 
-        请选择需要下单的商品进行操作
+
+        <span class="text-2xl font-bold -ml-25"> 请选择需要下单的商品进行操作</span>
 
         <!-- <el-button>返回上一页</el-button> -->
       </el-card>
@@ -23,7 +24,7 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" height="200" />
-          <el-table-column label="商品信息" width="120">
+          <el-table-column label="商品信息" width="150">
             <template #default>
               <el-image
                 style="width: 50px; height: 50px; border-radius: 15px"
@@ -39,7 +40,7 @@
               >
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             property="address"
             label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数量"
             show-overflow-tooltip
@@ -49,22 +50,17 @@
             <template #default>
               <span class="ml-18">x1</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             property="address"
-            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用时长"
+            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用时长/天"
             show-overflow-tooltip
             class="ml-15"
-            width="200"
+            width="180"
           >
             <template #default>
-              <el-input-number
-                size="small"
-                v-model="num"
-                :min="1"
-                :max="10000"
-                @change="handleChange"
-              />&nbsp;&nbsp;天
+               <el-input-number size="small" v-model="num" :precision="2" :step="0.1" :max="10" />
+
             </template>
           </el-table-column>
           <el-table-column
@@ -72,10 +68,32 @@
             label="租用价格"
             show-overflow-tooltip
             class="ml-15"
-            width="150"
+            width="120"
           >
             <template #default>
               <span>30元/天</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            property="address"
+            label="&nbsp;&nbsp;租用方式"
+            show-overflow-tooltip
+            class="ml-15"
+            width="120"
+          >
+            <template #default>
+              <el-tag type="danger">以租代售</el-tag>
+            </template>
+          </el-table-column>
+            <el-table-column
+            property="address"
+            label="租用限制"
+            show-overflow-tooltip
+            class="ml-15"
+            width="120"
+          >
+            <template #default>
+              <el-tag type="warning">暂无</el-tag>
             </template>
           </el-table-column>
           <el-table-column

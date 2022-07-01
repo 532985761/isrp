@@ -18,8 +18,9 @@
   </el-row>
 
   <el-row :gutter="10">
-    <el-col :lg="2"><div class="grid-content ep-bg-purple" /></el-col>
-    <el-col :lg="20">
+    <el-col :lg="2"></el-col>
+    <el-col :lg="20" v-loading="loading">
+      <!-- 先租后买卡片 -->
       <el-card class="mt-4">
         <el-row
           ><el-col :lg="9">
@@ -51,12 +52,21 @@
                 goods.user.addressCity
               }}</el-descriptions-item>
               <el-descriptions-item label="租赁方式" align="center">
-                <el-tag size="small">{{goods.model.orderModelName}}</el-tag>
+                <el-tag size="small">{{ goods.model.orderModelName }}</el-tag>
               </el-descriptions-item>
 
               <el-descriptions-item label="租赁价格" align="center"
                 >{{ goods.goods.rentPricePerDay }}元/天</el-descriptions-item
               >
+              <el-descriptions-item label="商品总价" align="center">
+                <el-tag type="warning">{{ goods.goods.goodsPrice }}元</el-tag>
+              </el-descriptions-item>
+              <!-- 不同租赁方式 -->
+              <el-descriptions-item label="租赁时间上限" align="center">
+                <el-tag type="danger" size="large"
+                  >{{ goods.goods.rentLimitDays }}天</el-tag
+                >
+              </el-descriptions-item>
             </el-descriptions>
 
             <el-card class="bg-gray-200 mt-6">
@@ -82,7 +92,32 @@
             </div>
           </el-col></el-row
         >
-      </el-card></el-col
+      </el-card>
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col :lg="2"></el-col>
+    <el-col :lg="20"
+      ><el-card class="mt-4">
+        <el-tabs
+          v-model="activeName"
+          type="card"
+          class="demo-tabs"
+          @tab-click="handleClick"
+        >
+          <el-tab-pane
+            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品介绍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            name="first"
+            >商品介绍</el-tab-pane
+          >
+          <el-tab-pane
+            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用评价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            name="second"
+            class="ml-4"
+            >租用评价</el-tab-pane
+          >
+        </el-tabs></el-card
+      ></el-col
     >
   </el-row>
 </template>
@@ -94,6 +129,7 @@ import { getGoodsDetailsByGoodsId } from "@/api/goods";
 
 const src =
   "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg";
+const loading = ref(true);
 const goods = ref({
   goodsCategoryFirst: "数码产品",
   goodsCategorySecond: "对讲机",
@@ -132,11 +168,13 @@ const goods = ref({
   },
 });
 onBeforeMount(() => {
-  getGoodsDetailsByGoodsId(Number(router.currentRoute.value.params.id)).then(
-    (res) => {
+  getGoodsDetailsByGoodsId(Number(router.currentRoute.value.params.id))
+    .then((res) => {
       goods.value = res.data;
-    }
-  );
+    })
+    .then(() => {
+      loading.value = false;
+    });
 });
 </script>
 

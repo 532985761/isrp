@@ -15,6 +15,11 @@ import java.util.Map;
 @FeignClient("isrp-order")
 public interface OrderClient {
 
+    /**
+     * 获取订单模式信息
+     * @param id
+     * @return
+     */
     @GetMapping("/isrpOrder/isrpOrderModel/{id}")
     Map queryIsrpOrderModelById(@PathVariable("id") Integer id);
 }

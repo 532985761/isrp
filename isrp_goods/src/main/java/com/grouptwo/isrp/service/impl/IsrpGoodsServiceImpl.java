@@ -56,8 +56,8 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     /**
      * 分页查询
      *
-     * @param isrpGoods 筛选条件
-     * @param pageRequest      分页对象
+     * @param isrpGoods   筛选条件
+     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @Override
@@ -103,6 +103,7 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
 
     /**
      * 查询商品信息
+     *
      * @return
      */
 
@@ -113,6 +114,7 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
 
     /**
      * 查询所有商品信息
+     *
      * @return
      */
     @Override
@@ -122,6 +124,7 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
 
     /**
      * 通过userId查询商品信息
+     *
      * @param userId
      * @return
      */
@@ -132,37 +135,38 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
 
     @Override
     public Map<String, Object> getGoodsInfo(int firstId, int secondId) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         //获取一二级分类信息
-        String  secondName = isrpGoodsCategorySecondService.queryById(secondId).getGoodsCategorySecondName();
-        map.put("goodsCategorySecond",secondName);
-        String  firstName = isrpGoodsCategoryFirstService.queryById(firstId).getGoodsCategoryFirstName();
-        map.put("goodsCategoryFirst",firstName);
+        String secondName = isrpGoodsCategorySecondService.queryById(secondId).getGoodsCategorySecondName();
+        map.put("goodsCategorySecond", secondName);
+        String firstName = isrpGoodsCategoryFirstService.queryById(firstId).getGoodsCategoryFirstName();
+        map.put("goodsCategoryFirst", firstName);
         //根据一级分类查二级分类
         List<IsrpGoodsCategorySecond> goodsSecondList = isrpGoodsCategorySecondService.getGoodsCategorySecondByFirstId(firstId);
-        map.put("secondList",goodsSecondList);
+        map.put("secondList", goodsSecondList);
         //找到二级分类下的商品信息
         IsrpGoods goods = new IsrpGoods();
         goods.setGoodsCategorySecondId(secondId);
-        PageRequest pageRequest = PageRequest.of(0,10);
-        Page<IsrpGoods> page =  isrpGoodsService.queryByPage(goods,pageRequest);
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<IsrpGoods> page = isrpGoodsService.queryByPage(goods, pageRequest);
         //根据商品ID查询用户及商品模式
         List<Long> goodsId = page.stream().map(IsrpGoods::getGoodsId).collect(Collectors.toList());
-        List<Map<String,Object>> list = new ArrayList<>();
-        for (Long id : goodsId){
-            Map<String,Object> goodsDetail = new HashMap<>();
-            goodsDetail.put("goods",isrpGoodsService.queryById(id));
-            goodsDetail.put("user",JSON.parseObject(JSON.toJSONString(userClient.queryUserById(isrpGoodsService.queryById(id).getUserId())) , IsrpUser.class) );
-            goodsDetail.put("goodsModal",JSON.parseObject(JSON.toJSONString(orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId())), IsrpOrderModel.class));
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (Long id : goodsId) {
+            Map<String, Object> goodsDetail = new HashMap<>();
+            goodsDetail.put("goods", isrpGoodsService.queryById(id));
+            goodsDetail.put("user", JSON.parseObject(JSON.toJSONString(userClient.queryUserById(isrpGoodsService.queryById(id).getUserId())), IsrpUser.class));
+            goodsDetail.put("goodsModal", JSON.parseObject(JSON.toJSONString(orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId())), IsrpOrderModel.class));
             list.add(goodsDetail);
         }
 
-        map.put("goodsInfo",list);
+        map.put("goodsInfo", list);
         return map;
     }
 
     /**
      * 搜索商品信息
+     *
      * @param goodsName
      * @return 商品信息列表
      */
@@ -173,15 +177,15 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
 
     @Override
     public Map<String, Object> getGoodsDetailsByGoodsId(Long id) {
-        Map<String,Object> map = new HashMap<>();
-         IsrpGoodsCategorySecond isrpGoodsCategorySecond = isrpGoodsCategorySecondService.queryById(isrpGoodsService.queryById(id)
+        Map<String, Object> map = new HashMap<>();
+        IsrpGoodsCategorySecond isrpGoodsCategorySecond = isrpGoodsCategorySecondService.queryById(isrpGoodsService.queryById(id)
                 .getGoodsCategorySecondId());
-        map.put("goodsCategorySecond",isrpGoodsCategorySecond.getGoodsCategorySecondName());
-         IsrpGoodsCategoryFirst isrpGoodsCategoryFirst = isrpGoodsCategoryFirstService.queryById(isrpGoodsCategorySecond.getGoodsCategoryFirstId());
-        map.put("goodsCategoryFirst",isrpGoodsCategoryFirst.getGoodsCategoryFirstName());
-        map.put("user",userClient.queryUserById(isrpGoodsService.queryById(id).getUserId()));
-        map.put("goods",isrpGoodsService.queryById(id));
-        map.put("model",orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId()));
+        map.put("goodsCategorySecond", isrpGoodsCategorySecond.getGoodsCategorySecondName());
+        IsrpGoodsCategoryFirst isrpGoodsCategoryFirst = isrpGoodsCategoryFirstService.queryById(isrpGoodsCategorySecond.getGoodsCategoryFirstId());
+        map.put("goodsCategoryFirst", isrpGoodsCategoryFirst.getGoodsCategoryFirstName());
+        map.put("user", userClient.queryUserById(isrpGoodsService.queryById(id).getUserId()));
+        map.put("goods", isrpGoodsService.queryById(id));
+        map.put("model", orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId()));
         return map;
     }
 }

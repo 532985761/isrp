@@ -3,8 +3,9 @@
     class="el-menu-demo"
     mode="horizontal"
     :ellipsis="false"
-    background-color="#545c64"
+    background-color="#44403c"
     text-color="#fff"
+    active-text-color="#94A3B8"
   >
     <el-menu-item index="0">
       <el-image
@@ -41,16 +42,15 @@
     </el-sub-menu>
   </el-menu>
 
-  
   <el-row class="bg-light-600">
     <el-col :span="24"
-      ><div class="grid-content ep-bg-purple-dark">
-        <el-divider>
+      >
+        <el-divider >
           <span style="font-weight: bold" class="italic text-2xl">
             欢迎光临<el-icon><star-filled /></el-icon>智能租租网</span
           >
         </el-divider>
-      </div></el-col
+     </el-col
     >
   </el-row>
 
@@ -116,7 +116,7 @@ VueEvent.on("showDiv", (value: any) => {
 });
 </script>
 
-<style>
+<style scoped>
 .flex-grow {
   flex-grow: 1;
 }
@@ -142,4 +142,8 @@ VueEvent.on("showDiv", (value: any) => {
 .kenburns-top {
   animation: kenburns-top 8s ease-out both;
 }
+:deep(.el-divider__text.is-center){
+  background-color: whitesmoke;
+}
+
 </style>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class IsrpOrderController {
     /**
      * 分页查询
      *
-     * @param isrpOrder 筛选条件
-     * @param pageRequest      分页对象
+     * @param isrpOrder   筛选条件
+     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @GetMapping
@@ -86,49 +87,66 @@ public class IsrpOrderController {
     public ResponseEntity<Boolean> deleteById(@PathVariable("orderId") String orderId) {
         return ResponseEntity.ok(this.isrpOrderService.deleteById(orderId));
     }
+
     /**
      * 查询所有订单信息
      */
     @GetMapping("/selectAllOrders")
-        public ResponseEntity selectAllOrders(){
+    public ResponseEntity selectAllOrders() {
         return ResponseEntity.ok(this.isrpOrderService.selectAllOrders());
-        }
+    }
+
     /**
      * 用户下单
      */
     @PostMapping("/userToOrder")
-    public ResponseEntity userToOrder(Integer goodsId){
-        Map<String,Object> map = isrpOrderService.insertOrderByGoodsId(goodsId);
+    public ResponseEntity userToOrder(Integer goodsId) {
+        Map<String, Object> map = isrpOrderService.insertOrderByGoodsId(goodsId);
         if (map == null || map.isEmpty()) {
             return new ResponseEntity("下单成功", HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity(map.get("msg"), HttpStatus.SERVICE_UNAVAILABLE);
         }
 
     }
+
     /**
      * 通过商家id查询待支付订单
      */
     @RolesAuthorization(value = {"business"})
     @GetMapping("/selectOrderIndexByShopUserId/{shopUserId}")
-    public ResponseEntity selectOrderIndexByShopUserId(@PathVariable("shopUserId") String shopUserId){
+    public ResponseEntity selectOrderIndexByShopUserId(@PathVariable("shopUserId") String shopUserId) {
         return ResponseEntity.ok(this.isrpOrderService.selectOrderIndexByShopUserId(shopUserId));
     }
+
     /**
      * 通过商家id 查询已完成订单
      */
     @RolesAuthorization(value = {"business"})
     @GetMapping("/selectOrderFinishByShopUserId/{shopUserId}")
-    public ResponseEntity selectOrderFinishByShopUserId(@PathVariable("shopUserId") String shopUserId){
+    public ResponseEntity selectOrderFinishByShopUserId(@PathVariable("shopUserId") String shopUserId) {
         return ResponseEntity.ok(this.isrpOrderService.selectOrderFinishByShopUserId(shopUserId));
     }
+
     /**
      * 通过商家id查询所有订单
      */
     @RolesAuthorization(value = {"business"})
     @GetMapping("/selectOrderAllByShopUserId/{shopUserId}")
-    public ResponseEntity selectOrderAllByShopUserId(@PathVariable("shopUserId") String shopUserId){
+    public ResponseEntity selectOrderAllByShopUserId(@PathVariable("shopUserId") String shopUserId) {
         return ResponseEntity.ok(this.isrpOrderService.selectOrderAllByShopUserId(shopUserId));
     }
+
+    /**
+     * 加入购物车
+     */
+    @RolesAuthorization
+    @GetMapping("/addToCart/{goodsId}/{days}")
+    public ResponseEntity addToCart(@PathVariable("goodsId") Integer goodsId, @PathVariable("days") BigDecimal days) {
+
+
+        return new ResponseEntity(isrpOrderService.addToCart(goodsId, days), HttpStatus.OK);
+    }
+
 }
 

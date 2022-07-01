@@ -4,6 +4,8 @@ spring:
       static-locations: classpath:/static/
   application:
     name: isrp-user
+  main:
+    allow-circular-references: true
   mvc:
     throw-exception-if-no-handler-found: true
     static-path-pattern: static/**

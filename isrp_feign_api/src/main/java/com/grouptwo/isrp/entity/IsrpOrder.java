@@ -1,22 +1,21 @@
 package com.grouptwo.isrp.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.Date;
+import java.io.Serializable;
 
 /**
  * 商品订单表(IsrpOrder)实体类
  *
  * @author makejava
- * @since 2022-06-19 19:08:32
+ * @since 2022-06-30 16:20:39
  */
-@Data
 public class IsrpOrder implements Serializable {
-    private static final long serialVersionUID = -13074211167157554L;
+    private static final long serialVersionUID = 221850559366350099L;
     /**
      * 订单id
      */
@@ -40,25 +39,27 @@ public class IsrpOrder implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime createTime;
     /**
-     * 订单状态
+     * 订单状态：0-未付款，1已付款
      */
     private Integer orderStatus;
     /**
      * 付款时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime payTime;
     /**
      * 商品总价
      */
-    private Object goodsTotalPrice;
+    private BigDecimal goodsTotalPrice;
     /**
      * 实际付款
      */
-    private Object goodsPayReal;
+    private BigDecimal goodsPayReal;
     /**
      * 收货人姓名
      */
@@ -92,28 +93,39 @@ public class IsrpOrder implements Serializable {
      */
     private String receiverDetailAddress;
     /**
-     * 确认订单状态
+     * 确认订单状态：0-未发货，1-已发货
      */
     private Integer confirmStatus;
     /**
      * 发货时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime deliveryTime;
     /**
      * 收货时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime receiveTime;
     /**
      * 评论时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime modifyTime;
-
+    /**
+     * 下单时租用时间，和模式做匹配，共享租赁不用
+     */
+    private Double rentDays;
+    /**
+     * 实际租用时间，三个模式用
+     */
+    private Double rentRealDays;
+    /**
+     * 商户ID
+     */
+    private String shopUserId;
 
     public String getOrderId() {
         return orderId;
@@ -179,19 +191,19 @@ public class IsrpOrder implements Serializable {
         this.payTime = payTime;
     }
 
-    public Object getGoodsTotalPrice() {
+    public BigDecimal getGoodsTotalPrice() {
         return goodsTotalPrice;
     }
 
-    public void setGoodsTotalPrice(Object goodsTotalPrice) {
+    public void setGoodsTotalPrice(BigDecimal goodsTotalPrice) {
         this.goodsTotalPrice = goodsTotalPrice;
     }
 
-    public Object getGoodsPayReal() {
+    public BigDecimal getGoodsPayReal() {
         return goodsPayReal;
     }
 
-    public void setGoodsPayReal(Object goodsPayReal) {
+    public void setGoodsPayReal(BigDecimal goodsPayReal) {
         this.goodsPayReal = goodsPayReal;
     }
 
@@ -291,5 +303,28 @@ public class IsrpOrder implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public Double getRentDays() {
+        return rentDays;
+    }
+
+    public void setRentDays(Double rentDays) {
+        this.rentDays = rentDays;
+    }
+
+    public Double getRentRealDays() {
+        return rentRealDays;
+    }
+
+    public void setRentRealDays(Double rentRealDays) {
+        this.rentRealDays = rentRealDays;
+    }
+
+    public String getShopUserId() {
+        return shopUserId;
+    }
+
+    public void setShopUserId(String shopUserId) {
+        this.shopUserId = shopUserId;
+    }
 }
 

@@ -31,11 +31,6 @@ export const business: Array<RouteRecordRaw> = [
                 component: () => import('@/views/order/index.vue')
             },
             {
-                // 厂商个人资料
-                path: 'info',
-                component: () => import('@/views/business/info.vue')
-            },
-            {
                 // 管理已支付订单
                 path: 'orderfinish',
                 component: () => import('@/views/order/finish.vue')

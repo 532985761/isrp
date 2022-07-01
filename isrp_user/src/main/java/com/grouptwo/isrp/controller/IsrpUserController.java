@@ -103,9 +103,9 @@ public class IsrpUserController {
      * @param id 主键
      * @return 单条数据
      */
-    @PostMapping("{id}")
-    public ResponseEntity<IsrpUser> queryByIdq(@PathVariable("id") String id) {
-        return ResponseEntity.ok(this.isrpUserService.queryById(id));
+    @GetMapping("{id}")
+    public IsrpUser queryUserByIdInner(@PathVariable("id") String id) {
+        return this.isrpUserService.queryById(id);
     }
     /**
      * 通过ID查询用户信息

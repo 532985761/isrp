@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     private IsrpOrderDao isrpOrderDao;
     @Resource
     private GoodsClient goodsClient;
+
+
 
     /**
      * 通过ID查询单条数据
@@ -65,7 +68,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     }
 
     /**
-     * 修改数据
+     * 修改数据（确认发货）
      *
      * @param isrpOrder 实例对象
      * @return 实例对象
@@ -107,4 +110,50 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
         }
         return map;
     }
+
+    /**
+     * 通过商家id查询待支付订单
+     * @param shopUserId
+     * @return
+     */
+    @Override
+    public List<IsrpOrder> selectOrderIndexByShopUserId(String shopUserId) {
+        return isrpOrderDao.selectOrderIndexByShopUserId(shopUserId);
+    }
+
+    /**
+     * 通过商家id查询已完成订单
+     * @param shopUserId
+     * @return
+     */
+    @Override
+    public List<IsrpOrder> selectOrderFinishByShopUserId(String shopUserId) {
+        return isrpOrderDao.selectOrderFinishByShopUserId(shopUserId);
+    }
+    /**
+     * 通过商家id查询所有订单
+     * @param shopUserId
+     * @return
+     */
+    @Override
+    public List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId) {
+        return isrpOrderDao.selectOrderAllByShopUserId(shopUserId);
+    }
+
+//    @Override
+//    public Map<String, Object> getUserAndOrderInfo(String userId) {
+//        //查询所有订单后提取goodsId
+//
+//        //通过订单表goodsId查询goods表，保证唯一性，提升查询速度
+//        List<Long> goodsIds = new ArrayList<>();
+//        goodsIds.add(1L);
+//        goodsIds.add(2L);
+//        goodsClient.queryByGoodsIds(goodsIds);
+//        //得到上述goods表所有数据，进行数据帅选，筛选条件为--传入的`userId` 和goods表中userId相等--
+//
+//        //筛选之后得到list列表，此时list数据就是和当前用户相关的订单及订单对应商品信息
+//
+////         goodsClient.queryByUserId(userId);
+//        return new HashMap<>();
+//    }
 }

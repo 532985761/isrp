@@ -10,19 +10,104 @@
   </div>
   
   <el-space wrap style="margin-left:110px;margin-top: 35px;">
-    <el-card v-for="i in 8" :key="i" class="box-card" style="width: 250px">
+    <el-card  class="box-card" style="width: 250px">
       <template #header>
         <div class="card-header">
           <span>共享单车</span>
-          <p style="color:red;margin-left: 65px;">154元/小时</p>
+          <p style="color:red;margin-left: 65px;">2元/小时</p>
           <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
         </div>
       </template>
-      <div v-for="o in 1" :key="o" class="text item">
-        <img src="../../assets/222.jpg" alt="">
+      <div   class="text item">
+        <img src="../../assets/die/bike.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>共享单车(升级版)</span>
+          <p style="color:red;margin-left: 65px;">2.5元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/bike2.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>沃尔沃</span>
+          <p style="color:red;margin-left: 65px;">20元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/car.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>兰博基尼</span>
+          <p style="color:red;margin-left: 65px;">49.9元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/car2.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>小刀充电宝</span>
+          <p style="color:red;margin-left: 65px;">2元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/god.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>报废电脑</span>
+          <p style="color:red;margin-left: 65px;">5.5元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/macbook.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>抱抱龙玩具</span>
+          <p style="color:red;margin-left: 65px;">0.5元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/dragon.jpg" alt="">
+      </div>
+    </el-card>
+    <el-card  class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>猛禽汽车</span>
+          <p style="color:red;margin-left: 65px;">52元/小时</p>
+          <el-button class="button" text type="primary" style="margin-left:136px">商品详情</el-button>
+        </div>
+      </template>
+      <div  class="text item">
+        <img src="../../assets/die/car3.jpg" alt="">
       </div>
     </el-card>
   </el-space>
+  
 </template>
 <script lang="ts" setup>
 

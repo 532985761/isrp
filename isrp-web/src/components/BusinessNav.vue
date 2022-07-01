@@ -13,7 +13,7 @@
       <el-container>
         <el-aside width="200px">
           <el-col :span="24" style="margin-top: 20px">
-            <h5 class="mb-2">欢迎尊贵的张三用户！</h5>
+            <h5 class="mb-2">欢迎尊贵的{{nickName}}用户！</h5>
             <el-menu default-active="1" class="el-menu-vertical-demo">
               <el-menu-item
                 index="1"
@@ -22,15 +22,6 @@
                 <template #title>
                   <el-icon><location /></el-icon>
                   <span>主页</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item
-                index="2"
-                @click="$router.push('/isrpBusiness/info')"
-              >
-                <template #title>
-                  <el-icon><location /></el-icon>
-                  <span>个人资料</span>
                 </template>
               </el-menu-item>
               <el-menu-item
@@ -59,17 +50,17 @@
                     >已完成订单</el-menu-item
                   >
                 </el-menu-item-group>
-                <el-menu-item-group title="等待租赁">
+                <el-menu-item-group title="所有订单">
                   <el-menu-item
                     index="4-3"
                     @click="$router.push('/isrpBusiness/orderwait')"
-                    >等待租赁订单</el-menu-item
+                    >所有订单管理</el-menu-item
                   >
                 </el-menu-item-group>
               </el-sub-menu>
-              <el-menu-item index="5">
+              <el-menu-item index="5" @click="logout">
                 <el-icon><setting /></el-icon>
-                <span>退出登录</span>
+                <span >退出登录</span>
               </el-menu-item>
             </el-menu>
           </el-col>
@@ -79,3 +70,19 @@
     </el-container>
   </div>
 </template>
+<script lang="ts" setup>
+import { userStore } from "@/store/user";
+import router from "@/router";
+import { ElMessage } from "element-plus";
+const userstore = userStore();
+const nickName = userstore.info.nickname
+const logout = () => {
+  router.push("/businessLogin");
+  userStore().logout();
+  ElMessage({
+    message: "退出成功",
+    type: "success",
+    duration: 2 * 1000,
+  });
+};
+</script>

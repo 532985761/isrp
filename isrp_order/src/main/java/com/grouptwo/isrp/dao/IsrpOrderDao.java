@@ -67,7 +67,7 @@ public interface IsrpOrderDao {
     int insertOrUpdateBatch(@Param("entities") List<IsrpOrder> entities);
 
     /**
-     * 修改数据
+     * 编辑订单数据（确认发货）
      *
      * @param isrpOrder 实例对象
      * @return 影响行数
@@ -87,5 +87,25 @@ public interface IsrpOrderDao {
      *
      */
     List<IsrpOrder> selectAllOrders();
+
+    /**
+     * 通过商家id查询待支付订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderIndexByShopUserId(String shopUserId);
+
+    /**
+     * 通过商家id查询已完成订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderFinishByShopUserId(String shopUserId);
+    /**
+     * 通过商家id查询所有订单信息
+     * @param shopUserId
+     * @return
+     */
+    List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId);
 }
 

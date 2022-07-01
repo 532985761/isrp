@@ -1,7 +1,13 @@
 package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.annotation.RolesAuthorization;
+import com.grouptwo.isrp.client.OrderClient;
+import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.entity.IsrpGoods;
+import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
+import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
+import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
+import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,7 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 商品表(IsrpGoods)表控制层
@@ -26,6 +36,16 @@ public class IsrpGoodsController {
      */
     @Resource
     private IsrpGoodsService isrpGoodsService;
+    @Resource
+    private IsrpGoodsCategorySecondService isrpGoodsCategorySecondService;
+
+    @Resource
+    private UserClient userClient;
+    @Resource
+    private OrderClient orderClient;
+
+    @Resource
+    private IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
 
     /**
      * 分页查询
@@ -61,7 +81,11 @@ public class IsrpGoodsController {
     public ResponseEntity<IsrpGoods> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.isrpGoodsService.queryById(id));
     }
-
+//    @GetMapping("/getGoods/{goodsIds}")
+//    public ResponseEntity getGoods(@PathVariable("goodsIds") List<Long> goodsIds){
+//        System.out.println(goodsIds);
+//        return new ResponseEntity("ok",HttpStatus.OK);
+//    }
     /**
      * 新增商品
      *
@@ -119,6 +143,33 @@ public class IsrpGoodsController {
         return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByUserId(userId));
     }
 
+    @RolesAuthorization(value = {"user"})
+    @GetMapping("/getRentCenterInfoFromGoodsCategoryId")
+    public ResponseEntity getRentCenterInfoFromGoodsCategoryId(int firstId,int secondId){
+        Map<String,Object> list = isrpGoodsService.getGoodsInfo(firstId,secondId);
 
+        return  new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    /**
+     * 根据商品ID获取对应的商品信息和商户信息
+     * @param id
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/getGoodsDetailsByGoodsId/{id}")
+    public ResponseEntity getGoodsDetailsByGoodsId(@PathVariable("id") Long id){
+        return new ResponseEntity(isrpGoodsService.getGoodsDetailsByGoodsId(id),HttpStatus.OK);
+    }
+
+
+    /**
+     * 搜索商品列表
+     */
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/selectGoodsByGoodsName/{goodsName}")
+    public ResponseEntity selectGoodsByGoodsName(@PathVariable( "goodsName" ) String goodsName){
+        return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByGoodsName(goodsName));
+    }
 }
 

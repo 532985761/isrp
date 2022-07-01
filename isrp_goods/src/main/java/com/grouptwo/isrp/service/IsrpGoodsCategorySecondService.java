@@ -5,6 +5,8 @@ import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 商品二级分类表(IsrpGoodsCategorySecond)表服务接口
  *
@@ -55,4 +57,6 @@ public interface IsrpGoodsCategorySecondService {
     boolean deleteById(Integer goodsCategorySecondId);
 
     int getGoodsCategory(int id);
+
+    List<IsrpGoodsCategorySecond> getGoodsCategorySecondByFirstId(int firstId);
 }

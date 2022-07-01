@@ -78,3 +78,42 @@ export function addProcessBatch (form : any) {
 export function deleteProcessByModelId (orderModelId : number) {
     return http.delete('/isrpOrder/isrpOrderProcess/delete/' + orderModelId)
 }
+
+/**
+ * 通过商家id查询待支付订单
+ */
+export function selectOrderByShopUserId(shopUserId){
+    return http.get('/isrpOrder/isrpOrder/selectOrderIndexByShopUserId/'+shopUserId)
+}
+
+/**
+ * 通过商家id查询已完成订单
+ */
+export function selectOrderFinishByShopUserId(shopUserId){
+    return http.get('/isrpOrder/isrpOrder/selectOrderFinishByShopUserId/'+shopUserId)
+}
+/**
+ * 通过商家id查询所有订单
+ */
+ export function selectOrderAllByShopUserId(shopUserId){
+    return http.get('/isrpOrder/isrpOrder/selectOrderAllByShopUserId/'+shopUserId)
+}
+/**
+ * 通过orderid删除订单
+ */
+export function deleteOrder(orderId){
+    return http.post('/isrpOrder/isrpOrder/deleteOrder/'+orderId)
+}
+/**
+ * 确认发货
+ */
+export function updateOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/updateOrder/'+orderId)
+}
+/**
+ * 通过orderId搜索订单信息
+ * 
+ */
+export function selectOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/selectOrderById/'+orderId)
+}

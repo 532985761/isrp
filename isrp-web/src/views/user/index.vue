@@ -1,4 +1,5 @@
 <template>
+  <MyHeader msg="5"></MyHeader>
   <el-row :gutter="10" class="bg-slate-200 h-300px">
     <el-col :lg="3"></el-col>
     <el-col :lg="3">
@@ -23,7 +24,7 @@
           >
         </div>
 
-        <el-menu class="el-menu-vertical-demo mt-2">
+        <el-menu class="el-menu-vertical-demo mt-2" v-loading="loading">
           <el-menu-item
             class="bg-light-200"
             v-for="(i, index) in goodsCategoryFirst"
@@ -45,13 +46,20 @@
     </el-col>
     <!-- 商品左侧第二级分类 -->
     <el-col :lg="11">
-      <el-card class="bg-dark-100">
+      <el-card class="bg-gray-100">
         <el-carousel :interval="4000" height="258px" v-if="showTab">
           <el-carousel-item v-for="item in 6" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
+            <el-image
+              src="https://seopic.699pic.com/photo/50062/8783.jpg_wh1200.jpg"
+            />
           </el-carousel-item>
         </el-carousel>
-        <el-card class="h-258px scale-in-hor-left" v-if="!showTab">
+        <el-card
+          class="h-258px scale-in-hor-left"
+          v-loading="loading1"
+          v-if="!showTab"
+        >
           <div style="text-align: center; font-weight: bold" class="font-sans">
             {{ tabName }}
           </div>
@@ -62,13 +70,15 @@
             v-for="(i, index) in goodsCategorySecond"
             :key="index"
           >
-             <router-link
-                :to="{name:'rentCenter',params:{firstId:firstId,secondId:i.goodsCategorySecondId}}"
-                ><el-button  plain>
-             {{ i.goodsCategorySecondName }}</el-button
-            ></router-link
-              >
-
+            <router-link
+              :to="{
+                name: 'rentCenter',
+                params: { firstId: firstId, secondId: i.goodsCategorySecondId },
+              }"
+              ><el-button plain>
+                {{ i.goodsCategorySecondName }}</el-button
+              ></router-link
+            >
           </div>
         </el-card>
       </el-card>
@@ -116,51 +126,52 @@
     /></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
       ><div
-        class="grid-content ep-bg-purple-light h-115px w-full bg-dark-400 mt-4"
+        class="grid-content ep-bg-purple-light h-110px w-full bg-dark-400 mt-4"
       >
-        <el-carousel :interval="4000" height="115px">
+        <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
+            <el-image
+              src="https://seopic.699pic.com/photo/50042/9675.jpg_wh1200.jpg"
+            />
           </el-carousel-item>
         </el-carousel>
       </div>
     </el-col>
-    <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
-      ><div
-        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-11 mt-4"
-      >
-        <el-carousel :interval="4000" height="115px">
+    <el-col :lg="4"
+      ><div class="grid-content ep-bg-purple w-full bg-dark-400 ml-11 mt-4">
+        <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <el-image
+              src="https://seopic.699pic.com/photo/50042/9675.jpg_wh1200.jpg"
+            />
           </el-carousel-item>
-        </el-carousel>
-      </div></el-col
-    >
-    <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
+        </el-carousel></div
+    ></el-col>
+    <el-col :lg="4"
       ><div
-        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-22 mt-4"
+        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-22 mt-4"
       >
-        <el-carousel :interval="4000" height="115px">
+        <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <el-image
+              src="https://seopic.699pic.com/photo/50042/9675.jpg_wh1200.jpg"
+            />
           </el-carousel-item>
-        </el-carousel>
-      </div></el-col
-    >
-    <el-col :xs="4" :sm="6" :md="8" :lg="4" :xl="11"
+        </el-carousel></div
+    ></el-col>
+    <el-col :lg="4"
       ><div
-        class="grid-content ep-bg-purple h-30 w-full bg-dark-400 ml-32 mt-4"
+        class="grid-content ep-bg-purple h-110px w-full bg-dark-400 ml-32 mt-4"
       >
-        <el-carousel :interval="4000" height="115px">
+        <el-carousel :interval="4000" height="110px">
           <el-carousel-item v-for="item in 3" :key="item">
-            <h3 text="2xl" justify="center">{{ item }}</h3>
+            <el-image
+              src="https://seopic.699pic.com/photo/50042/9675.jpg_wh1200.jpg"
+            />
           </el-carousel-item>
-        </el-carousel>
-      </div></el-col
-    >
-    <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
-      ><div class="grid-content ep-bg-purple-light"
-    /></el-col>
+        </el-carousel></div
+    ></el-col>
   </el-row>
   <el-row class="bg-white-200">
     <el-col :span="24"
@@ -228,26 +239,29 @@ import {
   queryByPageGetGoodsCategorySecond,
 } from "@/api/goods";
 import { userStore } from "@/store/user";
+import MyHeader from "./components/header.vue";
 const dialogTableVisible = ref(false);
 const shopname = ref("");
 const showTab = ref(true);
 const tabName = ref("");
 const userInfo = userStore();
+let loading = ref(true);
+let loading1 = ref(true);
 //获取商品陪你二级分类信息
 //获取第二栏左侧导航商品二级信息
 let goodsCategorySecond: any = ref({});
-const firstId = ref()
+const firstId = ref();
 const selectMenu: any = (name, index) => {
-  console.log(name,index);
   firstId.value = index;
   showTab.value = true;
   setTimeout(() => {
     showTab.value = false;
   }, 10);
   tabName.value = name;
-
+  loading1.value = true;
   queryByPageGetGoodsCategorySecond(index, 1, 1000).then((res) => {
     goodsCategorySecond.value = res.data.content;
+    loading1.value = false;
   });
 };
 
@@ -258,8 +272,9 @@ const showTabFalse = () => {
 let goodsCategoryFirst: any = ref({});
 
 onMounted(async () => {
-  await queryByPageGetGoodsCategoryFirst().then((res) => {
+  await queryByPageGetGoodsCategoryFirst(1, 4).then((res) => {
     goodsCategoryFirst.value = res.data.content;
+    loading.value = false;
   });
 });
 </script>

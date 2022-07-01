@@ -25,15 +25,6 @@
                 </template>
               </el-menu-item>
               <el-menu-item
-                index="2"
-                @click="$router.push('/isrpBusiness/info')"
-              >
-                <template #title>
-                  <el-icon><location /></el-icon>
-                  <span>个人资料</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item
                 index="3"
                 @click="$router.push('/isrpBusiness/goodsinfo')"
               >

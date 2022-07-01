@@ -1,5 +1,5 @@
 <template>
-<MyHeader msg="6"></MyHeader>
+  <MyHeader msg="6"></MyHeader>
   <!-- 面包屑导航 -->
   <el-row :gutter="10">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
@@ -7,10 +7,7 @@
     /></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11" class="mt-4">
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item
-          :to="{ path: '/isrpUser/index' }"
-
-        >
+        <el-breadcrumb-item :to="{ path: '/isrpUser/index' }">
           首页</el-breadcrumb-item
         >
         <el-breadcrumb-item>租赁中心</el-breadcrumb-item>
@@ -19,7 +16,7 @@
       </el-breadcrumb></el-col
     >
   </el-row>
-  <el-row :gutter="10">
+  <el-row :gutter="10" v-loading="loading">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
       ><div class="grid-content ep-bg-purple"
     /></el-col>
@@ -32,9 +29,7 @@
           <!-- 本二级分类名称 -->
           <!-- {{ info.secondList }} -->
         </div>
-        <el-divider style="margin-top: 5px" content-position="left"
-          ><span class=""></span>
-        </el-divider>
+
 
         <div class="text item font-mono text-lg font-semibold">
           网站商品分类：
@@ -91,7 +86,7 @@
 
   <!-- 正文内容 -->
   <el-divider> 商品分类专区 </el-divider>
-  <el-row :gutter="10">
+  <el-row :gutter="10" v-loading="loading">
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
       ><div class="grid-content ep-bg-purple"
     /></el-col>
@@ -104,9 +99,9 @@
           border
         >
           <template #extra>
-           <el-button type="primary" @click="lookGoodsDetail(i.goods.goodsId)"
-                >查看待租商品详情</el-button
-              >
+            <el-button type="primary" @click="lookGoodsDetail(i.goods.goodsId)"
+              >查看待租商品详情</el-button
+            >
 
             <el-button type="danger" @click="rentGoods">立即下单租用</el-button>
           </template>
@@ -204,33 +199,34 @@ import {
   queryByPageGetGoodsCategorySecond,
 } from "@/api/goods";
 import VueEvent from "@/utils/event";
-import MyHeader from "@/views/user/components/header.vue"
+import MyHeader from "@/views/user/components/header.vue";
 
 let info: any = ref({});
 const activeName = ref("6");
 const goodsCategoryFirst = ref();
 const centerDialogVisible = ref(false);
-
+const loading = ref(true);
+const loadingSecond = ref(true);
 onBeforeMount(() => {
   getRentCenterInfoFromGoodsCategoryId(
     router.currentRoute.value.params.firstId.toString(),
     router.currentRoute.value.params.secondId.toString()
-  ).then((res) => {
-    // 获取初始信息
+  )
+    .then((res) => {
+      // 获取初始信息
 
-    info.value = res.data;
-    goodsDetail.value = res.data.goodsInfo;
-
-    console.log(info.value);
-  });
+      info.value = res.data;
+      goodsDetail.value = res.data.goodsInfo;
+    })
+    .then(() => {
+      loading.value = false;
+    });
   //查询所有一级分类
   queryByPageGetGoodsCategoryFirst(1, 100).then((res) => {
     goodsCategoryFirst.value = res.data.content;
   });
 });
 //激活导航条
-
-
 
 const goodsDetail = ref([
   {
@@ -269,6 +265,7 @@ const goodsDetail = ref([
 ]);
 //改变激活状态
 const changeGoodsInfo = async (one, two) => {
+  loading.value = true;
   await router.push("/isrpUser/rentCenter/" + one + "/" + two);
 
   getRentCenterInfoFromGoodsCategoryId(
@@ -278,20 +275,16 @@ const changeGoodsInfo = async (one, two) => {
     // 获取所有后端信息
     info.value = res.data;
     goodsDetail.value = res.data.goodsInfo;
-    console.log(goodsDetail.value);
-  });
+  }).then(()=>{  loading.value = false;
+});
 };
 //加入购物车
 const rentGoods = () => {
   centerDialogVisible.value = true;
 };
 //查看商品详情
-const lookGoodsDetail = (id)=>{
-      router.push("/isrpUser/goodsdetail/"+id);
-    // getGoodsDetails().then((res) => {})
-    console.log(id);
-
-
-}
+const lookGoodsDetail = (id) => {
+  router.push("/isrpUser/goodsdetail/" + id);
+};
 </script>
 <style></style>

@@ -1,9 +1,11 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpOrder;
+import com.grouptwo.isrp.pojo.CartVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +85,9 @@ public interface IsrpOrderService {
      * @return
      */
     List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId);
+
+
+    Map<String ,Object> addToCart(Integer goodsId, BigDecimal days);
 
 //    Map<String,Object> getUserAndOrderInfo(String userId);
 }

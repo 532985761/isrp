@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.io.Serializable;
 
 /**
@@ -65,11 +64,11 @@ public class IsrpGoods implements Serializable {
     /**
      * 限制租用时间，以租代售，先租后买
      */
-    private Double rentLimitDays;
+    private BigDecimal rentLimitDays;
     /**
      * 每天租用价钱
      */
-    private Double rentPricePerDay;
+    private BigDecimal rentPricePerDay;
 
 
     public Long getGoodsId() {
@@ -160,19 +159,19 @@ public class IsrpGoods implements Serializable {
         this.createTime = createTime;
     }
 
-    public Double getRentLimitDays() {
+    public BigDecimal getRentLimitDays() {
         return rentLimitDays;
     }
 
-    public void setRentLimitDays(Double rentLimitDays) {
+    public void setRentLimitDays(BigDecimal rentLimitDays) {
         this.rentLimitDays = rentLimitDays;
     }
 
-    public Double getRentPricePerDay() {
+    public BigDecimal getRentPricePerDay() {
         return rentPricePerDay;
     }
 
-    public void setRentPricePerDay(Double rentPricePerDay) {
+    public void setRentPricePerDay(BigDecimal rentPricePerDay) {
         this.rentPricePerDay = rentPricePerDay;
     }
 

@@ -1,31 +1,19 @@
 <template>
-    <el-row >
+  <el-row>
     <el-col :span="24" class="bg-light-600">
       <el-row :gutter="10">
         <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"></el-col>
         <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11" class="mt-6">
-          <div style="display: inline-block">
-            <el-input
-              v-model="keyWord"
-              class="w-195"
-              size="large"
-              placeholder="在此搜索你想租赁的商品"
-              :suffix-icon="Search"
-            />
-            <el-button type="primary" class="h-10">点击搜索</el-button>
-          </div>
-          <div style="display: inline-block; float: right" class="w-222px">
+
+          <!-- <div style="display: inline-block; float: right">
             <el-image
-              class="h-100px w-198px kenburns-top"
+              class="h-120px w-245px "
               src="/src/assets/znzzlogo.png"
             />
-          </div>
-
-          <!-- <div style="float: right;border: 1px solid black" class="mt-4 -ml-30 border-gray-500" >
-            <el-icon ><ShoppingCartFull /></el-icon><span class="ml-4 border-red-500">查看购物车</span>
           </div> -->
+
           <el-row
-            ><el-col :span="5" class="mt-5"
+            ><el-col :span="4" class="mt-5"
               ><div
                 class="h-10 text-center text-1.5xl w-190px"
                 style="
@@ -38,7 +26,7 @@
                 <span style="line-height: 40px">热门推荐商品</span>
                 &nbsp;<el-icon :size="13"><ArrowRightBold /></el-icon></div
             ></el-col>
-            <el-col :span="17" class="mt-5"
+            <el-col :span="14" class="mt-5"
               ><el-tabs
                 v-model="activeName"
                 class="demo-tabs ml-10"
@@ -53,7 +41,19 @@
                   label="已租代售"
                   name="4"
                 ></el-tab-pane> </el-tabs></el-col
-          ></el-row>
+          >
+          <!-- <el-col :span="1"></el-col> -->
+          <el-col  :span="5" class="mt-5 ml-39px">
+            <el-input
+              v-model="keyWord"
+              class="w-246px"
+              size="large"
+              placeholder="在此搜索你想租赁的商品"
+              :suffix-icon="Search"
+            />
+         </el-col>
+
+          </el-row>
         </el-col> </el-row
     ></el-col>
   </el-row>
@@ -81,9 +81,8 @@ const logout = () => {
   });
 };
 
-
 const nickname = userstore.info.nickname;
-const activeName:any = ref("5");
+const activeName: any = ref("5");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   if (tab.props.name == 5) {
     router.push("/isrpUser");
@@ -96,16 +95,15 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   }
 };
 //激活导航栏
-VueEvent.on("tomsg", (value:any) => {
-   activeName.value = value;
-
+VueEvent.on("tomsg", (value: any) => {
+  activeName.value = value;
 });
 
 let props = defineProps({
   msg: { type: String },
 }); //声明 props
 activeName.value = props.msg;
-console.log("我是子组件接收的props值："+props.msg);
+console.log("我是子组件接收的props值：" + props.msg);
 </script>
 
 <style>

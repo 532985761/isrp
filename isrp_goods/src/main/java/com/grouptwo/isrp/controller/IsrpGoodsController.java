@@ -76,7 +76,7 @@ public class IsrpGoodsController {
      * @param id 主键
      * @return 单条数据
      */
-    @RolesAuthorization(value = {"business"})
+    @RolesAuthorization(value = {"business","user"})
     @GetMapping("{id}")
     public ResponseEntity<IsrpGoods> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.isrpGoodsService.queryById(id));

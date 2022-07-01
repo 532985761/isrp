@@ -6,6 +6,7 @@
         clearable
         type="text"
         class="w-200"
+         v-model="orderIdFun"
       />
       <el-button
         type="success"
@@ -13,6 +14,7 @@
         round
         class="w-25"
         style="margin-left:20px"
+        @click="searchOrderByOrderId(orderIdFun)"
       >搜索</el-button>
     </el-form-item>
   </div>
@@ -48,26 +50,9 @@
 import { Search } from "@element-plus/icons-vue";
 import { userStore } from "@/store/user";
 import { onMounted, reactive, ref } from "vue";
-import {selectOrderByShopUserId } from "@/api/order"
+import {selectOrderByShopUserId,selectOrder } from "@/api/order"
+import { ElMessage } from "element-plus";
 const userstore = userStore();
-// const shopUserId = userstore.info.userId
-// const tableData = [
-//   {
-//     createTime:'',
-//     orderId:'',
-//     orderStatus:'',
-//     payTime:'',
-//     goodsTotalPrice:'',
-//     goodsPayReal:'',
-//     receiverName:'',
-//     receiverPhone:'',
-//     receiverEmail:'',
-//     receiverDetailAddress:'',
-//     confirmStatus:'',
-//     rentDays:'',
-//     rentRealDays:''
-//   }
-// ];
 let tableData: any = ref([]);
 const getAllGoodsFun = () => {
   selectOrderByShopUserId(userstore.info.userId).then((res: any) => {
@@ -79,4 +64,27 @@ onMounted(async () => {
     (res: any) => res.data
   );
 });
+const orderIdFun = ref();
+const searchOrderByOrderId = (orderIdFun) =>{
+   if(orderIdFun == '' || orderIdFun == undefined || orderIdFun == null){
+      selectOrderByShopUserId(userstore.info.userId).then((res: any) => {
+    tableData.value = res.data;
+  });
+    }else{
+      selectOrder(orderIdFun).then((res)=>{
+      if(res.data.length == 0 || res.data == null){
+        ElMessage({
+        type: 'warning',
+        message: '抱歉没有此订单'
+      })
+      }else{
+        ElMessage({
+          type: 'success',
+          message: '查询成功'
+        })
+        tableData.value = new Array(res.data) ;
+      }
+   })
+  }
+}
 </script>

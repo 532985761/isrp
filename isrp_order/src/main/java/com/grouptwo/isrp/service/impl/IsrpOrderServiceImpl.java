@@ -68,7 +68,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     }
 
     /**
-     * 修改数据
+     * 修改数据（确认发货）
      *
      * @param isrpOrder 实例对象
      * @return 实例对象

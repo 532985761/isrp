@@ -41,7 +41,7 @@ public interface IsrpOrderService {
     IsrpOrder insertOrder(IsrpOrder isrpOrder);
 
     /**
-     * 修改数据
+     * 修改数据（确认发货）
      *
      * @param isrpOrder 实例对象
      * @return 实例对象

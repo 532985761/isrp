@@ -74,7 +74,7 @@
           link
           type="warning"
           size="small"
-          @click="deleteGoods(scope.row.goodsId)"
+          @click="open(scope.row.goodsId)"
           >删除商品</el-button
         >
       </template>
@@ -199,7 +199,7 @@ import { selectGoodsByGoodsName } from "@/api/goods";
 import { userStore } from "@/store/user";
 import type { UploadFile } from "element-plus";
 import { deleteGoodsByGoodsId } from "@/api/goods";
-import { ElMessage } from "element-plus";
+import { ElMessage,ElMessageBox } from "element-plus";
 const disabled = ref(false);
 const dialogImageUrl = ref("");
 const ImageUrl = ref("");
@@ -263,16 +263,26 @@ const getGoodsInfo = (
   form.goodsDesc = goodsDesc;
   form.goodsStatus = goodsStatus;
 };
-const deleteGoods = (goodsId) => {
-  deleteGoodsByGoodsId(goodsId).then(() => {
-    getAllGoodsFun();
-    ElMessage({
-      type: 'success',
-      message: '删除成功'
+const open = (goodsId) => {
+  ElMessageBox.confirm(
+    '确认删除此商品吗？',
+    '删除商品',
+    {
+      confirmButtonText: '删除',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      deleteGoodsByGoodsId(goodsId).then(() => {
+        getAllGoodsFun();
+      });
+      ElMessage({
+        type: 'success',
+        message: '删除成功！',
+      })
     })
-
-  });
-};
+}
 const form = reactive({
   goodsName: "",
   goodsId: "",

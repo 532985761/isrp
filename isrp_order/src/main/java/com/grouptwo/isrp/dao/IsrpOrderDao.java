@@ -67,7 +67,7 @@ public interface IsrpOrderDao {
     int insertOrUpdateBatch(@Param("entities") List<IsrpOrder> entities);
 
     /**
-     * 修改数据
+     * 编辑订单数据（确认发货）
      *
      * @param isrpOrder 实例对象
      * @return 影响行数

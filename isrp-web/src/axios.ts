@@ -21,7 +21,6 @@ http.interceptors.request.use(
     let token = userstore.token || ''
     config.headers = {
       ...config.headers,
-      "content-type": "application/json",
       "Authorization": token
     }
     return config;

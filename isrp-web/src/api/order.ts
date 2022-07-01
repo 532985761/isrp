@@ -104,3 +104,16 @@ export function selectOrderFinishByShopUserId(shopUserId){
 export function deleteOrder(orderId){
     return http.post('/isrpOrder/isrpOrder/deleteOrder/'+orderId)
 }
+/**
+ * 确认发货
+ */
+export function updateOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/updateOrder/'+orderId)
+}
+/**
+ * 通过orderId搜索订单信息
+ * 
+ */
+export function selectOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/selectOrderById/'+orderId)
+}

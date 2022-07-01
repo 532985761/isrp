@@ -41,13 +41,14 @@ public class IsrpOrderController {
     }
 
     /**
-     * 通过主键查询单条订单信息
+     * 通过orderId搜索订单
      *
      * @param orderId 主键
      * @return 单条数据
      */
-    @GetMapping("/selecOrdertById/{orderId}")
+    @GetMapping("/selectOrderById/{orderId}")
     public ResponseEntity<IsrpOrder> selectOrderById(@PathVariable("orderId") String orderId) {
+        System.out.println();
         return ResponseEntity.ok(this.isrpOrderService.selectOrderById(orderId));
     }
 
@@ -63,16 +64,18 @@ public class IsrpOrderController {
     }
 
     /**
-     * 编辑订单数据
+     * 编辑订单数据（确认发货）
      *
-     * @param isrpOrder 实体
+     * @param orderId 实体
      * @return 编辑结果
      */
-    @PostMapping("/updateOrder/{orderId}")
-    public ResponseEntity<IsrpOrder> updateOrder(@RequestBody IsrpOrder isrpOrder) {
+    @RolesAuthorization(value = {"business"})
+    @GetMapping("/updateOrder/{orderId}")
+    public ResponseEntity<IsrpOrder> updateOrder(@PathVariable("orderId") String orderId) {
+        IsrpOrder isrpOrder = new IsrpOrder();
+        isrpOrder.setOrderId(orderId);
         return ResponseEntity.ok(this.isrpOrderService.updateOrder(isrpOrder));
     }
-
     /**
      * 删除订单数据
      *

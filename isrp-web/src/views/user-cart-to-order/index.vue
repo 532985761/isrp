@@ -17,6 +17,14 @@
   <el-row>
     <el-col :lg="2"></el-col>
     <el-col :lg="20" class="mt-4">
+     <div class="w-800px ml-626px -mt-40px">
+          <el-steps :space="200" :active="2" finish-status="success">
+            <el-step title="选取商品" />
+            <el-step title="购物车筛选" />
+            <el-step title="下单" />
+            <el-step title="付款" />
+          </el-steps>
+        </div>
       <el-card>
         <div>
           <span style="font-weight: bold; font-size: 15px">收货人信息</span>
@@ -70,7 +78,7 @@
 
         <el-divider></el-divider>
         <div>
-        <el-button style="float:right" class="w-200px h-50px -mt-25px" type="danger">支付</el-button>
+        <el-button style="float:right" class="w-200px h-50px -mt-25px" type="danger">提交订单</el-button>
         </div>
         </el-card
     ></el-col>

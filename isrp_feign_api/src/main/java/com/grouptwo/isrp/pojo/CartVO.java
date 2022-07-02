@@ -16,6 +16,32 @@ public class CartVO {
     private BigDecimal rentLimit;
     private BigDecimal total;
 
+    private BigDecimal goodsPrice;
+
+    @Override
+    public String toString() {
+        return "CartVO{" +
+                "goodsId=" + goodsId +
+                ", goodsImg='" + goodsImg + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsDesc='" + goodsDesc + '\'' +
+                ", rentDays=" + rentDays +
+                ", rentPrice=" + rentPrice +
+                ", modal='" + modal + '\'' +
+                ", rentLimit=" + rentLimit +
+                ", total=" + total +
+                ", goodsPrice=" + goodsPrice +
+                '}';
+    }
+
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
     public String getGoodsImg() {
         return goodsImg;
     }
@@ -74,21 +100,6 @@ public class CartVO {
 
     public BigDecimal getTotal() {
         return total;
-    }
-
-    @Override
-    public String toString() {
-        return "CartVO{" +
-                "goodsId=" + goodsId +
-                ", goodsImg='" + goodsImg + '\'' +
-                ", goodsName='" + goodsName + '\'' +
-                ", goodsDesc='" + goodsDesc + '\'' +
-                ", rentDays=" + rentDays +
-                ", rentPrice=" + rentPrice +
-                ", modal='" + modal + '\'' +
-                ", rentLimit=" + rentLimit +
-                ", total=" + total +
-                '}';
     }
 
     public Integer getGoodsId() {

@@ -1,5 +1,7 @@
 package com.grouptwo.isrp.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.service.IsrpOrderService;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -147,6 +150,35 @@ public class IsrpOrderController {
 
         return new ResponseEntity(isrpOrderService.addToCart(goodsId, days), HttpStatus.OK);
     }
+    /**
+     * 提取购物车商品
+     */
+    @RolesAuthorization
+    @PostMapping("/getCart")
+    public ResponseEntity getCart(){
+
+      return new ResponseEntity(isrpOrderService.getCart(),HttpStatus.OK);
+    }
+
+    /**
+     * 删除购物车项
+     */
+    @RolesAuthorization
+    @GetMapping("/deleteCartByGoodsId/{goodsId}")
+    public ResponseEntity deleteCartByGoodsId(@PathVariable("goodsId") Integer goodsId){
+
+        return new ResponseEntity(isrpOrderService.deleteCartByGoodsId(goodsId),HttpStatus.OK);
+    }
+
+
+    /**
+     * 用户生成订单
+     */
+//    @RolesAuthorization
+//    @GetMapping("/makeOrder")
+//    public ResponseEntity makeOrder(){
+//
+//    }
 
 }
 

@@ -1,66 +1,57 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="1"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :span="1"></el-col>
     <el-col :span="22" class="mt-5">
-      <el-card
-        style="text-align: center"
-        class="font-serif text-3xl font-medium"
-      >
-      <router-link to="/isrpUser/index"> <el-button style="float: left" type="primary"
-          ><el-icon><Back /></el-icon>&nbsp;&nbsp;返回主页</el-button
+      <el-card class="font-serif">
+        <el-button style="float: left" type="primary" @click="$router.go(-1)"
+          ><el-icon><Back /></el-icon>&nbsp;&nbsp;返回上一页</el-button
         >
-</router-link>
-
-
-        <span class="text-2xl font-bold -ml-25"> 请选择需要下单的商品进行操作</span>
-
-        <!-- <el-button>返回上一页</el-button> -->
+        <div class="w-800px ml-400px">
+          <el-steps :space="200" :active="1" finish-status="success">
+            <el-step title="选取商品" />
+            <el-step title="购物车筛选" />
+            <el-step title="下单" />
+            <el-step title="付款" />
+          </el-steps>
+        </div>
       </el-card>
       <el-card class="mt-4">
         <el-table
-          ref="multipleTableRef"
-          :data="tableData"
+          :data="cart"
           style="width: 100%"
-          @selection-change="handleSelectionChange"
+          element-loading-text="正在改变购物车数据，请稍等"
+          element-loading-background="rgba(122, 122, 122, 1)"
+          v-loading="loading"
         >
-          <el-table-column type="selection" width="55" height="200" />
-          <el-table-column label="商品信息" width="150">
-            <template #default>
+          <el-table-column label="商品信息" width="100">
+            <template #default="scope">
               <el-image
                 style="width: 50px; height: 50px; border-radius: 15px"
-                src="/src/assets/znzzlogo.png"
+                :src="scope.row.goodsImg"
                 class="mt-0.5"
             /></template>
           </el-table-column>
           <el-table-column height="200" property="name" width="220">
             <template #default="scope">
-              <span class="ml-10">
-                {{ scope.row.name }}Apple iPhone 13 (A2634) 128GB 星光色
-                支持移动联通电信5G 双卡双待手机 选服务</span
-              >
+              <span class="font-bold"> {{ scope.row.goodsName }}</span
+              ><br /><span> {{ scope.row.goodsDesc }}</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column
-            property="address"
-            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数量"
-            show-overflow-tooltip
-            class="ml-15"
-            width="160"
-          >
-            <template #default>
-              <span class="ml-18">x1</span>
-            </template>
-          </el-table-column> -->
           <el-table-column
             property="address"
-            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用时长/天"
+            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用时长(天)"
             show-overflow-tooltip
             class="ml-15"
             width="180"
           >
-            <template #default>
-               <el-input-number size="small" v-model="num" :precision="2" :step="0.1" :max="10" />
-
+            <template #default="scope">
+              <el-input-number
+                size="small"
+                v-model="scope.row.rentDays"
+                :step="1"
+                :max="scope.row.rentLimit"
+                @change="changeCart(scope.row.goodsId, scope.row.rentDays)"
+              />
             </template>
           </el-table-column>
           <el-table-column
@@ -70,30 +61,68 @@
             class="ml-15"
             width="120"
           >
-            <template #default>
-              <span>30元/天</span>
+            <template #default="scope">
+              <el-tag size="large" type="primary">{{
+                scope.row.rentPrice
+              }}</el-tag
+              ><span> 元/天</span>
             </template>
           </el-table-column>
           <el-table-column
-            property="address"
             label="&nbsp;&nbsp;租用方式"
             show-overflow-tooltip
             class="ml-15"
             width="120"
           >
-            <template #default>
-              <el-tag type="danger">以租代售</el-tag>
+            <!-- <template #default="scope">
+              <el-tag size="large" type="danger">{{ scope.row.modal }}</el-tag>
+            </template> -->
+            <template #default="scope">
+              <el-popover
+                effect="light"
+                trigger="hover"
+                placement="top"
+                width="auto"
+              >
+                <template #default>
+                  <div v-if="scope.row.modal == '先租后买'">
+                    租用模式说明：规定一个租用时间上限，在租用时间截止之前考虑是否买下本商品
+                  </div>
+                  <div v-else-if="scope.row.modal == '以租代售'">
+                    租用模式说明：规定一定的租赁时间，不可改变，在到达时间之前得退货，达到之后物品归为己有
+                  </div>
+                  <div v-else>租用模式说明：按照实际租用时长付费</div>
+                </template>
+                <template #reference>
+                  <el-tag type="danger">{{ scope.row.modal }}</el-tag>
+                </template>
+              </el-popover>
             </template>
           </el-table-column>
-            <el-table-column
+          <el-table-column
             property="address"
-            label="租用限制"
+            label="租用上限"
             show-overflow-tooltip
             class="ml-15"
             width="120"
           >
-            <template #default>
-              <el-tag type="warning">暂无</el-tag>
+            <template #default="scope">
+              <el-tag size="large" type="warning"
+                >{{ scope.row.rentLimit }}天</el-tag
+              >
+            </template>
+          </el-table-column>
+          <el-table-column
+            property="address"
+            label="商品总价"
+            show-overflow-tooltip
+            class="ml-15"
+          >
+            <template #default="scope">
+              <span v-if="scope.row.modal != '共享租赁'"
+                >{{ scope.row.goodsPrice }} 元</span
+              >
+              <span v-else>按租用时长计费<br />到时间可以续租</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -102,8 +131,13 @@
             show-overflow-tooltip
             class="ml-15"
           >
-            <template #default>
-              <span>500元</span>
+            <template #default="scope">
+              <span
+                >{{
+                  (scope.row.rentPrice * scope.row.rentDays).toFixed(2)
+                }}
+                元</span
+              >
             </template>
           </el-table-column>
 
@@ -113,103 +147,102 @@
             show-overflow-tooltip
             class="ml-15"
           >
-            <template #default>
-              <el-link type="danger">删除</el-link> <br />
-              <el-link type="primary">立即下单</el-link>
+            <template #default="scope">
+              <el-popconfirm
+                title="确定要删除购物车中此项吗？"
+                @confirm="confirmDelete(scope.row.goodsId)"
+              >
+                <template #reference>
+                  <el-link type="danger">删除</el-link>
+                </template>
+              </el-popconfirm>
+              <br />
+              <el-link type="primary">下单</el-link>
             </template>
           </el-table-column>
         </el-table>
-        <div style="margin-top: 20px">
-          <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-            >Toggle selection status of second and third rows</el-button
-          > -->
+        <!-- <div style="margin-top: 20px">
+       
           <el-button type="warning" @click="toggleSelection()"
             >清空选项</el-button
           >
           <span class="ml-550px">共计 元</span>
-          <router-link to="/isrpUser/confirmOrder"> <el-button
-            style="float: right"
-            type="danger"
-            class="w-200px h-60px -mt-4"
-            >结算</el-button
-          ></router-link>
-
-        </div>
+          <router-link to="/isrpUser/confirmOrder">
+            <el-button
+              style="float: right"
+              type="danger"
+              class="w-200px h-60px -mt-4"
+              >结算</el-button
+            ></router-link
+          >
+        </div> -->
       </el-card>
     </el-col>
 
-    <el-col :span="2"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :span="2"></el-col>
   </el-row>
 </template>
 <script lang="ts" setup>
 import VueEvent from "@/utils/event";
 import { ElTable } from "element-plus";
-import { ref } from "vue";
+import { onBeforeMount, ref, computed } from "vue";
+import { getCartInfo, changeCartInfo, deleteCartByGoodsId } from "@/api/order";
+    import { ElNotification } from 'element-plus'
 const num = ref(1);
-const handleChange = (value: number) => {
-  console.log(value);
-};
-interface User {
-  date: string;
-  name: string;
-  address: string;
-}
+const visible = ref(false);
 
-const multipleTableRef = ref<InstanceType<typeof ElTable>>();
-const multipleSelection = ref<User[]>([]);
-const toggleSelection = (rows?: User[]) => {
-  if (rows) {
-    rows.forEach((row) => {
-      // TODO: improvement typing when refactor table
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      multipleTableRef.value!.toggleRowSelection(row, undefined);
+//购物车结构定义
+const cart = ref([
+  {
+    goodsId: 37,
+    goodsImg: null,
+    goodsName: "aaa",
+    goodsDesc: "商品状态测试",
+    rentDays: 8888,
+    rentPrice: 388,
+    modal: "先租后买",
+    rentLimit: 10,
+    total: 3448544,
+    loading: false,
+    goodsPrice: 1,
+  },
+]);
+//获取购物车数据
+onBeforeMount(() => {
+  getCart();
+});
+const getCart = () => {
+  getCartInfo().then((res) => {
+    cart.value = res.data.cart;
+    console.log(cart.value);
+  });
+};
+const loading = ref(false);
+//更新购物车数据
+const changeCart = (goodsId, days) => {
+  loading.value = true;
+  changeCartInfo(goodsId, days)
+    .then((res) => {
+      cart.value = res.data.cart;
+    })
+    .then(() => {
+      loading.value = false;
     });
-  } else {
-    multipleTableRef.value!.clearSelection();
-  }
 };
-const handleSelectionChange = (val: User[]) => {
-  multipleSelection.value = val;
-};
+//删除购物车项
+const confirmDelete = (goodsId) => {
+  deleteCartByGoodsId(goodsId).then(() => {
+    getCart();
+  }).then(() => {
 
-const tableData: User[] = [
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-02",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-04",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-01",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-08",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-06",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-07",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-];
-//隐藏导航栏下部分内容
-VueEvent.emit("showDiv", { data: false });
+
+
+  ElNotification({
+    title: '提示信息',
+    message: '商品成功从购物车移除',
+    type: 'success',
+  })
+
+});
+};
 </script>

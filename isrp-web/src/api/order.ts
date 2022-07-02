@@ -117,3 +117,21 @@ export function updateOrder(orderId){
 export function selectOrder(orderId){
     return http.get('/isrpOrder/isrpOrder/selectOrderById/'+orderId)
 }
+/**
+ * 获取购物车商品
+ */
+export function getCartInfo(){
+    return http.post('/isrpOrder/isrpOrder/getCart')
+}
+/**
+ * 更新购物车商品
+ */
+export function changeCartInfo(goodsId,days){
+    return http.get('/isrpOrder/isrpOrder/addToCart/'+goodsId+"/"+days)
+}
+/**
+ * 删除购物车商品
+ */
+export function deleteCartByGoodsId(goodsId){
+    return http.get('/isrpOrder/isrpOrder/deleteCartByGoodsId/'+goodsId)
+}

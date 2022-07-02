@@ -188,6 +188,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
             cartVO.setModal((String) model.get("orderModelName"));
             cartVO.setRentPrice(goods.getRentPricePerDay());
             cartVO.setGoodsImg(goods.getGoodsImg());
+            cartVO.setGoodsPrice(goods.getGoodsPrice());
             //存入redis
             operations.put(goodsId.toString(), JSONObject.toJSONString(cartVO));
         } else {
@@ -210,6 +211,30 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
             map.put("cart", list);
         }
         return map;
+    }
+
+    @Override
+    public Map<String, Object> getCart() {
+        Map<String,Object> map = new HashMap<>();
+        String cartInfoKey = CART_PREFIX + getUserInfo().get("userId").toString();
+        BoundHashOperations<String, Object, Object> operationsList = stringRedisTemplate.boundHashOps(cartInfoKey);
+        List<Object> values = operationsList.values();
+        if (values != null) {
+            List<CartVO> list = values.stream().map((obj) -> {
+                String str = (String) obj;
+                return JSON.parseObject(str, CartVO.class);
+            }).collect(Collectors.toList());
+            map.put("cart", list);
+        }
+        return map;
+    }
+
+    @Override
+    public boolean deleteCartByGoodsId(Integer goodsId) {
+        String cartInfoKey = CART_PREFIX + getUserInfo().get("userId").toString();
+        BoundHashOperations<String, Object, Object> operations = getCart(CART_PREFIX);
+        operations.delete(goodsId.toString());
+        return true;
     }
 
     /**

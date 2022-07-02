@@ -58,36 +58,126 @@
               <el-descriptions-item label="租赁价格" align="center"
                 >{{ goods.goods.rentPricePerDay }}元/天</el-descriptions-item
               >
-              <el-descriptions-item label="商品总价" align="center">
+              <!-- 以租代售 -->
+              <el-descriptions-item
+                label="商品总价"
+                align="center"
+                v-if="goods.model.orderModelId !== 13"
+              >
                 <el-tag type="warning">{{ goods.goods.goodsPrice }}元</el-tag>
               </el-descriptions-item>
-              <!-- 不同租赁方式 -->
-              <el-descriptions-item label="租赁时间上限" align="center">
+
+              <el-descriptions-item
+                label="租赁时间上限"
+                align="center"
+                v-if="goods.model.orderModelId !== 13"
+              >
                 <el-tag type="danger" size="large"
                   >{{ goods.goods.rentLimitDays }}天</el-tag
                 >
               </el-descriptions-item>
             </el-descriptions>
 
-            <el-card class="bg-gray-200 mt-6">
+            <el-card
+              class="bg-gray-200 mt-6"
+              v-if="goods.model.orderModelId == 12"
+            >
               <div>
-                <span>租用限制：{{ goods.goods.rentLimitDays }}</span>
+                <span class="font-bold">租用限制：</span>
+
+                <span
+                  >租用天数在<el-tag>{{ goods.goods.rentLimitDays }}天</el-tag
+                  >以内需要回退给卖家，达到租用天数后则可以归为已有</span
+                >
               </div>
               <hr />
               <div class="mt-3">
-                <span>卖家等级： 五颗星</span>
+                <span class="font-bold">卖家等级：</span>
+
+                <span>五颗星</span>
               </div>
 
               <div class="mt-3">
-                <span>出租次数： 100次</span>
+                <span class="font-bold">出租次数：</span>
+                <span> {{ goods.goods.goodsSaleCount }} 次</span>
+              </div>
+            </el-card>
+            <!-- 共享租赁 -->
+            <el-card
+              class="bg-gray-200 mt-6"
+              v-if="goods.model.orderModelId == 13"
+            >
+              <div>
+                <span class="font-bold">租用限制：</span>
+
+                <span>无租用限制，在租用完成后，需要进行商品的退还。 </span>
+              </div>
+              <hr />
+              <div class="mt-3">
+                <span class="font-bold">卖家等级：</span>
+
+                <span>五颗星</span>
+              </div>
+
+              <div class="mt-3">
+                <span class="font-bold">出租次数：</span>
+                <span> {{ goods.goods.goodsSaleCount }} 次</span>
+              </div>
+            </el-card>
+            <el-card
+              class="bg-gray-200 mt-6"
+              v-if="goods.model.orderModelId == 1"
+            >
+              <div>
+                <span class="font-bold">租用限制：</span>
+
+                <span
+                  >租用上限天数在<el-tag
+                    >{{ goods.goods.rentLimitDays }}天</el-tag
+                  ><br />在租用期结束前，选择是否买断商品，若买断，则用总价-每天租用价格*实际租用天数</span
+                >
+              </div>
+              <hr />
+              <div class="mt-3">
+                <span class="font-bold">卖家等级：</span>
+
+                <span>五颗星</span>
+              </div>
+
+              <div class="mt-3">
+                <span class="font-bold">出租次数：</span>
+                <span> {{ goods.goods.goodsSaleCount }} 次</span>
               </div>
             </el-card>
             <div class="mt-4" style="text-align: center">
-              <el-button class="w-350px h-50px" type="warning"
+              <el-button
+                class="w-350px h-50px"
+                type="warning"
+                v-show="!showButton"
+                @click="addToCartClick(goods.goods.goodsId, 1)"
                 >加入购物车</el-button
               >
-              <el-button class="w-350px h-50px" type="danger"
+              <el-button
+                v-show="showButton"
+                class="w-350px h-50px"
+                type="info"
+                disabled="disabled"
+                @click="addToCartClick(goods.goods.goodsId, 1)"
+                >商品已加入购物车</el-button
+              >
+              <el-button
+                class="w-350px h-50px"
+                type="danger"
+                v-show="!showButton"
                 >立即下单</el-button
+              >
+
+              <router-link to="/isrpUser/userCart">
+                <el-button
+                  class="w-350px h-50px bg-sky-400 ml-20px"
+                  v-show="showButton"
+                  >前往购物车</el-button
+                ></router-link
               >
             </div>
           </el-col></el-row
@@ -126,11 +216,15 @@ import { ArrowRight } from "@element-plus/icons-vue";
 import router from "@/router";
 import { onBeforeMount, ref } from "vue";
 import { getGoodsDetailsByGoodsId } from "@/api/goods";
+import { changeCartInfo, getCartInfo } from "@/api/order";
+import { ElNotification } from "element-plus";
 
 const src =
   "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg";
 const loading = ref(true);
-const goods = ref({
+const showButton = ref(false);
+
+const goods: any = ref({
   goodsCategoryFirst: "数码产品",
   goodsCategorySecond: "对讲机",
   goods: {
@@ -174,8 +268,33 @@ onBeforeMount(() => {
     })
     .then(() => {
       loading.value = false;
+      getCartInfo().then((res) => {
+        res.data.cart.filter((c) => {
+          if (c.goodsId == goods.value.goods.goodsId) {
+            showButton.value = true;
+          }
+        });
+      });
     });
 });
+//将商品添加购物车
+const addToCartClick = (goodsId, days) => {
+  changeCartInfo(goodsId, days)
+    .then((res) => {
+      res.data.cart.filter((c) => {
+        if (c.id == goods.value.goodsId) {
+          showButton.value = true;
+        }
+      });
+    })
+    .then(() => {
+      ElNotification({
+        title: "提示消息",
+        message: "商品成功添加到购物车",
+        type: "success",
+      });
+    });
+};
 </script>
 
 <style scoped></style>

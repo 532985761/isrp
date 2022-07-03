@@ -135,3 +135,15 @@ export function changeCartInfo(goodsId,days){
 export function deleteCartByGoodsId(goodsId){
     return http.get('/isrpOrder/isrpOrder/deleteCartByGoodsId/'+goodsId)
 }
+/**
+ * 订单生成前订单页信息
+ */
+export function getPreorderInfo(goodsId){
+    return http.get('/isrpOrder/isrpOrder/getPreorderInfo/'+goodsId)
+}
+/**
+ * 确认生成订单
+ */
+export function makeOrder(order){
+    return http.post('/isrpOrder/isrpOrder/makeOrder',order)
+}

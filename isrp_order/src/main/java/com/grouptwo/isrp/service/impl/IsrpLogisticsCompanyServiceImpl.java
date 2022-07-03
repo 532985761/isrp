@@ -2,6 +2,7 @@ package com.grouptwo.isrp.service.impl;
 
 import com.grouptwo.isrp.dao.IsrpLogisticsCompanyDao;
 import com.grouptwo.isrp.entity.IsrpLogisticsCompany;
+import com.grouptwo.isrp.pojo.SelectVO;
 import com.grouptwo.isrp.service.IsrpLogisticsCompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 物流公司(IsrpLogisticsCompany)表服务实现类
@@ -78,5 +80,14 @@ public class IsrpLogisticsCompanyServiceImpl implements IsrpLogisticsCompanyServ
     @Override
     public boolean deleteById(Integer logisticsCompanyId) {
         return this.isrpLogisticsCompanyDao.deleteById(logisticsCompanyId) > 0;
+    }
+
+    /**
+     * 前端select列表
+     * @return
+     */
+    @Override
+    public List<SelectVO> getSelectVO() {
+        return isrpLogisticsCompanyDao.getSelectVO();
     }
 }

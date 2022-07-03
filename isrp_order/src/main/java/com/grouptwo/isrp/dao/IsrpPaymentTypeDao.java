@@ -31,7 +31,7 @@ public interface IsrpPaymentTypeDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<IsrpPaymentType> queryAllByLimit(IsrpPaymentType isrpPaymentType, @Param("pageable") Pageable pageable);
+    List<IsrpPaymentType> queryAllByLimit(@Param("isrpPaymentType") IsrpPaymentType isrpPaymentType, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

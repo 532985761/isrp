@@ -1,11 +1,15 @@
 package com.grouptwo.isrp.client;
 
 import com.grouptwo.isrp.entity.IsrpUser;
+import com.grouptwo.isrp.entity.IsrpUserProp;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -35,4 +39,12 @@ public interface UserClient {
      */
     @GetMapping("/isrpUser/isrpUser/{id}")
     Map queryUserById(@PathVariable("id") String id);
+
+    /**
+     * 获取用户地址配置信息
+     * @param isrpUserProp
+     * @return
+     */
+    @GetMapping("/isrpUser/isrpUserProp/queryByPageGetUserProp")
+     Map queryByPage(@RequestBody IsrpUserProp isrpUserProp);
 }

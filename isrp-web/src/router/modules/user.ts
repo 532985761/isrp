@@ -13,19 +13,19 @@ export const user: Array<RouteRecordRaw> = [
       {
         // 用户首页
         path: "index",
-        name: 'index',
+        name: "index",
         component: () => import("@/views/user/index.vue"),
       },
       {
         // 商品详情
         path: "goodsdetail/:id",
-        name: 'goodsdetail',
+        name: "goodsdetail",
         component: () => import("@/views/goods-detail/GoodsDetail.vue"),
       },
       {
         // 租赁中心
         path: "rentCenter/:firstId/:secondId",
-        name: 'rentCenter',
+        name: "rentCenter",
         component: () => import("@/views/user-rent-center/index.vue"),
       },
       {
@@ -35,8 +35,8 @@ export const user: Array<RouteRecordRaw> = [
       },
       {
         // 提交订单页
-        path: "confirmOrder",
-        name:"confirmOrder",
+        path: "confirmOrder/:id",
+        name: "confirmOrder",
         component: () => import("@/views/user-cart-to-order/index.vue"),
       },
       // {
@@ -45,6 +45,13 @@ export const user: Array<RouteRecordRaw> = [
       //   name:"goodsDetail",
       //   component: () => import("@/views/goods-detail/index.vue"),
       // },
+      {
+        // 成功页
+        path: "success",
+        name: "success",
+        component: () =>
+          import("@/views/user-cart-to-order/components/success.vue"),
+      },
     ],
   },
   {
@@ -53,5 +60,4 @@ export const user: Array<RouteRecordRaw> = [
     name: "/userLogin",
     component: () => import("@/views/UserLogin.vue"),
   },
-  
 ];

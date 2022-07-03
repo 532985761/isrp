@@ -326,5 +326,36 @@ public class IsrpOrder implements Serializable {
     public void setShopUserId(String shopUserId) {
         this.shopUserId = shopUserId;
     }
+
+    @Override
+    public String toString() {
+        return "IsrpOrder{" +
+                "orderId='" + orderId + '\'' +
+                ", goodsId=" + goodsId +
+                ", userId='" + userId + '\'' +
+                ", typeId=" + typeId +
+                ", logisticsCompanyId=" + logisticsCompanyId +
+                ", createTime=" + createTime +
+                ", orderStatus=" + orderStatus +
+                ", payTime=" + payTime +
+                ", goodsTotalPrice=" + goodsTotalPrice +
+                ", goodsPayReal=" + goodsPayReal +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
+                ", receiverEmail='" + receiverEmail + '\'' +
+                ", receiverProvince='" + receiverProvince + '\'' +
+                ", receiverCity='" + receiverCity + '\'' +
+                ", receiverArea='" + receiverArea + '\'' +
+                ", receiverStreet='" + receiverStreet + '\'' +
+                ", receiverDetailAddress='" + receiverDetailAddress + '\'' +
+                ", confirmStatus=" + confirmStatus +
+                ", deliveryTime=" + deliveryTime +
+                ", receiveTime=" + receiveTime +
+                ", modifyTime=" + modifyTime +
+                ", rentDays=" + rentDays +
+                ", rentRealDays=" + rentRealDays +
+                ", shopUserId='" + shopUserId + '\'' +
+                '}';
+    }
 }
 

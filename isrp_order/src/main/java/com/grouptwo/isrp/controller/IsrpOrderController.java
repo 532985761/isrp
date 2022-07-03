@@ -170,15 +170,28 @@ public class IsrpOrderController {
         return new ResponseEntity(isrpOrderService.deleteCartByGoodsId(goodsId),HttpStatus.OK);
     }
 
+    /**
+     * 得到订单项信息
+     * @param goodsId
+     * @return 订单页信息
+     */
+    @RolesAuthorization
+    @GetMapping("/getPreorderInfo/{goodsId}")
+    public ResponseEntity getPreorderInfo(@PathVariable("goodsId") Integer goodsId){
+        return new ResponseEntity(isrpOrderService.getPreorderInfo(goodsId),HttpStatus.OK);
+    }
 
     /**
-     * 用户生成订单
+     * 订单生成
+     * @param order
+     * @return
      */
-//    @RolesAuthorization
-//    @GetMapping("/makeOrder")
-//    public ResponseEntity makeOrder(){
-//
-//    }
+    @RolesAuthorization
+    @PostMapping("/makeOrder")
+    public ResponseEntity makeOrder(@RequestBody IsrpOrder order){
+        System.out.println(order);
+        return new ResponseEntity(order,HttpStatus.OK);
+    }
 
 }
 

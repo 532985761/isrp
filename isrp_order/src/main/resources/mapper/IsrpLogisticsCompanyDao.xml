@@ -44,6 +44,9 @@
             </if>
         </where>
     </select>
+    <select id="getSelectVO" resultType="com.grouptwo.isrp.pojo.SelectVO">
+        select logistics_company_id as value,logistics_company_name as label from isrp_logistics_company
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="logisticsCompanyId" useGeneratedKeys="true">

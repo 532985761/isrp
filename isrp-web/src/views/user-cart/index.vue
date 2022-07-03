@@ -157,7 +157,9 @@
                 </template>
               </el-popconfirm>
               <br />
-              <el-link type="primary">下单</el-link>
+              <router-link :to="'/isrpUser/confirmOrder/' + scope.row.goodsId">
+                <el-link type="primary">下单</el-link></router-link
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -187,7 +189,7 @@ import VueEvent from "@/utils/event";
 import { ElTable } from "element-plus";
 import { onBeforeMount, ref, computed } from "vue";
 import { getCartInfo, changeCartInfo, deleteCartByGoodsId } from "@/api/order";
-    import { ElNotification } from 'element-plus'
+import { ElNotification } from "element-plus";
 const num = ref(1);
 const visible = ref(false);
 
@@ -231,18 +233,16 @@ const changeCart = (goodsId, days) => {
 };
 //删除购物车项
 const confirmDelete = (goodsId) => {
-  deleteCartByGoodsId(goodsId).then(() => {
-    getCart();
-  }).then(() => {
-
-
-
-  ElNotification({
-    title: '提示信息',
-    message: '商品成功从购物车移除',
-    type: 'success',
-  })
-
-});
+  deleteCartByGoodsId(goodsId)
+    .then(() => {
+      getCart();
+    })
+    .then(() => {
+      ElNotification({
+        title: "提示信息",
+        message: "商品成功从购物车移除",
+        type: "success",
+      });
+    });
 };
 </script>

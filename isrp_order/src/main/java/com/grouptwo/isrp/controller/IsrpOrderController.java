@@ -182,13 +182,16 @@ public class IsrpOrderController {
     }
 
     /**
-     * 用户生成订单
+     * 订单生成
+     * @param order
+     * @return
      */
-//    @RolesAuthorization
-//    @GetMapping("/makeOrder")
-//    public ResponseEntity makeOrder(){
-//
-//    }
+    @RolesAuthorization
+    @PostMapping("/makeOrder")
+    public ResponseEntity makeOrder(@RequestBody IsrpOrder order){
+        System.out.println(order);
+        return new ResponseEntity(order,HttpStatus.OK);
+    }
 
 }
 

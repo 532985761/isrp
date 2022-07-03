@@ -255,26 +255,32 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
         IsrpOrderModel model = JSON.parseObject(JSONObject.toJSONString(modelMap), IsrpOrderModel.class);
         //获取支付方式信息
         IsrpPaymentType isrpPaymentType = new IsrpPaymentType();
-        PageRequest pageRequest = PageRequest.of(0,100);
-        Page<IsrpPaymentType> paymentTypes = isrpPaymentTypeService.queryByPage(isrpPaymentType,pageRequest);
+        PageRequest pageRequest = PageRequest.of(0, 100);
+        Page<IsrpPaymentType> paymentTypes = isrpPaymentTypeService.queryByPage(isrpPaymentType, pageRequest);
         //获取商品对应商户信息
         Map userMap = userClient.queryUserById(goods.getUserId());
-        IsrpUser user = JSONObject.parseObject(JSONObject.toJSONString(userMap),IsrpUser.class);
+        IsrpUser user = JSONObject.parseObject(JSONObject.toJSONString(userMap), IsrpUser.class);
         //获取收获地址信息
         IsrpUserProp userProp = new IsrpUserProp();
         userProp.setUserId((String) getUserInfo().get("userId"));
-        PageRequest pageRequestUserProp = PageRequest.of(0,100);
+        PageRequest pageRequestUserProp = PageRequest.of(0, 100);
         Map userPropMap = userClient.queryByPage(userProp);
         //配送方式
         List<SelectVO> selectVOList = isrpLogisticsCompanyService.getSelectVO();
+        //通过goodsId和用户ID获取购物车信息
+        BoundHashOperations<String, Object, Object> operations = getCart(CART_PREFIX);
+        CartVO cartVO = JSON.parseObject((String) operations.get(goodsId.toString()), CartVO.class);
+        System.out.println(cartVO);
         //返回到map
-        Map<String,Object> map = new HashMap<>();
-        map.put("user",user);
-        map.put("goods",goods);
-        map.put("model",model);
-        map.put("payType",paymentTypes);
-        map.put("userProp",userPropMap.get("content"));
-        map.put("selectVO",selectVOList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("goods", goods);
+        map.put("model", model);
+        map.put("payType", paymentTypes);
+        map.put("userProp", userPropMap.get("content"));
+        map.put("selectVO", selectVOList);
+        map.put("cart", cartVO);
+
         return map;
     }
 

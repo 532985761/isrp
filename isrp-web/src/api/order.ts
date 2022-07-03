@@ -141,3 +141,9 @@ export function deleteCartByGoodsId(goodsId){
 export function getPreorderInfo(goodsId){
     return http.get('/isrpOrder/isrpOrder/getPreorderInfo/'+goodsId)
 }
+/**
+ * 确认生成订单
+ */
+export function makeOrder(order){
+    return http.post('/isrpOrder/isrpOrder/makeOrder',order)
+}

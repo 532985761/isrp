@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.dao;
 
 import com.grouptwo.isrp.entity.IsrpLogisticsCompany;
+import com.grouptwo.isrp.pojo.SelectVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
@@ -82,5 +83,10 @@ public interface IsrpLogisticsCompanyDao {
      */
     int deleteById(Integer logisticsCompanyId);
 
+    /**
+     * 前端订单项信息
+     * @return
+     */
+    List<SelectVO> getSelectVO();
 }
 

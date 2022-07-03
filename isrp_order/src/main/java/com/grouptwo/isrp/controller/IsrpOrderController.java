@@ -170,6 +170,16 @@ public class IsrpOrderController {
         return new ResponseEntity(isrpOrderService.deleteCartByGoodsId(goodsId),HttpStatus.OK);
     }
 
+    /**
+     * 得到订单项信息
+     * @param goodsId
+     * @return 订单页信息
+     */
+    @RolesAuthorization
+    @GetMapping("/getPreorderInfo/{goodsId}")
+    public ResponseEntity getPreorderInfo(@PathVariable("goodsId") Integer goodsId){
+        return new ResponseEntity(isrpOrderService.getPreorderInfo(goodsId),HttpStatus.OK);
+    }
 
     /**
      * 用户生成订单

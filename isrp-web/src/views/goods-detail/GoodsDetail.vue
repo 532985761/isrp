@@ -20,7 +20,7 @@
   <el-row :gutter="10">
     <el-col :lg="2"></el-col>
     <el-col :lg="20" v-loading="loading">
-      <!-- 先租后买卡片 -->
+      <!-- 商品详情卡片 -->
       <el-card class="mt-4">
         <el-row
           ><el-col :lg="9">

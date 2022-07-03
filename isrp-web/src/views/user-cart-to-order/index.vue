@@ -8,7 +8,9 @@
           首页</el-breadcrumb-item
         >
         <el-breadcrumb-item>租赁中心</el-breadcrumb-item>
-        <el-breadcrumb-item>我的购物车</el-breadcrumb-item>
+        <el-breadcrumb-item to="/isrpUser/userCart"
+          >我的购物车</el-breadcrumb-item
+        >
         <el-breadcrumb-item>商品下单</el-breadcrumb-item
         ><el-breadcrumb-item>核对订单信息</el-breadcrumb-item>
       </el-breadcrumb>
@@ -17,75 +19,245 @@
   <el-row>
     <el-col :lg="2"></el-col>
     <el-col :lg="20" class="mt-4">
-     <div class="w-800px ml-626px -mt-40px">
-          <el-steps :space="200" :active="2" finish-status="success">
-            <el-step title="选取商品" />
-            <el-step title="购物车筛选" />
-            <el-step title="下单" />
-            <el-step title="付款" />
-          </el-steps>
-        </div>
+      <div class="w-800px ml-626px -mt-40px">
+        <el-steps :space="200" :active="2" finish-status="success">
+          <el-step title="选取商品" />
+          <el-step title="购物车筛选" />
+          <el-step title="下单" />
+          <el-step title="付款" />
+        </el-steps>
+      </div>
       <el-card>
         <div>
           <span style="font-weight: bold; font-size: 15px">收货人信息</span>
-          <el-button type="primary" style="float: right"
-            >新增收货地址</el-button
-          >
+          <div style="font-weight: bold">
+            <el-button @click="$router.go(-1)" style="float: right" type="info"
+              >返回上一页</el-button
+            >
+            <el-button type="primary" style="float: right" class="mr-7"
+              >新增收货地址</el-button
+            >
+          </div>
+
+          <div class="mb-2 flex items-center text-sm">
+            <el-radio-group
+              v-model="selectRadio"
+              class="ml-4"
+              v-for="(i, index) in info.userProp"
+              :key="index"
+            >
+              <el-radio :label="i.propId" size="large">
+                收获地址： {{ i.addressProvince }} {{ i.addressCity }}
+                {{ i.addressArea }} {{ i.addressStreet }}
+                {{ i.addressDetail }} 收货人姓名：{{
+                  i.receiveName
+                }}
+                收货人电话：{{ i.receivePhone }}</el-radio
+              ><br /><br /><br />
+            </el-radio-group>
+          </div>
         </div>
         <div></div>
         <el-divider></el-divider>
-
+        <!-- 付款方式 -->
         <div>
           <span style="font-weight: bold; font-size: 15px">付款方式</span>
         </div>
-        <div class="mt-4">
-          <el-button :type="payType">支付宝</el-button>
-          <el-button>微信</el-button>
-          <el-button>白条</el-button>
+        <div class="mt-4 ml-4">
+          <el-radio
+            v-for="(i, index) in info.payType.content"
+            :key="index"
+            :label="i.typeId"
+            v-model="payType"
+            >{{ i.typeName }}</el-radio
+          >
         </div>
         <el-divider></el-divider>
-
+        <!-- 租用清单详情 -->
         <div>
           <span style="font-weight: bold; font-size: 15px">详细租用清单</span>
         </div>
         <el-row>
           <el-col :lg="8">
-            <el-card class="bg-gray-200 mt-3">
+            <el-card class="bg-gray-200 mt-3 h-220px">
               <div style="font-weight: bold; font-size: 13px">
-                <span>租用方式：</span>以租代售
+                <span>租用方式：</span>{{ info.model.orderModelName }}
               </div>
               <el-divider></el-divider>
               <div style="font-weight: bold; font-size: 13px">
                 <span>配送方式：</span>
                 <el-select
-                  v-model="value"
+                  v-model="logCompany"
                   class="m-2"
                   placeholder="Select"
                   size="small"
                 >
                   <el-option
-                    v-for="item in options"
+                    v-for="item in info.selectVO"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
+                    :disabled="item.disabled"
                   />
                 </el-select>
+              </div>              <el-divider></el-divider>
+
+              <div style="font-weight: bold; font-size: 13px">
+              <span>租用时长：4天</span>   <span class="text-blue-500 ml-8">共计：</span> <span class="text-red-500 text-2xl">500 </span><span class="text-blue-500">元</span> 
               </div>
+
             </el-card>
           </el-col>
-          <el-col :lg="16"><el-card class="bg-blue-100 mt-3"></el-card></el-col>
+          <el-col :lg="16">
+            <!-- 先租后买卡片 -->
+            <el-card class="mt-3">
+              <el-row>
+                <el-col :lg="6">
+                  <el-carousel indicator-position="outside" height="150px">
+                    <el-carousel-item v-for="(i, index) in 3" :key="index">
+                      <el-image src="i.goodsImg" class="h-200px"></el-image>
+                    </el-carousel-item>
+                  </el-carousel>
+                </el-col>
+                <el-col :lg="18">
+                  <div class="mt-4">
+                    <span> 商品描述：{{ info.goods.goodsDesc }}</span>
+                  </div>
+                  <el-descriptions border align="center" class="mt-3">
+                    <el-descriptions-item label="商户姓名" align="center">{{
+                      info.user.nickname
+                    }}</el-descriptions-item>
+
+                    <el-descriptions-item label="地区" align="center">{{
+                      info.user.addressCity
+                    }}</el-descriptions-item>
+                    <el-descriptions-item label="租赁方式" align="center">
+                      <el-tag size="small">{{
+                        info.model.orderModelName
+                      }}</el-tag>
+                    </el-descriptions-item>
+
+                    <el-descriptions-item label="租赁价格" align="center"
+                      >{{
+                        info.goods.rentPricePerDay
+                      }}元/天</el-descriptions-item
+                    >
+                    <!-- 以租代售 -->
+                    <el-descriptions-item
+                      label="商品总价"
+                      align="center"
+                      v-if="info.model.orderModelId !== 13"
+                    >
+                      <el-tag type="warning"
+                        >{{ info.goods.goodsPrice }}元</el-tag
+                      >
+                    </el-descriptions-item>
+
+                    <el-descriptions-item
+                      label="租赁时间上限"
+                      align="center"
+                      v-if="info.model.orderModelId !== 13"
+                    >
+                      <el-tag type="danger" size="large"
+                        >{{ info.goods.rentLimitDays }}天</el-tag
+                      >
+                    </el-descriptions-item>
+                  </el-descriptions>
+                </el-col></el-row
+              >
+            </el-card></el-col
+          >
         </el-row>
 
         <el-divider></el-divider>
-        <div>
-        <el-button style="float:right" class="w-200px h-50px -mt-25px" type="danger">提交订单</el-button>
+        <div style="text-align:center">
+
+       
+          <el-button
+            style="float: right"
+            class="w-200px h-50px -mt-25px"
+            type="danger"
+            >提交订单</el-button
+          >
         </div>
-        </el-card
-    ></el-col>
+      </el-card></el-col
+    >
   </el-row>
 </template>
 <script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
+import router from "@/router";
+import { onBeforeMount, ref } from "vue";
+import { getPreorderInfo } from "@/api/order";
+const info = ref({
+  selectVO: [{ value: "1", label: "京东", disabled: false }],
+  userProp: [
+    {
+      propId: 2,
+      userId: "430818627420160",
+      addressProvince: "2",
+      addressCity: "2",
+      addressArea: "2",
+      addressStreet: "2",
+      addressDetail: "2",
+      receiveName: "2",
+      receivePhone: "2",
+    },
+  ],
+  payType: {
+    content: [{ typeId: 1, typeName: "支付宝" }],
+  },
+  goods: {
+    goodsId: 1,
+    goodsCategorySecondId: 2,
+    userId: "431188825079808",
+    goodsName: "p30",
+    goodsDesc: "比基尼",
+    goodsImg: "未知",
+    goodsPrice: 5000,
+    goodsSaleCount: 20,
+    orderModelId: 1,
+    goodsStatus: 1,
+    createTime: "2022-06-22 09:58:58",
+    rentLimitDays: 10.23,
+    rentPricePerDay: 63,
+  },
+  model: { orderModelId: 1, orderModelName: "先租后买" },
+  user: {
+    userId: "431188825079808",
+    nickname: "wbw",
+    headerImg:
+      "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+    password: null,
+    role: 1,
+    phone: "未知",
+    email: "wbw@163.com",
+    idCardNum: "未知",
+    sex: 2,
+    status: 1,
+    addressCity: "唐山",
+    birth: null,
+    createTime: "2022-06-25 10:04:19",
+    sign: "无",
+  },
+});
+onBeforeMount(() => {
+  getPreorderInfo(router.currentRoute.value.params.id).then((res) => {
+    info.value = res.data;
+    info.value.selectVO.filter((e) => {
+      if (info.value.model.orderModelId == 13) {
+        console.log(e);
+        if (e.label != "自提") {
+          e.disabled = true;
+        }
+      }
+    });
+  });
+});
+
+const selectRadio = ref("1");
+const payType = ref();
+const logCompany = ref();
 </script>
 
 <style scoped></style>

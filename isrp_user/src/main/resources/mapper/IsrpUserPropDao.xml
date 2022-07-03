@@ -28,32 +28,32 @@
           prop_id, user_id, address_province, address_city, address_area, address_street, address_detail, receive_name, receive_phone
         from isrp_user_prop
         <where>
-            <if test="propId != null">
-                and prop_id = #{propId}
+            <if test="isrpUserProp.propId != null">
+                and prop_id = #{isrpUserProp.propId}
             </if>
-            <if test="userId != null and userId != ''">
-                and user_id = #{userId}
+            <if test="isrpUserProp.userId != null and isrpUserProp.userId != ''">
+                and user_id = #{isrpUserProp.userId}
             </if>
-            <if test="addressProvince != null and addressProvince != ''">
-                and address_province = #{addressProvince}
+            <if test="isrpUserProp.addressProvince != null and isrpUserProp.addressProvince != ''">
+                and address_province = #{isrpUserProp.addressProvince}
             </if>
-            <if test="addressCity != null and addressCity != ''">
-                and address_city = #{addressCity}
+            <if test="isrpUserProp.addressCity != null and isrpUserProp.addressCity != ''">
+                and address_city = #{isrpUserProp.addressCity}
             </if>
-            <if test="addressArea != null and addressArea != ''">
-                and address_area = #{addressArea}
+            <if test="isrpUserProp.addressArea != null and isrpUserProp.addressArea != ''">
+                and address_area = #{isrpUserProp.addressArea}
             </if>
-            <if test="addressStreet != null and addressStreet != ''">
-                and address_street = #{addressStreet}
+            <if test="isrpUserProp.addressStreet != null and isrpUserProp.addressStreet != ''">
+                and address_street = #{isrpUserProp.addressStreet}
             </if>
-            <if test="addressDetail != null and addressDetail != ''">
-                and address_detail = #{addressDetail}
+            <if test="isrpUserProp.addressDetail != null and isrpUserProp.addressDetail != ''">
+                and address_detail = #{isrpUserProp.addressDetail}
             </if>
-            <if test="receiveName != null and receiveName != ''">
-                and receive_name = #{receiveName}
+            <if test="isrpUserProp.receiveName != null and isrpUserProp.receiveName != ''">
+                and receive_name = #{isrpUserProp.receiveName}
             </if>
-            <if test="receivePhone != null and receivePhone != ''">
-                and receive_phone = #{receivePhone}
+            <if test="isrpUserProp.receivePhone != null and isrpUserProp.receivePhone != ''">
+                and receive_phone = #{isrpUserProp.receivePhone}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}

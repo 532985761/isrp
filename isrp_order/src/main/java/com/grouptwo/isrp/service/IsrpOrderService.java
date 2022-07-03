@@ -93,5 +93,7 @@ public interface IsrpOrderService {
 
     boolean deleteCartByGoodsId(Integer goodsId);
 
+    Map<String,Object> getPreorderInfo(Integer goodsId);
+
 //    Map<String,Object> getUserAndOrderInfo(String userId);
 }

@@ -35,7 +35,7 @@ export const user: Array<RouteRecordRaw> = [
       },
       {
         // 提交订单页
-        path: "confirmOrder",
+        path: "confirmOrder/:id",
         name:"confirmOrder",
         component: () => import("@/views/user-cart-to-order/index.vue"),
       },

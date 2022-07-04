@@ -4,12 +4,14 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.client.GoodsClient;
 import com.grouptwo.isrp.client.OrderClient;
+import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.dao.IsrpOrderDao;
-import com.grouptwo.isrp.entity.IsrpGoods;
-import com.grouptwo.isrp.entity.IsrpOrder;
-import com.grouptwo.isrp.entity.IsrpOrderModel;
+import com.grouptwo.isrp.entity.*;
 import com.grouptwo.isrp.pojo.CartVO;
+import com.grouptwo.isrp.pojo.SelectVO;
+import com.grouptwo.isrp.service.IsrpLogisticsCompanyService;
 import com.grouptwo.isrp.service.IsrpOrderService;
+import com.grouptwo.isrp.service.IsrpPaymentTypeService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -47,7 +49,13 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private IsrpPaymentTypeService isrpPaymentTypeService;
+    @Resource
+    private UserClient userClient;
 
+    @Resource
+    private IsrpLogisticsCompanyService isrpLogisticsCompanyService;
 
     /**
      * 通过ID查询单条数据
@@ -173,7 +181,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
         IsrpGoods goods = JSONObject.parseObject(JSONObject.toJSONString(goodsMap), IsrpGoods.class);
         Map model = orderClient.queryIsrpOrderModelById(goods.getOrderModelId());
 
-        JSON.parseObject(JSONObject.toJSONString(model),IsrpOrderModel.class);
+        JSON.parseObject(JSONObject.toJSONString(model), IsrpOrderModel.class);
         CartVO cartVO = new CartVO();
         //从redis中得到购物车字符串
         String res = (String) operations.get(goodsId.toString());
@@ -188,6 +196,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
             cartVO.setModal((String) model.get("orderModelName"));
             cartVO.setRentPrice(goods.getRentPricePerDay());
             cartVO.setGoodsImg(goods.getGoodsImg());
+            cartVO.setGoodsPrice(goods.getGoodsPrice());
             //存入redis
             operations.put(goodsId.toString(), JSONObject.toJSONString(cartVO));
         } else {
@@ -209,6 +218,69 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
             }).collect(Collectors.toList());
             map.put("cart", list);
         }
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getCart() {
+        Map<String, Object> map = new HashMap<>();
+        String cartInfoKey = CART_PREFIX + getUserInfo().get("userId").toString();
+        BoundHashOperations<String, Object, Object> operationsList = stringRedisTemplate.boundHashOps(cartInfoKey);
+        List<Object> values = operationsList.values();
+        if (values != null) {
+            List<CartVO> list = values.stream().map((obj) -> {
+                String str = (String) obj;
+                return JSON.parseObject(str, CartVO.class);
+            }).collect(Collectors.toList());
+            map.put("cart", list);
+        }
+        return map;
+    }
+
+    @Override
+    public boolean deleteCartByGoodsId(Integer goodsId) {
+        String cartInfoKey = CART_PREFIX + getUserInfo().get("userId").toString();
+        BoundHashOperations<String, Object, Object> operations = getCart(CART_PREFIX);
+        operations.delete(goodsId.toString());
+        return true;
+    }
+
+    @Override
+    public Map<String, Object> getPreorderInfo(Integer goodsId) {
+        //获取商品信息
+        Map goodsMap = goodsClient.queryByGoodsId(goodsId);
+        IsrpGoods goods = JSONObject.parseObject(JSONObject.toJSONString(goodsMap), IsrpGoods.class);
+        //获取订单模式信息
+        Map modelMap = orderClient.queryIsrpOrderModelById(goods.getOrderModelId());
+        IsrpOrderModel model = JSON.parseObject(JSONObject.toJSONString(modelMap), IsrpOrderModel.class);
+        //获取支付方式信息
+        IsrpPaymentType isrpPaymentType = new IsrpPaymentType();
+        PageRequest pageRequest = PageRequest.of(0, 100);
+        Page<IsrpPaymentType> paymentTypes = isrpPaymentTypeService.queryByPage(isrpPaymentType, pageRequest);
+        //获取商品对应商户信息
+        Map userMap = userClient.queryUserById(goods.getUserId());
+        IsrpUser user = JSONObject.parseObject(JSONObject.toJSONString(userMap), IsrpUser.class);
+        //获取收获地址信息
+        IsrpUserProp userProp = new IsrpUserProp();
+        userProp.setUserId((String) getUserInfo().get("userId"));
+        PageRequest pageRequestUserProp = PageRequest.of(0, 100);
+        Map userPropMap = userClient.queryByPage(userProp);
+        //配送方式
+        List<SelectVO> selectVOList = isrpLogisticsCompanyService.getSelectVO();
+        //通过goodsId和用户ID获取购物车信息
+        BoundHashOperations<String, Object, Object> operations = getCart(CART_PREFIX);
+        CartVO cartVO = JSON.parseObject((String) operations.get(goodsId.toString()), CartVO.class);
+        System.out.println(cartVO);
+        //返回到map
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("goods", goods);
+        map.put("model", model);
+        map.put("payType", paymentTypes);
+        map.put("userProp", userPropMap.get("content"));
+        map.put("selectVO", selectVOList);
+        map.put("cart", cartVO);
+
         return map;
     }
 

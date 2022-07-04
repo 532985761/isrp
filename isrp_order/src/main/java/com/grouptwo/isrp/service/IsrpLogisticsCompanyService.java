@@ -1,8 +1,11 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpLogisticsCompany;
+import com.grouptwo.isrp.pojo.SelectVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 /**
  * 物流公司(IsrpLogisticsCompany)表服务接口
@@ -53,4 +56,9 @@ public interface IsrpLogisticsCompanyService {
      */
     boolean deleteById(Integer logisticsCompanyId);
 
+    /**
+     * 前端select列表
+     * @return
+     */
+    List<SelectVO> getSelectVO();
 }

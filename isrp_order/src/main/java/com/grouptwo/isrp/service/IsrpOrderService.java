@@ -89,5 +89,11 @@ public interface IsrpOrderService {
 
     Map<String ,Object> addToCart(Integer goodsId, BigDecimal days);
 
+    Map<String,Object> getCart();
+
+    boolean deleteCartByGoodsId(Integer goodsId);
+
+    Map<String,Object> getPreorderInfo(Integer goodsId);
+
 //    Map<String,Object> getUserAndOrderInfo(String userId);
 }

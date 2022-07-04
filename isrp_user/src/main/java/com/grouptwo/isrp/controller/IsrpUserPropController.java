@@ -28,11 +28,11 @@ public class IsrpUserPropController {
      * 分页查询
      *
      * @param isrpUserProp 筛选条件
-     * @param pageRequest      分页对象
      * @return 查询结果
      */
-    @GetMapping
-    public ResponseEntity<Page<IsrpUserProp>> queryByPage(IsrpUserProp isrpUserProp, PageRequest pageRequest) {
+    @GetMapping("/queryByPageGetUserProp")
+    public ResponseEntity<Page<IsrpUserProp>> queryByPage(IsrpUserProp isrpUserProp ) {
+        PageRequest pageRequest = PageRequest.of(0,100);
         return ResponseEntity.ok(this.isrpUserPropService.queryByPage(isrpUserProp, pageRequest));
     }
 

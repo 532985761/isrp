@@ -31,7 +31,7 @@ public interface IsrpUserPropDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<IsrpUserProp> queryAllByLimit(IsrpUserProp isrpUserProp, @Param("pageable") Pageable pageable);
+    List<IsrpUserProp> queryAllByLimit(@Param("isrpUserProp") IsrpUserProp isrpUserProp, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数

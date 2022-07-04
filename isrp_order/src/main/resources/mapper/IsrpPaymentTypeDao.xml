@@ -21,11 +21,11 @@
           type_id, type_name
         from isrp_payment_type
         <where>
-            <if test="typeId != null">
-                and type_id = #{typeId}
+            <if test="isrpPaymentType.typeId != null">
+                and type_id = #{isrpPaymentType.typeId}
             </if>
-            <if test="typeName != null and typeName != ''">
-                and type_name = #{typeName}
+            <if test="isrpPaymentType.typeName != null and isrpPaymentType.typeName != ''">
+                and type_name = #{isrpPaymentType.typeName}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}

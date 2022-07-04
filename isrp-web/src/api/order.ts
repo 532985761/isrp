@@ -118,6 +118,15 @@ export function selectOrder(orderId){
     return http.get('/isrpOrder/isrpOrder/selectOrderById/'+orderId)
 }
 /**
+ * 批量更新流程
+ * 
+ * @param form 
+ * @returns 
+ */
+ export function editBatchProcess (form : any) {
+    return http.put('/isrpOrder/isrpOrderProcess/editBatch', form);
+}
+/**
  * 获取购物车商品
  */
 export function getCartInfo(){

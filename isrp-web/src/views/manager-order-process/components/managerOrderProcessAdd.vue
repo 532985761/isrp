@@ -100,14 +100,14 @@ const dynamicValidateForm = reactive<{
 });
 
 interface DomainItem {
-  orderModel: number;
-  orderProcess: string;
+  key: number;
+  value: string;
 }
 
 VueEvent.on("orderModelOptions", (value) => {
   options.value = value;
   optionsForm.value = [];
-  options.value.forEach((item, index) => {
+  options.value.forEach((item: any, index: any) => {
     optionsForm.value.push({
       label: item.label,
       value: index,
@@ -143,7 +143,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
       )
         .then(() => {
-          let form = [];
+          let form: any = [];
           let model =
             options.value[dynamicValidateForm.orderModel].value.orderModelId;
           dynamicValidateForm.domains.forEach((item) => {

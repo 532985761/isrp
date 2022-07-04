@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderEditPojo;
 import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,12 +50,12 @@ public interface IsrpOrderProcessService {
     Integer insertBatch(List<IsrpOrderProcessPojo> isrpOrderProcessPojoList);
 
     /**
-     * 修改数据
+     * 批量修改数据
      *
-     * @param isrpOrderProcess 实例对象
-     * @return 实例对象
+     * @param isrpOrderEditPojo
+     * @return
      */
-    IsrpOrderProcess update(IsrpOrderProcess isrpOrderProcess);
+    Integer editBatch(IsrpOrderEditPojo isrpOrderEditPojo);
 
     /**
      * 通过主键删除数据

@@ -2,6 +2,7 @@ package com.grouptwo.isrp.controller;
 
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderEditPojo;
 import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import com.grouptwo.isrp.service.IsrpOrderProcessService;
 import org.springframework.data.domain.Page;
@@ -76,12 +77,12 @@ public class IsrpOrderProcessController {
     /**
      * 编辑数据
      *
-     * @param isrpOrderProcess 实体
+     * @param isrpOrderEditPojo 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<IsrpOrderProcess> edit(IsrpOrderProcess isrpOrderProcess) {
-        return ResponseEntity.ok(this.isrpOrderProcessService.update(isrpOrderProcess));
+    @PutMapping("/editBatch")
+    public ResponseEntity<Integer> editBatch(@RequestBody IsrpOrderEditPojo isrpOrderEditPojo) {
+        return ResponseEntity.ok(this.isrpOrderProcessService.editBatch(isrpOrderEditPojo));
     }
 
     /**

@@ -3,6 +3,7 @@ package com.grouptwo.isrp.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.grouptwo.isrp.dao.IsrpOrderProcessDao;
 import com.grouptwo.isrp.entity.IsrpOrderProcess;
+import com.grouptwo.isrp.pojo.IsrpOrderEditPojo;
 import com.grouptwo.isrp.pojo.IsrpOrderProcessPojo;
 import com.grouptwo.isrp.service.IsrpOrderProcessService;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 订单流程表(IsrpOrderProcess)表服务实现类
@@ -80,16 +83,43 @@ public class IsrpOrderProcessServiceImpl implements IsrpOrderProcessService {
     }
 
     /**
-     * 修改数据
+     * 批量删除数据
      *
-     * @param isrpOrderProcess 实例对象
-     * @return 实例对象
+     * @param isrpOrderEditPojo
+     * @return
      */
     @Override
-    public IsrpOrderProcess update(IsrpOrderProcess isrpOrderProcess) {
-        this.isrpOrderProcessDao.update(isrpOrderProcess);
-        return this.queryById(isrpOrderProcess.getOrderProcessId());
+    public Integer editBatch(IsrpOrderEditPojo isrpOrderEditPojo) {
+        List<IsrpOrderProcess> delOrderProcess = isrpOrderEditPojo.getDelOrderProcess();
+        List<IsrpOrderProcessPojo> addOrderProcess = isrpOrderEditPojo.getAddOrderProcess();
+        List<IsrpOrderProcess> editOrderProcess = isrpOrderEditPojo.getEditOrderProcess();
+
+        Integer count = 0;
+        if (delOrderProcess.size() > 0){
+            List<Integer> delIds = delOrderProcess.stream().map(IsrpOrderProcess::getOrderProcessId).collect(Collectors.toList());
+            Iterator<Integer> delIdItems = delIds.iterator();
+            while(delIdItems.hasNext()) {
+                Integer delId = delIdItems.next();
+                count += this.isrpOrderProcessDao.deleteById(delId);
+            }
+        }
+        if(addOrderProcess.size() > 0){
+            List<IsrpOrderProcess> isrpOrderProcessList = addOrderProcess.stream().map((isrpOrderProcessPojo) -> {
+                IsrpOrderProcess isrpOrderProcess = new IsrpOrderProcess();
+                BeanUtil.copyProperties(isrpOrderProcessPojo, isrpOrderProcess);
+                return isrpOrderProcess;
+            }).collect(Collectors.toList());
+            count += this.isrpOrderProcessDao.insertBatch(isrpOrderProcessList);
+        }
+        if(editOrderProcess.size() > 0){
+            Iterator<IsrpOrderProcess> editItems = editOrderProcess.iterator();
+            while (editItems.hasNext()) {
+                count += this.isrpOrderProcessDao.update(editItems.next());
+            }
+        }
+        return count;
     }
+
 
     /**
      * 通过主键删除数据

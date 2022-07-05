@@ -80,6 +80,7 @@ public class IsrpOrderProcessController {
      * @param isrpOrderEditPojo 实体
      * @return 编辑结果
      */
+    @RolesAuthorization(value = {"manager"})
     @PutMapping("/editBatch")
     public ResponseEntity<Integer> editBatch(@RequestBody IsrpOrderEditPojo isrpOrderEditPojo) {
         return ResponseEntity.ok(this.isrpOrderProcessService.editBatch(isrpOrderEditPojo));

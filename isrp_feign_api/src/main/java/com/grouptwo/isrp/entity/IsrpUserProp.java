@@ -120,5 +120,19 @@ public class IsrpUserProp implements Serializable {
         this.receivePhone = receivePhone;
     }
 
+    @Override
+    public String toString() {
+        return "IsrpUserProp{" +
+                "propId=" + propId +
+                ", userId='" + userId + '\'' +
+                ", addressProvince='" + addressProvince + '\'' +
+                ", addressCity='" + addressCity + '\'' +
+                ", addressArea='" + addressArea + '\'' +
+                ", addressStreet='" + addressStreet + '\'' +
+                ", addressDetail='" + addressDetail + '\'' +
+                ", receiveName='" + receiveName + '\'' +
+                ", receivePhone='" + receivePhone + '\'' +
+                '}';
+    }
 }
 

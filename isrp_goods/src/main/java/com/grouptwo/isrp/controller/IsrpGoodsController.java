@@ -1,14 +1,17 @@
 package com.grouptwo.isrp.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.client.OrderClient;
 import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.entity.IsrpGoods;
 import com.grouptwo.isrp.entity.IsrpGoodsCategoryFirst;
 import com.grouptwo.isrp.entity.IsrpGoodsCategorySecond;
+import com.grouptwo.isrp.pojo.AddGoodsPO;
 import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
+import com.grouptwo.isrp.utils.UploadImages;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +47,8 @@ public class IsrpGoodsController {
     private UserClient userClient;
     @Resource
     private OrderClient orderClient;
+    @Resource
+    private UploadImages uploadImages;
 
     @Resource
     private IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
@@ -171,5 +177,29 @@ public class IsrpGoodsController {
     public ResponseEntity selectGoodsByGoodsName(@PathVariable( "goodsName" ) String goodsName){
         return ResponseEntity.ok(this.isrpGoodsService.selectGoodsByGoodsName(goodsName));
     }
+    /**
+     * 修改商品租售状态
+     */
+    @RolesAuthorization
+    @GetMapping("/updateGoodsById/{goodsId}/{status}")
+    public ResponseEntity updateGoodsById(@PathVariable("goodsId") Long goodsId , @PathVariable("status") int status){
+        isrpGoodsService.updateGoodsById(goodsId,status);
+        return ResponseEntity.ok("ok");
+    }
+
+    /**
+     * 上传商品
+     */
+    @RolesAuthorization(value = {"business"})
+    @PostMapping("/addGoods")
+    public ResponseEntity addGoods(@RequestBody AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
+
+        IsrpGoods isrpGoods = new IsrpGoods();
+        BeanUtil.copyProperties(goodsPO,isrpGoods);
+        isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
+        isrpGoodsService.insert(isrpGoods);
+        return ResponseEntity.ok("ok");
+    }
+
 }
 

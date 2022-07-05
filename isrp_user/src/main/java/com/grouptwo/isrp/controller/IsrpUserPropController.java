@@ -1,10 +1,14 @@
 package com.grouptwo.isrp.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpUserProp;
 import com.grouptwo.isrp.service.IsrpUserPropService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -53,8 +57,11 @@ public class IsrpUserPropController {
      * @param isrpUserProp 实体
      * @return 新增结果
      */
-    @PostMapping
-    public ResponseEntity<IsrpUserProp> add(IsrpUserProp isrpUserProp) {
+    @RolesAuthorization
+    @PostMapping("/addAddress")
+    public ResponseEntity<IsrpUserProp> addAddress(@RequestBody IsrpUserProp isrpUserProp) {
+        System.out.println(isrpUserProp);
+        isrpUserProp.setUserId((String) getUserInfo().get("userId"));
         return ResponseEntity.ok(this.isrpUserPropService.insert(isrpUserProp));
     }
 
@@ -75,10 +82,16 @@ public class IsrpUserPropController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+    @DeleteMapping("/deleteAddress")
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.isrpUserPropService.deleteById(id));
     }
+    private static JSONObject getUserInfo() {
+        JSONObject user = JSONObject.parseObject(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+
+        return user;
+    }
+
 
 }
 

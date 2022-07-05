@@ -281,6 +281,9 @@
         </set>
         where goods_id = #{goodsId}
     </update>
+    <update id="updateGoodsById">
+            update isrp_goods set goods_status = #{status} where goods_id = #{goodsId}
+    </update>
 
 
     <!--通过主键删除-->

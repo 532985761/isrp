@@ -83,7 +83,24 @@ public interface IsrpGoodsService {
      */
     List<IsrpGoods> selectGoodsByGoodsName(String goodsName);
 
+    /**
+     * 商品信息
+     * @param firstId
+     * @param secondId
+     * @return
+     */
     Map<String, Object> getGoodsInfo(int firstId, int secondId);
 
+    /**
+     * 商品详情
+     * @param id
+     * @return
+     */
     Map<String,Object> getGoodsDetailsByGoodsId(Long id);
+
+    /**
+     * 删除商品
+     * @param goodsId
+     */
+    void updateGoodsById(Long goodsId,int statsu);
 }

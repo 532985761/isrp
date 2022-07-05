@@ -37,7 +37,11 @@
             <el-button @click="$router.go(-1)" style="float: right" type="info"
               >返回上一页</el-button
             >
-            <el-button type="primary" style="float: right" class="mr-7"
+            <el-button
+              type="primary"
+              style="float: right"
+              class="mr-7"
+              @click="addDialog = true"
               >新增收货地址</el-button
             >
           </div>
@@ -61,6 +65,9 @@
                 收货人电话：{{ i.receivePhone }}</el-radio
               ><br /><br /><br />
             </el-radio-group>
+            <el-link type="danger" @click="deleteAddress(i.propId)"
+              >删除</el-link
+            >
           </div>
         </div>
         <div></div>
@@ -216,6 +223,37 @@
       </span>
     </template>
   </el-dialog>
+  <!-- 新增地址 -->
+  <el-dialog v-model="addDialog" title="Warning" width="50%" center>
+    <el-form :model="addressForm" label-width="120px">
+      <el-form-item label="请选择地址">
+        <el-cascader
+          placeholder="请选择城市"
+          class="m-2 -ml-0.5 -mt-0.5"
+          :options="options1"
+          v-model="selectedOptions"
+          @change="selectCity"
+        >
+        </el-cascader>
+      </el-form-item>
+      <el-form-item label="请输入街道">
+        <el-input v-model="addressForm.addressStreet" />
+      </el-form-item>
+      <el-form-item label="详细地址">
+        <el-input v-model="addressForm.addressDetail" /> </el-form-item
+      ><el-form-item label="收货人姓名">
+        <el-input v-model="addressForm.receiveName" /> </el-form-item
+      ><el-form-item label="收货人电话">
+        <el-input v-model="addressForm.receivePhone" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="addDialog = false">Cancel</el-button>
+        <el-button type="primary" @click="consfirAddAddress">确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
@@ -223,7 +261,53 @@ import router from "@/router";
 import { onBeforeMount, ref, reactive } from "vue";
 import { getPreorderInfo, makeOrder } from "@/api/order";
 import { ElMessage } from "element-plus";
+import { regionData, CodeToText } from "element-china-area-data"; //引入
+import { addAddress,toDeleteAddress } from "@/api/user";
+import { ElNotification } from "element-plus";
+
+const city = ref();
 const centerDialogVisible = ref(false);
+const addDialog = ref(false);
+const options1 = regionData;
+let selectedOptions: [];
+const selectCity = (res: any) => {
+  addressForm.value.addressArea = CodeToText[res[2]];
+  addressForm.value.addressProvince = CodeToText[res[0]];
+  addressForm.value.addressCity = CodeToText[res[1]];
+  console.log(addressForm.value);
+};
+const addressForm = ref({
+  addressStreet: "",
+  addressDetail: "",
+  receiveName: "",
+  receivePhone: "",
+  addressProvince: "",
+  addressCity: "",
+  addressArea: "",
+});
+const consfirAddAddress = () => {
+  addAddress(addressForm.value)
+    .then(() => {})
+    .then(() => {
+      ElNotification({
+        title: "提示信息",
+        message: "地址添加成功",
+        type: "success",
+      });
+      addDialog.value = false;
+      getPreorderInfo(router.currentRoute.value.params.id).then((res) => {
+        info.value = res.data;
+        info.value.selectVO.filter((e) => {
+          if (info.value.model.orderModelId == 13) {
+            console.log(e);
+            if (e.label != "自提") {
+              e.disabled = true;
+            }
+          }
+        });
+      });
+    });
+};
 const info = ref({
   selectVO: [{ value: "1", label: "京东", disabled: false }],
   userProp: [
@@ -324,7 +408,7 @@ const typeName = (a) => {
 //提交订单
 const order: any = reactive({
   orderId: "",
-  goodsId: info.value.goods.goodsId,
+  goodsId: router.currentRoute.value.params.id,
   userId: info.value.user.userId,
   typeId: payType.value,
   logisticsCompanyId: logCompany.value,
@@ -367,11 +451,35 @@ const confirmOrderCheck = () => {
 const confirmOrder = () => {
   centerDialogVisible.value = false;
   loading.value = true;
+  console.log(order);
+  
   makeOrder(order)
     .then((res) => {})
     .then(() => {
       loading.value = false;
-      router.push("/isrpUser/success")
+      router.push("/isrpUser/success");
+    });
+};
+const deleteAddress = (id) => {
+  toDeleteAddress(id)
+    .then(() => {})
+    .then(() => {
+      getPreorderInfo(router.currentRoute.value.params.id).then((res) => {
+        info.value = res.data;
+        info.value.selectVO.filter((e) => {
+          if (info.value.model.orderModelId == 13) {
+            console.log(e);
+            if (e.label != "自提") {
+              e.disabled = true;
+            }
+          }
+        }); ElNotification({
+        title: "提示信息",
+        message: "地址删除成功",
+        type: "success",
+      });
+      });
+      
     });
 };
 </script>

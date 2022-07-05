@@ -1,7 +1,7 @@
 <template>
   <!-- 面包屑导航 -->
   <el-row :gutter="10">
-    <el-col :lg="2"><div class="grid-content ep-bg-purple" /></el-col>
+    <el-col :lg="2"></el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11" class="mt-4">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/isrpUser/index' }">
@@ -155,7 +155,16 @@
                 type="warning"
                 v-show="!showButton"
                 @click="addToCartClick(goods.goods.goodsId, 1)"
+                v-if="goods.goods.goodsStatus == 1"
                 >加入购物车</el-button
+              >
+              <el-button
+                class="w-350px h-50px"
+                type="info"
+                v-show="!showButton"
+                disabled
+                v-if="goods.goods.goodsStatus == 0"
+                >商品不可租,正在出租中</el-button
               >
               <el-button
                 v-show="showButton"
@@ -165,12 +174,12 @@
                 @click="addToCartClick(goods.goods.goodsId, 1)"
                 >商品已加入购物车</el-button
               >
-              <el-button
+              <!-- <el-button
                 class="w-350px h-50px"
                 type="danger"
                 v-show="!showButton"
                 >立即下单</el-button
-              >
+              > -->
 
               <router-link to="/isrpUser/userCart">
                 <el-button
@@ -190,10 +199,8 @@
     <el-col :lg="20"
       ><el-card class="mt-4">
         <el-tabs
-          v-model="activeName"
           type="card"
           class="demo-tabs"
-          @tab-click="handleClick"
         >
           <el-tab-pane
             label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品介绍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -261,8 +268,8 @@ const goods: any = ref({
     sign: "无",
   },
 });
-onBeforeMount(() => {
-  getGoodsDetailsByGoodsId(Number(router.currentRoute.value.params.id))
+onBeforeMount(async () => {
+  await getGoodsDetailsByGoodsId(Number(router.currentRoute.value.params.id))
     .then((res) => {
       goods.value = res.data;
     })

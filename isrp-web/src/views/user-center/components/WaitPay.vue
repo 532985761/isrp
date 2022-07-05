@@ -1,22 +1,5 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="1"></el-col>
-    <el-col :span="22" class="mt-5">
-      <el-card class="font-serif">
-        <el-button style="float: left" type="primary" @click="$router.go(-1)"
-          ><el-icon><Back /></el-icon>&nbsp;&nbsp;返回上一页</el-button
-        >
-        <div class="w-800px ml-400px">
-          <el-steps :space="200" :active="1" finish-status="success">
-            <el-step title="选取商品" />
-            <el-step title="购物车筛选" />
-            <el-step title="下单" />
-            <el-step title="付款" />
-          </el-steps>
-        </div>
-      </el-card>
-      <el-card class="mt-4" v-loading="load1">
-        <el-table
+     <el-table
           :data="cart"
           style="width: 100%"
           element-loading-text="正在改变购物车数据，请稍等"
@@ -161,89 +144,71 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- <div style="margin-top: 20px">
-       
-          <el-button type="warning" @click="toggleSelection()"
-            >清空选项</el-button
-          >
-          <span class="ml-550px">共计 元</span>
-          <router-link to="/isrpUser/confirmOrder">
-            <el-button
-              style="float: right"
-              type="danger"
-              class="w-200px h-60px -mt-4"
-              >结算</el-button
-            ></router-link
-          >
-        </div> -->
-      </el-card>
-    </el-col>
-
-    <el-col :span="2"></el-col>
-  </el-row>
 </template>
-<script lang="ts" setup>
-import VueEvent from "@/utils/event";
-import { ElTable } from "element-plus";
-import { onBeforeMount, ref, computed } from "vue";
-import { getCartInfo, changeCartInfo, deleteCartByGoodsId } from "@/api/order";
-import { ElNotification } from "element-plus";
-const num = ref(1);
-const visible = ref(false);
 
-//购物车结构定义
-const cart = ref([
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElTable } from 'element-plus'
+
+interface User {
+  date: string
+  name: string
+  address: string
+}
+
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+const multipleSelection = ref<User[]>([])
+const toggleSelection = (rows?: User[]) => {
+  if (rows) {
+    rows.forEach((row) => {
+      // TODO: improvement typing when refactor table
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      multipleTableRef.value!.toggleRowSelection(row, undefined)
+    })
+  } else {
+    multipleTableRef.value!.clearSelection()
+  }
+}
+const handleSelectionChange = (val: User[]) => {
+  multipleSelection.value = val
+}
+
+const tableData: User[] = [
   {
-    goodsId: 37,
-    goodsImg: null,
-    goodsName: "aaa",
-    goodsDesc: "商品状态测试",
-    rentDays: 8888,
-    rentPrice: 388,
-    modal: "先租后买",
-    rentLimit: 10,
-    total: 3448544,
-    loading: false,
-    goodsPrice: 1,
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
   },
-]);
-//获取购物车数据\
-const load1 = ref(false);
-onBeforeMount(() => {
-  getCart();
-});
-const getCart = () => {
-  load1.value = true;
-  getCartInfo().then((res) => {
-    cart.value = res.data.cart;
-    console.log(cart.value);
-    load1.value = false;
-  });
-};
-const loading = ref(false);
-//更新购物车数据
-const changeCart = (goodsId, days) => {
-  loading.value = true;
-  changeCartInfo(goodsId, days)
-    .then((res) => {
-      cart.value = res.data.cart;
-    })
-    .then(() => {
-      loading.value = false;
-    });
-};
-//删除购物车项
-const confirmDelete = (goodsId) => {
-  deleteCartByGoodsId(goodsId)
-    .then(() => {
-      getCart();
-    })
-    .then(() => {
-      ElNotification({
-        title: "提示信息",
-        message: "商品成功从购物车移除",
-        type: "success",
-      });
-    });
-};
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-08',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-06',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-07',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
 </script>

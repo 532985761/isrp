@@ -18,6 +18,7 @@ public interface GoodsClient {
     @GetMapping("/isrpGoods/isrpGoods/{goodsId}")
     Map queryByGoodsId(@PathVariable("goodsId") Integer goodsId);
 
-//    @GetMapping("/isrpGoods/isrpGoods/getGoods/{goodsIds}")
-//    Map queryByGoodsIds(@PathVariable("goodsIds") List<Long> goodsIds);
+    @GetMapping("/isrpGoods/isrpGoods/updateGoodsById/{goodsId}/{status}")
+    void updateGoodsById(@PathVariable("goodsId") Long goodsId,@PathVariable("status") int status);
+
 }

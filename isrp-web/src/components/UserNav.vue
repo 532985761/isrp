@@ -30,9 +30,12 @@
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         /><span class="ml-3">欢迎你：{{ nickname }}</span>
       </template>
-      <el-menu-item index="2-1"
-        ><el-icon><UserFilled /></el-icon>个人信息</el-menu-item
+      <router-link to="/isrpUser/userCenter"
+        ><el-menu-item index="2-1"
+          ><el-icon><UserFilled /></el-icon>个人中心</el-menu-item
+        ></router-link
       >
+
       <el-menu-item index="2-2"
         ><el-icon><Shop /></el-icon>我的订单</el-menu-item
       >
@@ -43,15 +46,13 @@
   </el-menu>
 
   <el-row class="bg-light-600">
-    <el-col :span="24"
-      >
-        <el-divider >
-          <span style="font-weight: bold" class="italic text-2xl">
-            欢迎光临<el-icon><star-filled /></el-icon>智能租租网</span
-          >
-        </el-divider>
-     </el-col
-    >
+    <el-col :span="24">
+      <el-divider>
+        <span style="font-weight: bold" class="italic text-2xl">
+          欢迎光临<el-icon><star-filled /></el-icon>智能租租网</span
+        >
+      </el-divider>
+    </el-col>
   </el-row>
 
   <router-view></router-view>
@@ -142,8 +143,7 @@ VueEvent.on("showDiv", (value: any) => {
 .kenburns-top {
   animation: kenburns-top 8s ease-out both;
 }
-:deep(.el-divider__text.is-center){
+:deep(.el-divider__text.is-center) {
   background-color: whitesmoke;
 }
-
 </style>

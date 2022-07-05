@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class IsrpOrderProcessServiceImpl implements IsrpOrderProcessService {
      * @param isrpOrderEditPojo
      * @return
      */
+    @Transactional
     @Override
     public Integer editBatch(IsrpOrderEditPojo isrpOrderEditPojo) {
         List<IsrpOrderProcess> delOrderProcess = isrpOrderEditPojo.getDelOrderProcess();

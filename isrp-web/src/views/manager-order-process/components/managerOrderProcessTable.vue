@@ -42,7 +42,7 @@
         <h4>编辑订单流程</h4>
       </template>
       <template #default>
-        <div v-if="options.length != 0">
+        <div>
           <div>
             <el-form
               ref="formRef"
@@ -94,7 +94,6 @@
             </el-form>
           </div>
         </div>
-        <div v-else><el-empty description="暂无可添加数据" /></div>
       </template>
       <template #footer>
         <div style="flex: auto">

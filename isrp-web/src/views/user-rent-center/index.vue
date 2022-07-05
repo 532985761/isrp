@@ -30,7 +30,6 @@
           <!-- {{ info.secondList }} -->
         </div>
 
-
         <div class="text item font-mono text-lg font-semibold">
           网站商品分类：
           <el-divider direction="vertical" border-style="dashed" />
@@ -103,7 +102,9 @@
               >查看待租商品详情</el-button
             >
 
-            <el-button type="danger" @click="rentGoods">立即下单租用</el-button>
+            <el-button type="danger" v-if="i.goods.goodsStatus == 1" @click="rentGoods">立即下单租用</el-button>
+            <el-button type="info" disabled v-if="i.goods.goodsStatus == 0" @click="rentGoods">正在出租中</el-button>
+
           </template>
           <el-descriptions-item align="center">
             <template #label>
@@ -271,12 +272,15 @@ const changeGoodsInfo = async (one, two) => {
   getRentCenterInfoFromGoodsCategoryId(
     router.currentRoute.value.params.firstId.toString(),
     router.currentRoute.value.params.secondId.toString()
-  ).then((res) => {
-    // 获取所有后端信息
-    info.value = res.data;
-    goodsDetail.value = res.data.goodsInfo;
-  }).then(()=>{  loading.value = false;
-});
+  )
+    .then((res) => {
+      // 获取所有后端信息
+      info.value = res.data;
+      goodsDetail.value = res.data.goodsInfo;
+    })
+    .then(() => {
+      loading.value = false;
+    });
 };
 //加入购物车
 const rentGoods = () => {

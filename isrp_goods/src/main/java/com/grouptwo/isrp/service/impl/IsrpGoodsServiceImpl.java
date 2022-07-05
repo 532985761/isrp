@@ -9,6 +9,7 @@ import com.grouptwo.isrp.dao.IsrpGoodsDao;
 import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -187,5 +188,10 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
         map.put("goods", isrpGoodsService.queryById(id));
         map.put("model", orderClient.queryIsrpOrderModelById(isrpGoodsService.queryById(id).getOrderModelId()));
         return map;
+    }
+
+    @Override
+    public void updateGoodsById(Long goodsId,int status) {
+        isrpGoodsDao.updateGoodsById(goodsId,status);
     }
 }

@@ -189,7 +189,7 @@ public class IsrpOrderController {
     @RolesAuthorization
     @PostMapping("/makeOrder")
     public ResponseEntity makeOrder(@RequestBody IsrpOrder order){
-        System.out.println(order);
+        isrpOrderService.insertOrder(order);
         return new ResponseEntity(order,HttpStatus.OK);
     }
 

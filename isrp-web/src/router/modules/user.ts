@@ -39,18 +39,26 @@ export const user: Array<RouteRecordRaw> = [
         name: "confirmOrder",
         component: () => import("@/views/user-cart-to-order/index.vue"),
       },
-      // {
-      //   // 商品详情页
-      //   path: "goodsdetail/:id",
-      //   name:"goodsDetail",
-      //   component: () => import("@/views/goods-detail/index.vue"),
-      // },
       {
         // 成功页
         path: "success",
         name: "success",
         component: () =>
           import("@/views/user-cart-to-order/components/success.vue"),
+      },
+      {
+        // 个人中心页
+        path: "userCenter",
+        name: "userCenter",
+        component: () => import("@/views/user-center/index.vue"),
+        children:[
+          {
+            // 待支付
+            path: "waitPay",
+            name: "waitPay",
+            component: () => import("@/views/user-center/components/WaitPay.vue"),
+          },
+        ]
       },
     ],
   },

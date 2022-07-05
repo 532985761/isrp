@@ -39,8 +39,9 @@
     <el-table-column prop="goodsDesc" label="商品描述" width="200" />
     <el-table-column label="商品状态" width="120" >
       <template #default="scope">
-            <el-tag type="success" effect="dark" v-if="scope.row.goodsStatus==1">已发布</el-tag>
-            <el-tag type="warning" effect="dark" v-if="scope.row.goodsStatus==2">待审核</el-tag>
+            <el-tag type="success" effect="dark" v-if="scope.row.goodsStatus==1">可租</el-tag>
+            <el-tag type="warning" effect="dark" v-if="scope.row.goodsStatus==0">出租中</el-tag>
+            <el-tag type="info" effect="dark" v-if="scope.row.goodsStatus==2">售出</el-tag>
         </template>
     </el-table-column>
     <el-table-column prop="goodsSaleCount" label="销量" width="120" >

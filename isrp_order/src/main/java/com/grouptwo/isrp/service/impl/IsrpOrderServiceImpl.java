@@ -12,18 +12,19 @@ import com.grouptwo.isrp.pojo.SelectVO;
 import com.grouptwo.isrp.service.IsrpLogisticsCompanyService;
 import com.grouptwo.isrp.service.IsrpOrderService;
 import com.grouptwo.isrp.service.IsrpPaymentTypeService;
+import com.grouptwo.isrp.utils.SnowflakeIdWorker;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.BoundHashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,13 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
      */
     @Override
     public IsrpOrder insertOrder(IsrpOrder isrpOrder) {
+        //设置订单表信息
+        isrpOrder.setOrderId(String.valueOf(new SnowflakeIdWorker(0L, 0L).nextId()));
+        isrpOrder.setCreateTime(LocalDateTime.now());
+        //删除购物车项
+        deleteCartByGoodsId(Math.toIntExact(isrpOrder.getGoodsId()));
+        //改变goods商品状态为不可租
+        goodsClient.updateGoodsById(isrpOrder.getGoodsId(),0);
         this.isrpOrderDao.insertOrder(isrpOrder);
         return isrpOrder;
     }
@@ -102,7 +110,8 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Override
     public IsrpOrder updateOrder(IsrpOrder isrpOrder) {
         this.isrpOrderDao.updateOrder(isrpOrder);
-        return this.selectOrderById(isrpOrder.getOrderId());
+        IsrpOrder isrpOrder1 = new IsrpOrder();
+        return isrpOrder1;
     }
 
     /**

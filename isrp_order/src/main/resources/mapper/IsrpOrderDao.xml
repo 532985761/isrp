@@ -273,7 +273,8 @@
                receiver_province, receiver_city, receiver_area, receiver_street,
                receiver_detail_address, confirm_status, delivery_time, receive_time, modify_time,
                rent_days, rent_real_days, shop_user_id
-        from isrp_order where order_id like concat('%',#{order_id},'%')
+        from isrp_order where order_id
+                                  like concat('%',#{order_id},'%')
     </select>
 
     <!--新增所有列-->

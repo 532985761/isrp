@@ -96,5 +96,12 @@ public interface IsrpGoodsDao {
      * @return 商品信息列表
      */
     List<IsrpGoods> selectGoodsByGoodsName(String goodsName);
+
+    /**
+     * 改变商品状态
+     * @param goodsId
+     * @param status
+     */
+    void updateGoodsById(@Param("goodsId") Long goodsId,@Param("status") int status);
 }
 

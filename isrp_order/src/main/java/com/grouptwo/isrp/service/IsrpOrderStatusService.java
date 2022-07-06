@@ -4,6 +4,8 @@ import com.grouptwo.isrp.entity.IsrpOrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 订单状态表(IsrpOrderStatus)表服务接口
  *
@@ -18,7 +20,7 @@ public interface IsrpOrderStatusService {
      * @param orderId 主键
      * @return 实例对象
      */
-    IsrpOrderStatus queryById(Integer orderId);
+    IsrpOrderStatus queryById(String orderId);
 
     /**
      * 分页查询
@@ -53,4 +55,15 @@ public interface IsrpOrderStatusService {
      */
     boolean deleteById(Integer orderId);
 
+    int insertBatch(List<IsrpOrderStatus> list);
+
+    List<IsrpOrderStatus> selectByOrderId(String orderId);
+
+    Integer selectStatusByOrderId(String orderId);
+
+    int changeStatus(String orderId,Integer orderProcessId);
+
+    int selectStatusByDesc(String orderId, String desc);
+
+    void updateByOrderId(String orderId);
 }

@@ -138,4 +138,9 @@ public class IsrpOrderProcessServiceImpl implements IsrpOrderProcessService {
     public Integer deleteByModelId(Integer orderModelId) {
         return this.isrpOrderProcessDao.deleteByModelId(orderModelId);
     }
+
+    @Override
+    public List<IsrpOrderProcess> queryByOrderModelId(int orderModelId) {
+        return isrpOrderProcessDao.queryByOrderModelId(orderModelId);
+    }
 }

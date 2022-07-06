@@ -51,14 +51,22 @@ export const user: Array<RouteRecordRaw> = [
         path: "userCenter",
         name: "userCenter",
         component: () => import("@/views/user-center/index.vue"),
-        children:[
+        children: [
           {
             // 待支付
             path: "waitPay",
             name: "waitPay",
-            component: () => import("@/views/user-center/components/WaitPay.vue"),
+            component: () =>
+              import("@/views/user-center/components/WaitPay.vue"),
           },
-        ]
+          {
+            // 待支付
+            path: "hasPay",
+            name: "hasPay",
+            component: () =>
+              import("@/views/user-center/components/HasPay.vue"),
+          },
+        ],
       },
     ],
   },

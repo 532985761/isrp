@@ -51,6 +51,10 @@
             </if>
         </where>
     </select>
+    <select id="queryByOrderModelId" resultMap="IsrpOrderProcessMap" >
+        select           order_process_id, order_model_id, order_process_name
+from isrp_order_process where order_model_id = #{orderModelId}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="orderProcessId" useGeneratedKeys="true">

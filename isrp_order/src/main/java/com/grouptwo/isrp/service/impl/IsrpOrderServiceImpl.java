@@ -9,9 +9,7 @@ import com.grouptwo.isrp.dao.IsrpOrderDao;
 import com.grouptwo.isrp.entity.*;
 import com.grouptwo.isrp.pojo.CartVO;
 import com.grouptwo.isrp.pojo.SelectVO;
-import com.grouptwo.isrp.service.IsrpLogisticsCompanyService;
-import com.grouptwo.isrp.service.IsrpOrderService;
-import com.grouptwo.isrp.service.IsrpPaymentTypeService;
+import com.grouptwo.isrp.service.*;
 import com.grouptwo.isrp.utils.SnowflakeIdWorker;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -25,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +56,13 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
 
     @Resource
     private IsrpLogisticsCompanyService isrpLogisticsCompanyService;
+
+    @Resource
+    private IsrpOrderProcessService isrpOrderProcessService;
+    @Resource
+    private IsrpOrderModelService isrpOrderModelService;
+    @Resource
+    private IsrpOrderStatusService isrpOrderStatusService;
 
     /**
      * 通过ID查询单条数据
@@ -91,13 +97,34 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Override
     public IsrpOrder insertOrder(IsrpOrder isrpOrder) {
         //设置订单表信息
+        isrpOrder.setUserId((String) getUserInfo().get("userId"));
         isrpOrder.setOrderId(String.valueOf(new SnowflakeIdWorker(0L, 0L).nextId()));
         isrpOrder.setCreateTime(LocalDateTime.now());
         //删除购物车项
         deleteCartByGoodsId(Math.toIntExact(isrpOrder.getGoodsId()));
         //改变goods商品状态为不可租
-        goodsClient.updateGoodsById(isrpOrder.getGoodsId(),0);
+        goodsClient.updateGoodsById(isrpOrder.getGoodsId(), 0);
         this.isrpOrderDao.insertOrder(isrpOrder);
+        //将对应商品模式插入流程表开始订单流程
+        //查询订单流程
+        Map orderModel = orderClient.queryIsrpOrderModelById((Integer) goodsClient.queryByGoodsId(Math.toIntExact(isrpOrder.getGoodsId())).get("orderModelId"));
+
+        List<IsrpOrderProcess> isrpOrderProcesses = isrpOrderProcessService.queryByOrderModelId((Integer) orderModel.get("orderModelId"));
+        List<IsrpOrderStatus> list = new ArrayList<>();
+        final int[] i = {0};
+        isrpOrderProcesses.forEach((c) -> {
+            IsrpOrderStatus isrpOrderStatus = new IsrpOrderStatus();
+            isrpOrderStatus.setOrderId(isrpOrder.getOrderId());
+            isrpOrderStatus.setOrderProcessId(c.getOrderProcessId());
+            if (i[0] > 3) {
+                isrpOrderStatus.setOrderStatusDesc("未完成");
+            } else {
+                isrpOrderStatus.setOrderStatusDesc("已完成");
+            }
+            ++i[0];
+            list.add(isrpOrderStatus);
+        });
+        isrpOrderStatusService.insertBatch(list);
         return isrpOrder;
     }
 
@@ -279,7 +306,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
         //通过goodsId和用户ID获取购物车信息
         BoundHashOperations<String, Object, Object> operations = getCart(CART_PREFIX);
         CartVO cartVO = JSON.parseObject((String) operations.get(goodsId.toString()), CartVO.class);
-        System.out.println(cartVO);
+
         //返回到map
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
@@ -292,6 +319,85 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
 
         return map;
     }
+
+    @Override
+    public List<IsrpOrder> waitPayOrder(String userId, int status) {
+
+        return isrpOrderDao.waitPayOrder(userId, status);
+    }
+
+    @Override
+    public List<IsrpOrder> hasPayOrder(String userId, int status) {
+        return isrpOrderDao.waitPayOrder(userId, status);
+
+    }
+
+    @Override
+    public Map<String, Object> getOrderDetail(String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        //获取订单信息
+        map.put("order", isrpOrderDao.selectOrderById(orderId));
+        //订单模式
+        map.put("model", orderClient.queryIsrpOrderModelById((Integer) goodsClient.queryByGoodsId(Math.toIntExact(isrpOrderDao.selectOrderById(orderId).getGoodsId())).get("orderModelId")));
+        //对应商品信息
+        map.put("goods", goodsClient.queryByGoodsId(Math.toIntExact(isrpOrderDao.selectOrderById(orderId).getGoodsId())));
+        //获取流程信息
+//        map.put("processNowId", isrpOrderStatusService.selectStatusByOrderId(orderId));
+        //对应的数量--和前端进度条相对应
+        int done = isrpOrderStatusService.selectStatusByDesc(orderId, "已完成");
+        map.put("nowId", done);
+        //对应订单模式的流程
+        map.put("process", isrpOrderProcessService.queryByOrderModelId((Integer) goodsClient.queryByGoodsId(Math.toIntExact(isrpOrderDao.selectOrderById(orderId).getGoodsId())).get("orderModelId")));
+        //对应用户信息
+        map.put("user", userClient.queryUserById((String) goodsClient.queryByGoodsId(Math.toIntExact(isrpOrderDao.selectOrderById(orderId).getGoodsId())).get("userId")));
+        //当前流程名称
+        if (isrpOrderStatusService.selectStatusByOrderId(orderId) !=null){
+            map.put("nowProcessName", isrpOrderProcessService.queryById(isrpOrderStatusService.selectStatusByOrderId(orderId)-1));
+            IsrpOrderProcess isrpOrderProcess = isrpOrderProcessService.queryById(isrpOrderStatusService.selectStatusByOrderId(orderId ));
+            if (isrpOrderProcess == null){
+
+            }else {
+                map.put("nextProcessName",isrpOrderProcess.getOrderProcessName());
+            }
+        }
+
+        return map;
+    }
+
+    /**
+     * 续租
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public int continueOrder(String orderId) {
+
+        int m = (int) goodsClient.queryByGoodsId(Math.toIntExact(isrpOrderDao.selectOrderById(orderId).getGoodsId())).get("orderModelId");
+        isrpOrderStatusService.changeStatus(orderId, m);
+        return 1;
+    }
+
+    @Override
+    public int payOrder(String orderId) {
+        return isrpOrderDao.payOrder(orderId);
+    }
+
+    @Override
+    public int exitOrder(String orderId) {
+        //修改状态表数据
+        isrpOrderStatusService.updateByOrderId(orderId);
+        //修改goods表数据
+        Long goodsId = isrpOrderDao.selectOrderById(orderId).getGoodsId();
+        goodsClient.updateGoodsById(goodsId,1);
+        //修改订单表状态
+        IsrpOrder isrpOrder = new IsrpOrder();
+        isrpOrder.setOrderId(orderId);
+        isrpOrder.setConfirmStatus(3);
+        isrpOrderDao.updateOrder(isrpOrder);
+        return 1;
+    }
+
 
     /**
      * 获取购物车
@@ -310,24 +416,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
 
     private static JSONObject getUserInfo() {
         JSONObject user = JSONObject.parseObject(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-
         return user;
     }
 
-//    @Override
-//    public Map<String, Object> getUserAndOrderInfo(String userId) {
-//        //查询所有订单后提取goodsId
-//
-//        //通过订单表goodsId查询goods表，保证唯一性，提升查询速度
-//        List<Long> goodsIds = new ArrayList<>();
-//        goodsIds.add(1L);
-//        goodsIds.add(2L);
-//        goodsClient.queryByGoodsIds(goodsIds);
-//        //得到上述goods表所有数据，进行数据帅选，筛选条件为--传入的`userId` 和goods表中userId相等--
-//
-//        //筛选之后得到list列表，此时list数据就是和当前用户相关的订单及订单对应商品信息
-//
-////         goodsClient.queryByUserId(userId);
-//        return new HashMap<>();
-//    }
 }

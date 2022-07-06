@@ -1,6 +1,7 @@
 package com.grouptwo.isrp.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.client.OrderClient;
 import com.grouptwo.isrp.client.UserClient;
@@ -197,13 +198,17 @@ public class IsrpGoodsController {
     @RolesAuthorization(value = {"business"})
     @PostMapping(value = "/addGoods")
     public ResponseEntity addGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
-        log.info("测试 -------------");
         System.out.println(goodsPO);
-        MultipartHttpServletRequest m =  (MultipartHttpServletRequest) request;
-        System.out.println(m.getMultipartHeaders("goodsImg"));
-        List<MultipartFile> list = m.getFiles("goodsImg");
         return ResponseEntity.ok(this.isrpGoodsService.insertGoods(goodsPO,request));
     }
-
+    /**
+     * 修改商品
+     */
+    @RolesAuthorization(value = {"business"})
+    @PostMapping(value = "/updateGoods")
+    public ResponseEntity updateGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
+        System.out.println(goodsPO);
+        return ResponseEntity.ok(this.isrpGoodsService.updateGoods(goodsPO,request));
+    }
 }
 

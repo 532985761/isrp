@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单状态表(IsrpOrderStatus)表服务实现类
@@ -28,7 +29,7 @@ public class IsrpOrderStatusServiceImpl implements IsrpOrderStatusService {
      * @return 实例对象
      */
     @Override
-    public IsrpOrderStatus queryById(Integer orderId) {
+    public IsrpOrderStatus queryById(String orderId) {
         return this.isrpOrderStatusDao.queryById(orderId);
     }
 
@@ -78,5 +79,35 @@ public class IsrpOrderStatusServiceImpl implements IsrpOrderStatusService {
     @Override
     public boolean deleteById(Integer orderId) {
         return this.isrpOrderStatusDao.deleteById(orderId) > 0;
+    }
+
+    @Override
+    public int insertBatch(List<IsrpOrderStatus> list) {
+        return isrpOrderStatusDao.insertBatch(list);
+    }
+
+    @Override
+    public List<IsrpOrderStatus> selectByOrderId(String orderId) {
+        return isrpOrderStatusDao.selectByOrderId(orderId);
+    }
+
+    @Override
+    public Integer selectStatusByOrderId(String orderId) {
+        return isrpOrderStatusDao.selectStatusByOrderId(orderId);
+    }
+
+    @Override
+    public int changeStatus(String orderId,Integer orderProcessId) {
+        return isrpOrderStatusDao.changeStatus(orderId,orderProcessId);
+    }
+
+    @Override
+    public int selectStatusByDesc(String orderId, String desc) {
+        return isrpOrderStatusDao.selectStatusByDesc(orderId,desc);
+    }
+
+    @Override
+    public void updateByOrderId(String orderId) {
+        isrpOrderStatusDao.updateByOrderId(orderId);
     }
 }

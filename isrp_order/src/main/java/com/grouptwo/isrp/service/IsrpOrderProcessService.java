@@ -73,4 +73,5 @@ public interface IsrpOrderProcessService {
      */
     Integer deleteByModelId(Integer orderModelId);
 
+    List<IsrpOrderProcess> queryByOrderModelId(int orderModelId);
 }

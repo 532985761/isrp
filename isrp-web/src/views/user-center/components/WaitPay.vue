@@ -1,214 +1,102 @@
 <template>
-     <el-table
-          :data="cart"
-          style="width: 100%"
-          element-loading-text="正在改变购物车数据，请稍等"
-          element-loading-background="rgba(122, 122, 122, 1)"
-          v-loading="loading"
-        >
-          <el-table-column label="商品信息" width="100">
-            <template #default="scope">
-              <el-image
-                style="width: 50px; height: 50px; border-radius: 15px"
-                :src="scope.row.goodsImg"
-                class="mt-0.5"
-            /></template>
-          </el-table-column>
-          <el-table-column height="200" property="name" width="220">
-            <template #default="scope">
-              <span class="font-bold"> {{ scope.row.goodsName }}</span
-              ><br /><span> {{ scope.row.goodsDesc }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            property="address"
-            label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;租用时长(天)"
-            show-overflow-tooltip
-            class="ml-15"
-            width="180"
-          >
-            <template #default="scope">
-              <el-input-number
-                size="small"
-                v-model="scope.row.rentDays"
-                :step="1"
-                :max="scope.row.rentLimit"
-                @change="changeCart(scope.row.goodsId, scope.row.rentDays)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column
-            property="address"
-            label="租用价格"
-            show-overflow-tooltip
-            class="ml-15"
-            width="120"
-          >
-            <template #default="scope">
-              <el-tag size="large" type="primary">{{
-                scope.row.rentPrice
-              }}</el-tag
-              ><span> 元/天</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="&nbsp;&nbsp;租用方式"
-            show-overflow-tooltip
-            class="ml-15"
-            width="120"
-          >
-     
-            <template #default="scope">
-              <el-popover
-                effect="light"
-                trigger="hover"
-                placement="top"
-                width="auto"
-              >
-                <template #default>
-                  <div v-if="scope.row.modal == '先租后买'">
-                    租用模式说明：规定一个租用时间上限，在租用时间截止之前考虑是否买下本商品
-                  </div>
-                  <div v-else-if="scope.row.modal == '以租代售'">
-                    租用模式说明：规定一定的租赁时间，不可改变，在到达时间之前得退货，达到之后物品归为己有
-                  </div>
-                  <div v-else>租用模式说明：按照实际租用时长付费</div>
-                </template>
-                <template #reference>
-                  <el-tag type="danger">{{ scope.row.modal }}</el-tag>
-                </template>
-              </el-popover>
-            </template>
-          </el-table-column>
-          <el-table-column
-            property="address"
-            label="租用上限"
-            show-overflow-tooltip
-            class="ml-15"
-            width="120"
-          >
-            <template #default="scope">
-              <el-tag size="large" type="warning"
-                >{{ scope.row.rentLimit }}天</el-tag
-              >
-            </template>
-          </el-table-column>
-          <el-table-column
-            property="address"
-            label="商品总价"
-            show-overflow-tooltip
-            class="ml-15"
-          >
-            <template #default="scope">
-              <span v-if="scope.row.modal != '共享租赁'"
-                >{{ scope.row.goodsPrice }} 元</span
-              >
-              <span v-else>按租用时长计费<br />到时间可以续租</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            property="address"
-            label="小计"
-            show-overflow-tooltip
-            class="ml-15"
-          >
-            <template #default="scope">
-              <span
-                >{{
-                  (scope.row.rentPrice * scope.row.rentDays).toFixed(2)
-                }}
-                元</span
-              >
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            property="address"
-            label="操作"
-            show-overflow-tooltip
-            class="ml-15"
-          >
-            <template #default="scope">
-              <el-popconfirm
-                title="确定要删除购物车中此项吗？"
-                @confirm="confirmDelete(scope.row.goodsId)"
-              >
-                <template #reference>
-                  <el-link type="danger">删除</el-link>
-                </template>
-              </el-popconfirm>
-              <br />
-              <router-link :to="'/isrpUser/confirmOrder/' + scope.row.goodsId">
-                <el-link type="primary">下单</el-link></router-link
-              >
-            </template>
-          </el-table-column>
-        </el-table>
+  <el-table :data="waitOrderInfo" style="width: 100%">
+    <el-table-column fixed prop="orderId" label="订单号" width="260" />
+    <el-table-column prop="name" label="收货人" width="120">
+      <template #default="scope">
+        {{ scope.row.receiverName }}
+      </template>
+    </el-table-column>
+      <el-table-column prop="name" label="收货电话" width="120">
+      <template #default="scope">
+        {{ scope.row.receiverPhone }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="name" label="收货地址" width="380">
+      <template #default="scope">
+        {{ scope.row.receiverProvince }}-{{ scope.row.receiverCity }}-{{
+          scope.row.receiverArea
+        }}- {{ scope.row.receiverStreet }}-{{ scope.row.receiverDetailAddress }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="name" label="当前订单状态" width="420">
+      <template #default>
+        <el-tag type="danger">未支付</el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column fixed="right" label="操作" width="220">
+      <template #default="scope">
+        <el-popconfirm title="确认支付此订单吗？" @confirm="payOrderFun(scope.row.orderId)">
+          <template #reference>
+            <el-button link type="primary" size="small" 
+              >支付</el-button
+            >
+          </template>
+        </el-popconfirm>
+        <el-button link type="danger" size="small">取消订单</el-button>
+        <el-button link type="warning" size="small">查看详情</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <!-- {{ waitOrderInfo }} -->
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElTable } from 'element-plus'
+import { waitPayOrder, payOrder } from "@/api/order";
+import { onBeforeMount } from "@vue/runtime-core";
+import { ref } from "vue";
+import { ElNotification } from "element-plus";
 
-interface User {
-  date: string
-  name: string
-  address: string
-}
-
-const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-const multipleSelection = ref<User[]>([])
-const toggleSelection = (rows?: User[]) => {
-  if (rows) {
-    rows.forEach((row) => {
-      // TODO: improvement typing when refactor table
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      multipleTableRef.value!.toggleRowSelection(row, undefined)
-    })
-  } else {
-    multipleTableRef.value!.clearSelection()
-  }
-}
-const handleSelectionChange = (val: User[]) => {
-  multipleSelection.value = val
-}
-
-const tableData: User[] = [
+const handleClick = () => {
+  console.log("click");
+};
+const tableData = [];
+onBeforeMount(() => {
+  waitPayOrderFun();
+});
+//获取未支付订单信息
+const waitOrderInfo = ref([
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    orderId: "3116172027363328",
+    goodsId: 45,
+    userId: "430818627420160",
+    typeId: 1,
+    logisticsCompanyId: 1,
+    createTime: "2022-07-06 09:24:34",
+    orderStatus: 0,
+    payTime: null,
+    goodsTotalPrice: 168,
+    goodsPayReal: 168,
+    receiverName: "郜承弼",
+    receiverPhone: "1111",
+    receiverEmail: "",
+    receiverProvince: "内蒙古自治区",
+    receiverCity: "包头市",
+    receiverArea: "东河区",
+    receiverStreet: "111",
+    receiverDetailAddress: "111",
+    confirmStatus: 0,
+    deliveryTime: null,
+    receiveTime: null,
+    modifyTime: null,
+    rentDays: 3,
+    rentRealDays: null,
+    shopUserId: "431188825079808",
   },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+]);
+const waitPayOrderFun = () => {
+  waitPayOrder().then((res) => {
+    waitOrderInfo.value = res.data;
+  });
+};
+//支付订单
+const payOrderFun = ((id)=>{
+  payOrder(id).then((res) => {
+       ElNotification({
+        title: "提示消息",
+        message: "恭喜您成功支付！订单已生效！",
+        type: "success",
+      });
+      waitPayOrderFun();
+  })
+})
 </script>

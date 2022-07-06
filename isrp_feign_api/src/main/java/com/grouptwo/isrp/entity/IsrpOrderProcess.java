@@ -48,5 +48,13 @@ public class IsrpOrderProcess implements Serializable {
         this.orderProcessName = orderProcessName;
     }
 
+    @Override
+    public String toString() {
+        return "IsrpOrderProcess{" +
+                "orderProcessId=" + orderProcessId +
+                ", orderModelId=" + orderModelId +
+                ", orderProcessName='" + orderProcessName + '\'' +
+                '}';
+    }
 }
 

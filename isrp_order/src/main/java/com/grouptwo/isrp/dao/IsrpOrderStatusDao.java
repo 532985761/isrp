@@ -22,7 +22,7 @@ public interface IsrpOrderStatusDao {
      * @param orderId 主键
      * @return 实例对象
      */
-    IsrpOrderStatus queryById(Integer orderId);
+    IsrpOrderStatus queryById(String orderId);
 
     /**
      * 查询指定行数据
@@ -82,5 +82,14 @@ public interface IsrpOrderStatusDao {
      */
     int deleteById(Integer orderId);
 
+    List<IsrpOrderStatus> selectByOrderId(String orderId);
+
+    Integer selectStatusByOrderId(String orderId);
+
+    int changeStatus(@Param("orderId") String orderId,@Param("orderProcessId") Integer orderProcessId);
+
+    int selectStatusByDesc(@Param("orderId") String orderId,@Param("desc") String desc);
+
+    void updateByOrderId(String orderId);
 }
 

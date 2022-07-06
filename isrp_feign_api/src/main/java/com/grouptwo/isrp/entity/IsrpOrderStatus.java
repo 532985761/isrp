@@ -13,7 +13,7 @@ public class IsrpOrderStatus implements Serializable {
     /**
      * 订单id
      */
-    private Integer orderId;
+    private String orderId;
     /**
      * 订单流程ID
      */
@@ -24,11 +24,11 @@ public class IsrpOrderStatus implements Serializable {
     private String orderStatusDesc;
 
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -48,5 +48,13 @@ public class IsrpOrderStatus implements Serializable {
         this.orderStatusDesc = orderStatusDesc;
     }
 
+    @Override
+    public String toString() {
+        return "IsrpOrderStatus{" +
+                "orderId='" + orderId + '\'' +
+                ", orderProcessId=" + orderProcessId +
+                ", orderStatusDesc='" + orderStatusDesc + '\'' +
+                '}';
+    }
 }
 

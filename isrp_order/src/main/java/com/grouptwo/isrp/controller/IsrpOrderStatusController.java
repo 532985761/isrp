@@ -44,7 +44,7 @@ public class IsrpOrderStatusController {
      */
     @GetMapping("{id}")
     public ResponseEntity<IsrpOrderStatus> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.isrpOrderStatusService.queryById(id));
+        return ResponseEntity.ok(this.isrpOrderStatusService.queryById(String.valueOf(id)));
     }
 
     /**

@@ -4,6 +4,7 @@ import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.pojo.CartVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -94,6 +95,18 @@ public interface IsrpOrderService {
     boolean deleteCartByGoodsId(Integer goodsId);
 
     Map<String,Object> getPreorderInfo(Integer goodsId);
+
+    List<IsrpOrder> waitPayOrder(String userId,int status);
+
+    List<IsrpOrder> hasPayOrder(String userId, int status);
+
+    Map<String,Object> getOrderDetail(String orderId);
+
+    int continueOrder(String orderId);
+
+    int payOrder(String orderId);
+
+    int exitOrder(String orderId);
 
 //    Map<String,Object> getUserAndOrderInfo(String userId);
 }

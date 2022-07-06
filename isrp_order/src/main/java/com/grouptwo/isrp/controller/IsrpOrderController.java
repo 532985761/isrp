@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.annotation.RolesAuthorization;
 import com.grouptwo.isrp.entity.IsrpOrder;
 import com.grouptwo.isrp.service.IsrpOrderService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -80,6 +80,7 @@ public class IsrpOrderController {
         isrpOrder.setOrderId(orderId);
         return ResponseEntity.ok(this.isrpOrderService.updateOrder(isrpOrder));
     }
+
     /**
      * 删除订单数据
      *
@@ -150,14 +151,15 @@ public class IsrpOrderController {
 
         return new ResponseEntity(isrpOrderService.addToCart(goodsId, days), HttpStatus.OK);
     }
+
     /**
      * 提取购物车商品
      */
     @RolesAuthorization
     @PostMapping("/getCart")
-    public ResponseEntity getCart(){
+    public ResponseEntity getCart() {
 
-      return new ResponseEntity(isrpOrderService.getCart(),HttpStatus.OK);
+        return new ResponseEntity(isrpOrderService.getCart(), HttpStatus.OK);
     }
 
     /**
@@ -165,33 +167,104 @@ public class IsrpOrderController {
      */
     @RolesAuthorization
     @GetMapping("/deleteCartByGoodsId/{goodsId}")
-    public ResponseEntity deleteCartByGoodsId(@PathVariable("goodsId") Integer goodsId){
+    public ResponseEntity deleteCartByGoodsId(@PathVariable("goodsId") Integer goodsId) {
 
-        return new ResponseEntity(isrpOrderService.deleteCartByGoodsId(goodsId),HttpStatus.OK);
+        return new ResponseEntity(isrpOrderService.deleteCartByGoodsId(goodsId), HttpStatus.OK);
     }
 
     /**
      * 得到订单项信息
+     *
      * @param goodsId
      * @return 订单页信息
      */
     @RolesAuthorization
     @GetMapping("/getPreorderInfo/{goodsId}")
-    public ResponseEntity getPreorderInfo(@PathVariable("goodsId") Integer goodsId){
-        return new ResponseEntity(isrpOrderService.getPreorderInfo(goodsId),HttpStatus.OK);
+    public ResponseEntity getPreorderInfo(@PathVariable("goodsId") Integer goodsId) {
+        return new ResponseEntity(isrpOrderService.getPreorderInfo(goodsId), HttpStatus.OK);
     }
 
     /**
      * 订单生成
+     *
      * @param order
      * @return
      */
     @RolesAuthorization
     @PostMapping("/makeOrder")
-    public ResponseEntity makeOrder(@RequestBody IsrpOrder order){
+    public ResponseEntity makeOrder(@RequestBody IsrpOrder order) {
         isrpOrderService.insertOrder(order);
-        return new ResponseEntity(order,HttpStatus.OK);
+        return new ResponseEntity(order, HttpStatus.OK);
     }
 
+    /**
+     * 未支付订单
+     */
+    @RolesAuthorization
+    @GetMapping("/waitPayOrder")
+    public ResponseEntity waitPayOrder() {
+        System.out.println(getUserInfo().get("userId"));
+        return new ResponseEntity(isrpOrderService.waitPayOrder((String) getUserInfo().get("userId"), 0), HttpStatus.OK);
+    }
+
+    /**
+     * 已支付订单，正在进行中订单
+     *
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/hasPayOrder")
+    public ResponseEntity payOrder() {
+        return new ResponseEntity(isrpOrderService.hasPayOrder((String) getUserInfo().get("userId"), 1), HttpStatus.OK);
+
+    }
+
+    /**
+     * 订单详情-订单流程当前进度
+     *
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/getOrderDetail/{orderId}")
+    public ResponseEntity getOrderDetail(@PathVariable("orderId") String orderId) {
+        return new ResponseEntity(isrpOrderService.getOrderDetail(orderId), HttpStatus.OK);
+    }
+
+    /**
+     *
+     * 续租
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/continueOrder/{orderId}")
+    public ResponseEntity continueOrder(@PathVariable("orderId") String orderId) {
+        return new ResponseEntity(isrpOrderService.continueOrder(orderId), HttpStatus.OK);
+    }
+
+
+    /**
+     * 支付订单
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/payOrder/{orderId}")
+    public ResponseEntity payOrder(@PathVariable("orderId") String orderId){
+        return new ResponseEntity(isrpOrderService.payOrder(orderId),HttpStatus.OK);
+    }
+
+    /**
+     * 退租
+     * @return
+     */
+    @RolesAuthorization
+    @GetMapping("/exitOrder/{orderId}")
+    public ResponseEntity exitOrder(@PathVariable("orderId") String orderId){
+        return new ResponseEntity(isrpOrderService.exitOrder(orderId),HttpStatus.OK);
+    }
+
+    private static JSONObject getUserInfo() {
+        JSONObject user = JSONObject.parseObject(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        return user;
+    }
 }
 

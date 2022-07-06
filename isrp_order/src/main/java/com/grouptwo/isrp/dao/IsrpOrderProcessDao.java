@@ -90,5 +90,6 @@ public interface IsrpOrderProcessDao {
      */
     int deleteByModelId(Integer orderModelId);
 
+    List<IsrpOrderProcess> queryByOrderModelId(int orderModelId);
 }
 

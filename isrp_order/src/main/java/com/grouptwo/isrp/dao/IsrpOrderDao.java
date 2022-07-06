@@ -107,5 +107,10 @@ public interface IsrpOrderDao {
      * @return
      */
     List<IsrpOrder> selectOrderAllByShopUserId(String shopUserId);
+
+    List<IsrpOrder> waitPayOrder(@Param("userId") String userId,@Param("status") int status);
+
+
+    int payOrder(String orderId);
 }
 

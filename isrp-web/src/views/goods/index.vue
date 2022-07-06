@@ -1,15 +1,14 @@
 <template>
   <div>
     <el-form-item label="商品搜索" style="margin-left: 80px">
-      
-      
       <el-input
         placeholder="请输入你要搜索的商品名称..."
         clearable
         type="text"
         class="w-200"
-        v-model="keyword"/>
-        <el-button
+        v-model="keyword"
+      />
+      <el-button
         type="success"
         :icon="Search"
         round
@@ -18,12 +17,20 @@
         @click="searchGoodsName(keyword)"
         >搜索</el-button
       >
-      <el-button type="primary" round class="w-25" @click="(insertFormVisible = true)"
+      <el-button
+        type="primary"
+        round
+        class="w-25"
+        @click="insertFormVisible = true"
         ><el-icon><Upload /></el-icon>发布商品</el-button
       >
     </el-form-item>
   </div>
-  <el-table :data="goodsInfo" style="width: 100%; text-align: center" height="595">
+  <el-table
+    :data="goodsInfo"
+    style="width: 100%; text-align: center"
+    height="595"
+  >
     <el-table-column fixed prop="goodsId" label="商品序号" width="150" />
     <el-table-column prop="goodsName" label="商品名称" width="120" />
     <el-table-column label="商品图片" width="170">
@@ -37,18 +44,28 @@
     </el-table-column>
     <el-table-column prop="goodsPrice" label="商品价格" width="120" />
     <el-table-column prop="goodsDesc" label="商品描述" width="200" />
-    <el-table-column label="商品状态" width="120" >
+    <el-table-column label="商品状态" width="120">
       <template #default="scope">
-            <el-tag type="success" effect="dark" v-if="scope.row.goodsStatus==1">可租</el-tag>
-            <el-tag type="warning" effect="dark" v-if="scope.row.goodsStatus==0">出租中</el-tag>
-            <el-tag type="info" effect="dark" v-if="scope.row.goodsStatus==2">售出</el-tag>
-        </template>
+        <el-tag type="success" effect="dark" v-if="scope.row.goodsStatus == 1"
+          >待租中</el-tag
+        >
+        <el-tag type="warning" effect="dark" v-if="scope.row.goodsStatus == 0"
+          >出租中</el-tag
+        >
+        <el-tag type="info" effect="dark" v-if="scope.row.goodsStatus == 2"
+          >售出</el-tag
+        >
+      </template>
     </el-table-column>
-    <el-table-column prop="goodsSaleCount" label="销量" width="120" >
+    <el-table-column prop="goodsSaleCount" label="销量" width="120">
       <template #default="scope">
-            <el-tag type="info" effect="dark" v-if="scope.row.goodsSaleCount==0">无人购买</el-tag>
-            <p v-if="scope.row.goodsSaleCount!=0">{{scope.row.goodsSaleCount}}</p>
-        </template>
+        <el-tag type="info" effect="dark" v-if="scope.row.goodsSaleCount == 0"
+          >无人购买</el-tag
+        >
+        <p v-if="scope.row.goodsSaleCount != 0">
+          {{ scope.row.goodsSaleCount }}
+        </p>
+      </template>
     </el-table-column>
     <el-table-column prop="createTime" label="发布时间" width="175" />
     <el-table-column fixed="right" label="操作" width="200">
@@ -84,7 +101,11 @@
   <el-dialog v-model="dialogFormVisible" title="修改商品">
     <el-form :model="form">
       <el-form-item label="商品图片" :label-width="formLabelWidth">
-        <el-upload action="#" list-type="picture-card" :auto-upload="false">
+        <el-upload
+          action="#"
+          list-type="picture-card"
+          :auto-upload="false"
+        >
           <el-icon><Plus /></el-icon>
 
           <template #file="{ file }">
@@ -141,7 +162,12 @@
   <el-dialog v-model="insertFormVisible" title="发布商品">
     <el-form :model="insertGoodsForm">
       <el-form-item label="商品图片" :label-width="formLabelWidth">
-        <el-upload action="#" list-type="picture-card" :auto-upload="false">
+        <el-upload
+          list-type="picture-card"
+          :auto-upload="false"
+          :on-change="handleChange"
+          :multiple="true"
+        >
           <el-icon><Plus /></el-icon>
           <template #file="{ file }">
             <div>
@@ -185,7 +211,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="insertFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="insertFormVisible = false"
+        <el-button
+          type="primary"
+          @click="(insertFormVisible = false), addGoods()"
           >发布</el-button
         >
       </span>
@@ -196,58 +224,98 @@
 import { onMounted, reactive, ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { selectGoodsByUserId } from "@/api/goods";
-import { selectGoodsByGoodsName } from "@/api/goods";
+import { selectGoodsByGoodsName,insertGoods} from "@/api/goods";
 import { userStore } from "@/store/user";
 import type { UploadFile } from "element-plus";
 import { deleteGoodsByGoodsId } from "@/api/goods";
-import { ElMessage,ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox,UploadProps } from "element-plus";
 const disabled = ref(false);
 const dialogImageUrl = ref("");
 const ImageUrl = ref("");
 const dialogVisible = ref(false);
-const insertFormVisible = ref(false)
+const insertFormVisible = ref(false);
 const formLabelWidth = "140px";
 const dialogFormVisible = ref(false);
 const userstore = userStore();
 const keyword = ref("");
-const searchGoodsName = (keyword) =>{
-   if(keyword == '' || keyword == undefined || keyword == null){
-      selectGoodsByUserId(userstore.info.userId).then((response: any) => {
-          goodsInfo.value = response.data;
-      });
-    }else{
-      selectGoodsByGoodsName(keyword).then((res:any)=>{
-      if(res.data.length == 0 || res.data == null){
-        ElMessage({
-        type: 'warning',
-        message: '抱歉没有该商品'
-      })
-
-    }else{
-       ElMessage({
-        type: 'success',
-        message: '查询成功'
-      })
-      goodsInfo.value = res.data;
-    }
-  })
-  }
+const getBase64 = (file: any) => {
+  return new Promise(function (resolve, reject) {
+    let reader = new FileReader();
+    let imgResult:any = "";
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      imgResult = reader.result;
+    };
+    reader.onerror = function (error) {
+      reject(error);
+    };
+    reader.onloadend = function () {
+      resolve(imgResult);
+    };
+  });
+};
+ let formData = new FormData();
+const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
+  let imageList:any = [];
+  uploadFiles.forEach(element => {
+    // getBase64(element.raw).then(res =>{
+    //   imageList.push(res)
+    // })
+    imageList.push(element.raw)
+    console.log(element,"6666");
+     let formData = new FormData();
+    formData.set("file",  "45453");
+    console.log( formData);
+    
+    // console.log(new window.File(new Blob(element.url),"adaw") );
+    
+  });
   
-}
+ 
+
+  insertGoodsForm.goodsImg =imageList
+  
+};
+const addGoods = () => {
+  // console.log(insertGoodsForm)
+  insertGoods(insertGoodsForm)
+};
+const searchGoodsName = (keyword) => {
+  if (keyword == "" || keyword == undefined || keyword == null) {
+    selectGoodsByUserId(userstore.info.userId).then((response: any) => {
+      goodsInfo.value = response.data;
+    });
+  } else {
+    selectGoodsByGoodsName(keyword).then((res: any) => {
+      if (res.data.length == 0 || res.data == null) {
+        ElMessage({
+          type: "warning",
+          message: "抱歉没有该商品",
+        });
+      } else {
+        ElMessage({
+          type: "success",
+          message: "查询成功",
+        });
+        goodsInfo.value = res.data;
+      }
+    });
+  }
+};
 
 const insertGoodsForm = reactive({
-  goodsId:null,
-  goodsName:'',
-  goodsPrice:'',
-  goodsDesc:'',
-  goodsImg:'',
-  goodsSaleCount:0,
-  goodsStatus:2,
-  createTime:null,
-  goodsCategorySecondId:1,
-  userId:userstore.info.userId,
-  orderModelId:"1"
-})
+  goodsId: null,
+  goodsName: "",
+  goodsPrice: "",
+  goodsDesc: "",
+  goodsImg: "",
+  goodsSaleCount: 0,
+  goodsStatus: 1,
+  createTime: null,
+  goodsCategorySecondId: 2,
+  userId: userstore.info.userId,
+  orderModelId: "1",
+});
 const getGoodsInfo = (
   goodsId,
   goodsName,
@@ -265,25 +333,20 @@ const getGoodsInfo = (
   form.goodsStatus = goodsStatus;
 };
 const open = (goodsId) => {
-  ElMessageBox.confirm(
-    '确认删除此商品吗？',
-    '删除商品',
-    {
-      confirmButtonText: '删除',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      deleteGoodsByGoodsId(goodsId).then(() => {
-        getAllGoodsFun();
-      });
-      ElMessage({
-        type: 'success',
-        message: '删除成功！',
-      })
-    })
-}
+  ElMessageBox.confirm("确认删除此商品吗？", "删除商品", {
+    confirmButtonText: "删除",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    deleteGoodsByGoodsId(goodsId).then(() => {
+      getAllGoodsFun();
+    });
+    ElMessage({
+      type: "success",
+      message: "删除成功！",
+    });
+  });
+};
 const form = reactive({
   goodsName: "",
   goodsId: "",

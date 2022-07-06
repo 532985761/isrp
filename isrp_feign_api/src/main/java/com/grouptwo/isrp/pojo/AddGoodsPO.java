@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * 商品表(IsrpGoods)实体类
@@ -176,5 +177,23 @@ public class AddGoodsPO implements Serializable {
         this.rentPricePerDay = rentPricePerDay;
     }
 
+    @Override
+    public String toString() {
+        return "AddGoodsPO{" +
+                "goodsId=" + goodsId +
+                ", goodsCategorySecondId=" + goodsCategorySecondId +
+                ", userId='" + userId + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsDesc='" + goodsDesc + '\'' +
+                ", goodsImg=" + Arrays.toString(goodsImg) +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsSaleCount=" + goodsSaleCount +
+                ", orderModelId=" + orderModelId +
+                ", goodsStatus=" + goodsStatus +
+                ", createTime=" + createTime +
+                ", rentLimitDays=" + rentLimitDays +
+                ", rentPricePerDay=" + rentPricePerDay +
+                '}';
+    }
 }
 

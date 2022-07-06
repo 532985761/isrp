@@ -35,11 +35,11 @@
     <el-table-column prop="goodsName" label="商品名称" width="120" />
     <el-table-column label="商品图片" width="170">
       <template #default="scope">
-        <el-image :src="scope.row.goodsImg">
-          <template #placeholder>
-            <div class="image-slot">Loading<span class="dot">...</span></div>
-          </template>
-        </el-image>
+          <el-carousel indicator-position="outside" height="100px">
+            <el-carousel-item v-for="item in scope.row.goodsImg" :key="item">
+              <el-image :src="item" />
+            </el-carousel-item>
+          </el-carousel>
       </template>
     </el-table-column>
     <el-table-column prop="goodsPrice" label="商品价格" width="120" />
@@ -101,13 +101,8 @@
   <el-dialog v-model="dialogFormVisible" title="修改商品">
     <el-form :model="form">
       <el-form-item label="商品图片" :label-width="formLabelWidth">
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-        >
+        <el-upload list-type="picture-card" :auto-upload="false" :on-change="handleChange" :multiple="true">
           <el-icon><Plus /></el-icon>
-
           <template #file="{ file }">
             <div>
               <img
@@ -138,29 +133,29 @@
         </el-dialog>
       </el-form-item>
       <el-form-item label="商品名称" :label-width="formLabelWidth">
-        <el-input v-model="form.goodsName" />
+        <el-input v-model="form.goodsName" placeholder="请输入您的商品名称..."/>
       </el-form-item>
       <el-form-item label="商品价格" :label-width="formLabelWidth">
-        <el-input v-model="form.goodsPrice" />
+        <el-input v-model="form.goodsPrice" placeholder="请输入您的商品价格..."/>
       </el-form-item>
       <el-form-item label="商品描述" :label-width="formLabelWidth">
-        <el-input v-model="form.goodsDesc" />
+        <el-input v-model="form.goodsDesc" placeholder="请输入您的商品描述..."/>
       </el-form-item>
       <el-form-item label="商品状态" :label-width="formLabelWidth">
-        <el-input v-model="form.goodsStatus" />
+        <el-input v-model="form.goodsStatus" placeholder="请输入0或1，0为待租中，1为出租中" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
+        <el-button type="primary" @click="dialogFormVisible = false,updateGoodsByGoodsId()"
           >确定修改</el-button
         >
       </span>
     </template>
   </el-dialog>
   <el-dialog v-model="insertFormVisible" title="发布商品">
-    <el-form :model="insertGoodsForm">
+    <el-form :model="insertGoodsForm" enctype="multipart/form-data">
       <el-form-item label="商品图片" :label-width="formLabelWidth">
         <el-upload
           list-type="picture-card"
@@ -224,11 +219,11 @@
 import { onMounted, reactive, ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { selectGoodsByUserId } from "@/api/goods";
-import { selectGoodsByGoodsName,insertGoods} from "@/api/goods";
+import { selectGoodsByGoodsName, insertGoods,updateGoods } from "@/api/goods";
 import { userStore } from "@/store/user";
 import type { UploadFile } from "element-plus";
 import { deleteGoodsByGoodsId } from "@/api/goods";
-import { ElMessage, ElMessageBox,UploadProps } from "element-plus";
+import { ElMessage, ElMessageBox, UploadProps } from "element-plus";
 const disabled = ref(false);
 const dialogImageUrl = ref("");
 const ImageUrl = ref("");
@@ -238,47 +233,65 @@ const formLabelWidth = "140px";
 const dialogFormVisible = ref(false);
 const userstore = userStore();
 const keyword = ref("");
-const getBase64 = (file: any) => {
-  return new Promise(function (resolve, reject) {
-    let reader = new FileReader();
-    let imgResult:any = "";
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      imgResult = reader.result;
-    };
-    reader.onerror = function (error) {
-      reject(error);
-    };
-    reader.onloadend = function () {
-      resolve(imgResult);
-    };
+const handleChange: UploadProps["onChange"] = (uploadFile, uploadFiles) => {
+  let imageList: any = [];
+  uploadFiles.forEach((element) => {
+    imageList.push(element.raw);
   });
+  insertGoodsForm.goodsImg = imageList;
+  form.goodsImg = imageList;
 };
- let formData = new FormData();
-const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  let imageList:any = [];
-  uploadFiles.forEach(element => {
-    // getBase64(element.raw).then(res =>{
-    //   imageList.push(res)
-    // })
-    imageList.push(element.raw)
-    console.log(element,"6666");
-     let formData = new FormData();
-    formData.set("file",  "45453");
-    console.log( formData);
-    
-    // console.log(new window.File(new Blob(element.url),"adaw") );
-    
+const form = reactive({
+  goodsName: "",
+  goodsId: "",
+  goodsPrice: "",
+  goodsDesc: "",
+  createTime: "",
+  goodsImg: [],
+  goodsSaleCount: 0,
+  goodsStatus: 1,
+  goodsCategorySecondId: 2,
+  userId: userstore.info.userId,
+  orderModelId: "1",
+});
+const updateGoodsByGoodsId = () =>{
+  let formData: any = new FormData();
+  formData.append("goodsId", form.goodsId);
+  formData.append("goodsName", form.goodsName);
+  formData.append("goodsPrice", form.goodsPrice);
+  formData.append("goodsDesc", form.goodsDesc);
+  formData.append("goodsStatus", form.goodsStatus);
+  form.goodsImg.forEach((element) => {
+    formData.append("goodsImg", element);
   });
-  
- 
-
-  insertGoodsForm.goodsImg =imageList
-  
-};
+  updateGoods(formData);
+  ElMessage({
+          type: "success",
+          message: "修改成功,请刷新页面",
+        });
+}
 const addGoods = () => {
-  // console.log(insertGoodsForm)
-  insertGoods(insertGoodsForm)
+  let formData: any = new FormData();
+  formData.append("userId", insertGoodsForm.userId);
+  formData.append("goodsName", insertGoodsForm.goodsName);
+  formData.append("goodsPrice", insertGoodsForm.goodsPrice);
+  formData.append("goodsDesc", insertGoodsForm.goodsDesc);
+  formData.append("goodsSaleCount", insertGoodsForm.goodsSaleCount);
+  formData.append("goodsStatus", insertGoodsForm.goodsStatus);
+  formData.append(
+    "goodsCategorySecondId",
+    insertGoodsForm.goodsCategorySecondId
+  );
+  formData.append("goodsSaleCount", insertGoodsForm.goodsSaleCount);
+  formData.append("orderModelId", insertGoodsForm.orderModelId);
+  insertGoodsForm.goodsImg.forEach((element) => {
+    formData.append("goodsImg", element);
+  });
+  insertGoods(formData);
+  ElMessage({
+          type: "success",
+          message: "发布成功,请刷新页面",
+        });
 };
 const searchGoodsName = (keyword) => {
   if (keyword == "" || keyword == undefined || keyword == null) {
@@ -304,14 +317,12 @@ const searchGoodsName = (keyword) => {
 };
 
 const insertGoodsForm = reactive({
-  goodsId: null,
   goodsName: "",
   goodsPrice: "",
   goodsDesc: "",
-  goodsImg: "",
+  goodsImg: [],
   goodsSaleCount: 0,
   goodsStatus: 1,
-  createTime: null,
   goodsCategorySecondId: 2,
   userId: userstore.info.userId,
   orderModelId: "1",
@@ -347,16 +358,6 @@ const open = (goodsId) => {
     });
   });
 };
-const form = reactive({
-  goodsName: "",
-  goodsId: "",
-  goodsPrice: "",
-  goodsDesc: "",
-  goodsStatus: "",
-  goodsSaleCount: "",
-  createTime: "",
-  goodsImg: "",
-});
 const handlePictureCardPreview = (file: UploadFile) => {
   dialogImageUrl.value = file.url!;
   dialogVisible.value = true;
@@ -368,11 +369,16 @@ let goodsInfo: any = ref([]);
 const getAllGoodsFun = () => {
   selectGoodsByUserId(userstore.info.userId).then((res: any) => {
     goodsInfo.value = res.data;
+    goodsInfo.value.goodsImg = goodsInfo.value.goodsImg.split(",");
+
   });
 };
 onMounted(async () => {
   goodsInfo.value = await selectGoodsByUserId(userstore.info.userId).then(
     (res: any) => res.data
   );
+  goodsInfo.value.forEach(element => {
+      element.goodsImg = element.goodsImg.split(",");
+  })
 });
 </script>

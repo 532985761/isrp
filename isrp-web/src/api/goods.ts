@@ -83,9 +83,6 @@ export function selectGoodsByGoodsName(goodsName:string){
  * 
  * 上传商品
  */
-// export function insertGoods(insertGoodsForm){
-//   return http.post('/isrpGoods/isrpGoods/addGoods')
-// }
 export function insertGoods(insertGoodsForm:any){
   return http({
     method: 'post',
@@ -93,8 +90,19 @@ export function insertGoods(insertGoodsForm:any){
     headers: {
       'Content-Type': 'multipart/form-data'
     },
-    data: {
-        insertGoodsForm:insertGoodsForm
-    }
+    data: insertGoodsForm
+  })
+}
+/**
+ * 修改商品
+ */
+ export function updateGoods(form:any){
+  return http({
+    method: 'post',
+    url:'/isrpGoods/isrpGoods/updateGoods',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: form
   })
 }

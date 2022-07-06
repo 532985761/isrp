@@ -113,4 +113,6 @@ public interface IsrpGoodsService {
      * @return
      */
     IsrpGoods insertGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception;
+
+    IsrpGoods updateGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception;
 }

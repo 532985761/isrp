@@ -200,6 +200,13 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
         isrpGoodsDao.updateGoodsById(goodsId,status);
     }
 
+    /**
+     * 上传商品
+     * @param goodsPO
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @Override
     public IsrpGoods insertGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
 
@@ -207,6 +214,20 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
         BeanUtil.copyProperties(goodsPO,isrpGoods);
         isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
         return isrpGoodsService.insert(isrpGoods);
-//        return isrpGoodsDao.insertGoods(isrpGoods);
+    }
+
+    /**
+     * 修改商品
+     * @param goodsPO
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public IsrpGoods updateGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
+        IsrpGoods isrpGoods = new IsrpGoods();
+        BeanUtil.copyProperties(goodsPO,isrpGoods);
+        isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
+        return isrpGoodsService.update(isrpGoods);
     }
 }

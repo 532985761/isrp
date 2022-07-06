@@ -1,10 +1,12 @@
 package com.grouptwo.isrp.service;
 
 import com.grouptwo.isrp.entity.IsrpGoods;
+import com.grouptwo.isrp.pojo.AddGoodsPO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -103,4 +105,12 @@ public interface IsrpGoodsService {
      * @param goodsId
      */
     void updateGoodsById(Long goodsId,int statsu);
+
+    /**
+     * 上传商品
+     * @param goodsPO
+     * @param request
+     * @return
+     */
+    IsrpGoods insertGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception;
 }

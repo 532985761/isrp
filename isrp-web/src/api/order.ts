@@ -156,3 +156,33 @@ export function getPreorderInfo(goodsId){
 export function makeOrder(order){
     return http.post('/isrpOrder/isrpOrder/makeOrder',order)
 }
+/**
+ * 未支付订单
+ */
+export function waitPayOrder(){
+    return http.get('/isrpOrder/isrpOrder/waitPayOrder')
+}
+/**
+ * 订单详情
+ */
+export function getOrderDetail(orderId){
+    return http.get('/isrpOrder/isrpOrder/getOrderDetail/'+orderId)
+}
+/**
+ * 订单续租
+ */
+export function continueOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/continueOrder/'+orderId)
+}
+/**
+ * 支付订单
+ */
+export function payOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/payOrder/'+orderId)
+}
+/**
+ * 进行中订单
+ */
+export function hasPayOrder(){
+    return http.get('/isrpOrder/isrpOrder/hasPayOrder')
+}

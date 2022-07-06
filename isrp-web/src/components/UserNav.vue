@@ -7,6 +7,7 @@
     text-color="#fff"
     active-text-color="#94A3B8"
   >
+  <router-link to="/isrpUser/index">
     <el-menu-item index="0">
       <el-image
         style="width: 50px; height: 50px; border-radius: 15px"
@@ -14,7 +15,7 @@
         class="mt-0.5"
       />
       <span class="ml-3"> 欢迎来到智租网平台</span></el-menu-item
-    >
+    ></router-link>
     <div class="flex-grow" />
     <router-link to="/isrpUser/userCart"
       ><el-menu-item index="1">我的购物车</el-menu-item></router-link

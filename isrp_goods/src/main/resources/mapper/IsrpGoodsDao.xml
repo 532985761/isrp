@@ -237,6 +237,14 @@
         rent_limit_days = values(rent_limit_days),
         rent_price_per_day = values(rent_price_per_day)
     </insert>
+<!--    上传商品-->
+    <insert id="insertGoods">
+        insert into isrp_goods(goods_category_second_id, user_id, goods_name, goods_desc, goods_img, goods_price,
+                               goods_sale_count, order_model_id, goods_status, create_time, rent_limit_days,
+                               rent_price_per_day)
+        values (#{goodsCategorySecondId}, #{userId}, #{goodsName}, #{goodsDesc}, #{goodsImg}, #{goodsPrice},
+                #{goodsSaleCount}, #{orderModelId}, #{goodsStatus}, #{createTime}, #{rentLimitDays}, #{rentPricePerDay})
+    </insert>
 
     <!--通过主键修改数据-->
     <update id="update">

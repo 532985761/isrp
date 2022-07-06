@@ -103,5 +103,12 @@ public interface IsrpGoodsDao {
      * @param status
      */
     void updateGoodsById(@Param("goodsId") Long goodsId,@Param("status") int status);
+
+    /**
+     * 上传商品
+     * @param isrpGoods
+     * @return
+     */
+    IsrpGoods insertGoods(IsrpGoods isrpGoods);
 }
 

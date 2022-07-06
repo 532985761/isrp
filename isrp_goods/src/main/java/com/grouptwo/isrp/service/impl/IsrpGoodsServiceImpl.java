@@ -1,14 +1,17 @@
 package com.grouptwo.isrp.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.grouptwo.isrp.client.OrderClient;
 import com.grouptwo.isrp.client.UserClient;
 import com.grouptwo.isrp.entity.*;
 import com.grouptwo.isrp.dao.IsrpGoodsDao;
+import com.grouptwo.isrp.pojo.AddGoodsPO;
 import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
+import com.grouptwo.isrp.utils.UploadImages;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,7 +40,8 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     private UserClient userClient;
     @Resource
     private OrderClient orderClient;
-
+    @Resource
+    private UploadImages uploadImages;
     @Resource
     private IsrpGoodsService isrpGoodsService;
 
@@ -193,5 +198,15 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
     @Override
     public void updateGoodsById(Long goodsId,int status) {
         isrpGoodsDao.updateGoodsById(goodsId,status);
+    }
+
+    @Override
+    public IsrpGoods insertGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
+
+        IsrpGoods isrpGoods = new IsrpGoods();
+        BeanUtil.copyProperties(goodsPO,isrpGoods);
+        isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
+        return isrpGoodsService.insert(isrpGoods);
+//        return isrpGoodsDao.insertGoods(isrpGoods);
     }
 }

@@ -12,11 +12,15 @@ import com.grouptwo.isrp.service.IsrpGoodsCategoryFirstService;
 import com.grouptwo.isrp.service.IsrpGoodsCategorySecondService;
 import com.grouptwo.isrp.service.IsrpGoodsService;
 import com.grouptwo.isrp.utils.UploadImages;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +38,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("isrpGoods")
+@Slf4j
 public class IsrpGoodsController {
     /**
      * 服务对象
@@ -47,8 +52,7 @@ public class IsrpGoodsController {
     private UserClient userClient;
     @Resource
     private OrderClient orderClient;
-    @Resource
-    private UploadImages uploadImages;
+
 
     @Resource
     private IsrpGoodsCategoryFirstService isrpGoodsCategoryFirstService;
@@ -191,14 +195,14 @@ public class IsrpGoodsController {
      * 上传商品
      */
     @RolesAuthorization(value = {"business"})
-    @PostMapping("/addGoods")
-    public ResponseEntity addGoods(@RequestBody AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
-
-        IsrpGoods isrpGoods = new IsrpGoods();
-        BeanUtil.copyProperties(goodsPO,isrpGoods);
-        isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
-        isrpGoodsService.insert(isrpGoods);
-        return ResponseEntity.ok("ok");
+    @PostMapping(value = "/addGoods")
+    public ResponseEntity addGoods(AddGoodsPO goodsPO, HttpServletRequest request) throws Exception {
+        log.info("测试 -------------");
+        System.out.println(goodsPO);
+        MultipartHttpServletRequest m =  (MultipartHttpServletRequest) request;
+        System.out.println(m.getMultipartHeaders("goodsImg"));
+        List<MultipartFile> list = m.getFiles("goodsImg");
+        return ResponseEntity.ok(this.isrpGoodsService.insertGoods(goodsPO,request));
     }
 
 }

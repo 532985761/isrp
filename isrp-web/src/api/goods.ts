@@ -78,3 +78,23 @@ export function getGoodsDetailsByGoodsId(id:number) {
 export function selectGoodsByGoodsName(goodsName:string){
   return http.get('/isrpGoods/isrpGoods/selectGoodsByGoodsName/'+goodsName)
 }
+/**
+ * 
+ * 
+ * 上传商品
+ */
+// export function insertGoods(insertGoodsForm){
+//   return http.post('/isrpGoods/isrpGoods/addGoods')
+// }
+export function insertGoods(insertGoodsForm:any){
+  return http({
+    method: 'post',
+    url:'/isrpGoods/isrpGoods/addGoods',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+        insertGoodsForm:insertGoodsForm
+    }
+  })
+}

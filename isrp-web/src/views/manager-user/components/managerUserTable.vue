@@ -176,7 +176,7 @@ const handleCurrentChange = (val: number) => {
   initData();
 };
 const deleteRow = (row: any) => {
-  ElMessageBox.confirm(`您确定删除订单模式： ${row.email} ?`, "提示", {
+  ElMessageBox.confirm(`您确定删除用户： ${row.email} ?`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
   })

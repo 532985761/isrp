@@ -137,6 +137,9 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
     @Override
     public IsrpOrder updateOrder(IsrpOrder isrpOrder) {
         this.isrpOrderDao.updateOrder(isrpOrder);
+        //查下两个流程号根据订单ID
+        List<Integer> list = isrpOrderStatusService.getNextTwo(isrpOrder.getOrderId());
+        isrpOrderStatusService.updateNextTwo(isrpOrder.getOrderId(),list);
         IsrpOrder isrpOrder1 = new IsrpOrder();
         return isrpOrder1;
     }
@@ -394,7 +397,7 @@ public class IsrpOrderServiceImpl implements IsrpOrderService {
         IsrpOrder isrpOrder = new IsrpOrder();
         isrpOrder.setOrderId(orderId);
         isrpOrder.setConfirmStatus(3);
-        isrpOrderDao.updateOrder(isrpOrder);
+        isrpOrderDao.updateOrderConfirmStatus(isrpOrder);
         return 1;
     }
 

@@ -66,4 +66,8 @@ public interface IsrpOrderStatusService {
     int selectStatusByDesc(String orderId, String desc);
 
     void updateByOrderId(String orderId);
+
+    List<Integer> getNextTwo(String orderId);
+
+    void updateNextTwo(String orderId, List<Integer> list);
 }

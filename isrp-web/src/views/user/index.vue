@@ -313,7 +313,7 @@ onMounted(async () => {
   0% {
     transform: scaleX(0);
     transform-origin: 0 0;
-    opacity: 1;
+    opacity: 0.1;
   }
   100% {
     transform: scaleX(1);

@@ -92,19 +92,30 @@
     <el-col :xs="4" :sm="6" :md="8" :lg="18" :xl="11">
       <el-card v-for="(i, index) in goodsDetail" :key="index" class="mt-5">
         <el-descriptions
-          class="margin-top mt-5"
+          class="margin-top mt-5 "
           :column="2"
           :title="'商品名称：' + i.goods.goodsName"
           border
+         
         >
           <template #extra>
             <el-button type="primary" @click="lookGoodsDetail(i.goods.goodsId)"
               >查看待租商品详情</el-button
             >
 
-            <el-button type="danger" v-if="i.goods.goodsStatus == 1" @click="rentGoods">立即下单租用</el-button>
-            <el-button type="info" disabled v-if="i.goods.goodsStatus == 0" @click="rentGoods">正在出租中</el-button>
-
+            <el-button
+              type="danger"
+              v-if="i.goods.goodsStatus == 1"
+              @click="addToCartClick(i.goods.goodsId, 1)"
+              >立即下单租用</el-button
+            >
+            <el-button
+              type="info"
+              disabled
+              v-if="i.goods.goodsStatus == 0"
+              @click="addToCartClick(i.goods.goodsId, 1)"
+              >正在出租中</el-button
+            >
           </template>
           <el-descriptions-item align="center">
             <template #label>
@@ -172,7 +183,12 @@
                 商品图片
               </div>
             </template>
-            <el-image class="h-100px w-198px" src="/src/assets/znzzlogo.png" />
+
+            <el-carousel indicator-position="outside " height="200px">
+              <el-carousel-item v-for="item in i.goods.goodsImg.toString().split(',')" :key="item">
+                <el-image :src="item"></el-image>
+              </el-carousel-item>
+            </el-carousel>
           </el-descriptions-item> </el-descriptions
         ><el-divider> </el-divider> </el-card
     ></el-col>
@@ -201,6 +217,8 @@ import {
 } from "@/api/goods";
 import VueEvent from "@/utils/event";
 import MyHeader from "@/views/user/components/header.vue";
+import { ElNotification } from "element-plus";
+import { changeCartInfo } from "@/api/order";
 
 let info: any = ref({});
 const activeName = ref("6");
@@ -282,9 +300,17 @@ const changeGoodsInfo = async (one, two) => {
       loading.value = false;
     });
 };
-//加入购物车
-const rentGoods = () => {
-  centerDialogVisible.value = true;
+//将商品添加购物车
+const addToCartClick = (goodsId, days) => {
+  changeCartInfo(goodsId, days)
+    .then((res) => {})
+    .then(() => {
+      ElNotification({
+        title: "提示消息",
+        message: "商品成功添加到购物车",
+        type: "success",
+      });
+    });
 };
 //查看商品详情
 const lookGoodsDetail = (id) => {

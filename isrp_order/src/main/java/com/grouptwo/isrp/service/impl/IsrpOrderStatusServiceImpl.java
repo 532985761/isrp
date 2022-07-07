@@ -110,4 +110,14 @@ public class IsrpOrderStatusServiceImpl implements IsrpOrderStatusService {
     public void updateByOrderId(String orderId) {
         isrpOrderStatusDao.updateByOrderId(orderId);
     }
+
+    @Override
+    public List<Integer> getNextTwo(String orderId) {
+        return isrpOrderStatusDao.getNextTwo(orderId);
+    }
+
+    @Override
+    public void updateNextTwo(String orderId, List<Integer> list) {
+        isrpOrderStatusDao.updateTwo(orderId,list);
+    }
 }

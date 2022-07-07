@@ -186,3 +186,9 @@ export function payOrder(orderId){
 export function hasPayOrder(){
     return http.get('/isrpOrder/isrpOrder/hasPayOrder')
 }
+/**
+ * 退租
+ */
+export function exitOrder(orderId){
+    return http.get('/isrpOrder/isrpOrder/exitOrder/'+orderId)
+}

@@ -26,10 +26,9 @@
         <el-tag type="danger" v-if="scope.row.confirmStatus == 0"
           >等待发货</el-tag
         >
-         <el-tag type="success" v-if="scope.row.confirmStatus == 3"
+        <el-tag type="success" v-if="scope.row.confirmStatus == 3"
           >已完成</el-tag
         >
-
       </template>
     </el-table-column>
     <el-table-column fixed="right" label="操作" width="220">
@@ -54,16 +53,25 @@
     <el-row>
       <el-col :lg="24">
         <span class="font-bold">订单号：{{ orderDetail.order.orderId }}</span>
+        <span class="text-red-600 text-3xl ml-240px font-bold" v-if="orderDetail.order.confirmStatus == 3">
+            
+            该订单已经完成啦！！！</span
+            ><span class="text-yellow-600 text-3xl ml-240px font-bold" v-else>
+            
+            该订单正在进行中！！！</span
+            >
         <el-card class="mt-2"
           ><div class="font-bold text-2xl">
             订单模式:
             <span class="text-red-500 text-xl ml-2">
               {{ orderDetail.model.orderModelName }}</span
             >
+            
+            
           </div>
           <el-steps
             :space="200"
-            :active="orderDetail.nowId+1"
+            :active="orderDetail.nowId + 1"
             finish-status="success"
           >
             <el-step
@@ -73,26 +81,65 @@
               :title="i.orderProcessName"
             /> </el-steps
         ></el-card>
+        <!-- 租用信息 -->
+        <el-card class="mt-3">
+          <div class="font-bold text-2xl">租用详情</div>
+          <el-divider></el-divider>
+          <div class="text-lg font-serif">
+            <span>租用时长:</span
+            ><span class="text-red-600 ml-3">{{
+              orderDetail.order.rentDays
+            }}</span>
+            天 <span class="ml-8">租用总价:</span
+            ><span class="text-red-600 ml-3">{{
+              orderDetail.order.goodsPayReal
+            }}</span>
+            元
+            <br />
+            <span class="mt-5"
+              >收货地址信息：<span class="text-pink-600"
+                >{{ orderDetail.order.receiverProvince }}-{{
+                  orderDetail.order.receiverCity
+                }}-{{ orderDetail.order.receiverArea }}-{{
+                  orderDetail.order.receiverStreet
+                }}-{{ orderDetail.order.receiverDetailAddress }}</span
+              ></span
+            ><span class="ml-10"
+              >收货人电话：<span class="text-rose-500">{{
+                orderDetail.order.receiverPhone
+              }}</span>
+            </span>
+            <span class="ml-10"
+              >收货人姓名：<span class="text-orange-500">{{
+                orderDetail.order.receiverName
+              }}</span>
+            </span>
+          </div>
+        </el-card>
         <!-- 商品详情卡片 -->
         <el-card class="mt-4">
           <div class="font-bold text-2xl">商品详情</div>
+          <el-divider></el-divider>
           <el-row
-            ><el-col :lg="9">
-              <!-- <el-image :src="src" class="w-400px h-220px" /> -->
-
-              <el-image
+            ><el-col :lg="8">
+              <!-- <el-image class="h-220px"
                 :src="orderDetail.goods.goodsImg.toString().split(',')[0]"
-              ></el-image>
+              ></el-image> -->
+              <el-carousel indicator-position="outside " height="200px">
+                <el-carousel-item
+                  v-for="item in orderDetail.goods.goodsImg
+                    .toString()
+                    .split(',')"
+                  :key="item"
+                >
+                  <el-image :src="item"></el-image>
+                </el-carousel-item>
+              </el-carousel>
             </el-col>
+            <el-col :lg="1"></el-col>
             <el-col :lg="15">
               <div style="font-weight: bold">
                 <span> 商品名称：{{ orderDetail.goods.goodsName }}</span>
-                <el-button
-                  @click="$router.go(-1)"
-                  style="float: right"
-                  type="info"
-                  >返回上一页</el-button
-                >
               </div>
               <div class="mt-4">
                 <span> 商品描述：{{ orderDetail.goods.goodsDesc }}</span>
@@ -101,11 +148,7 @@
                 <el-descriptions-item label="商户姓名" align="center">{{
                   orderDetail.user.nickname
                 }}</el-descriptions-item>
-                <el-descriptions-item label="商家联系方式" align="center"
-                  ><el-button type="primary"
-                    >发送私信</el-button
-                  ></el-descriptions-item
-                >
+
                 <el-descriptions-item label="地区" align="center">{{
                   orderDetail.user.addressCity
                 }}</el-descriptions-item>
@@ -163,7 +206,11 @@
             class="mt-5"
             v-if="orderDetail.model.orderModelId == 1"
           >
-            <el-button type="danger">我想退租</el-button>
+            <el-button
+              type="danger"
+              @click="exitOrderFun(orderDetail.order.orderId)"
+              >我想退租</el-button
+            >
             <el-button type="warning">我想购买此商品</el-button>
           </div>
           <div
@@ -178,7 +225,7 @@
             class="mt-5"
             v-if="orderDetail.model.orderModelId == 13"
           >
-            <el-button type="danger">我想续租</el-button>
+            <el-button type="warning">我想续租</el-button>
             <el-button type="danger">我想退租</el-button>
           </div>
         </el-card>
@@ -188,10 +235,16 @@
 </template>
 
 <script lang="ts" setup>
-import { waitPayOrder, hasPayOrder, getOrderDetail } from "@/api/order";
+import {
+  waitPayOrder,
+  hasPayOrder,
+  getOrderDetail,
+  exitOrder,
+} from "@/api/order";
 import { onBeforeMount } from "@vue/runtime-core";
 import { ref } from "vue";
 import { ElNotification } from "element-plus";
+
 const centerDialogVisible = ref(false);
 const handleClick = () => {
   console.log("click");
@@ -238,7 +291,7 @@ const waitPayOrderFun = () => {
 //支付订单
 const payOrderFun = (id) => {};
 //订单详情
-const orderDetail: any = ref({
+const orderDetail = ref({
   nowProcessName: {
     orderProcessId: 16,
     orderModelId: 12,
@@ -320,10 +373,25 @@ const orderDetail: any = ref({
   },
 });
 const detail = (id) => {
-  centerDialogVisible.value = true;
   getOrderDetail(id).then((res) => {
     orderDetail.value = res.data;
+    centerDialogVisible.value = true;
     console.log(orderDetail.value);
+  });
+};
+//退租
+const exitOrderFun = (orderId) => {
+  exitOrder(orderId).then((res) => {
+    ElNotification({
+      title: "提示消息",
+      message: "恭喜您退租成功！",
+      type: "success",
+    });
+    getOrderDetail(orderId).then((res) => {
+      orderDetail.value = res.data;
+      centerDialogVisible.value = true;
+      console.log(orderDetail.value);
+    });
   });
 };
 </script>

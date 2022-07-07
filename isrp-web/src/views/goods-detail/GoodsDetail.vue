@@ -21,11 +21,23 @@
     <el-col :lg="2"></el-col>
     <el-col :lg="20" v-loading="loading">
       <!-- 商品详情卡片 -->
-      <el-card class="mt-4">
+      <el-card class="mt-4 h-350px">
         <el-row
-          ><el-col :lg="9">
-            <el-image :src="src" class="w-400px h-400px" />
+          ><el-col :lg="8">
+            <el-carousel
+              indicator-position="outside "
+              height="413px"
+              width="550px"
+            >
+              <el-carousel-item
+                v-for="item in goods.goods.goodsImg.toString().split(',')"
+                :key="item"
+              >
+                <el-image :src="item"></el-image>
+              </el-carousel-item>
+            </el-carousel>
           </el-col>
+          <el-col :lg="1"></el-col>
           <el-col :lg="15">
             <div style="font-weight: bold">
               <span> 商品名称：{{ goods.goods.goodsName }}</span>
@@ -78,77 +90,6 @@
               </el-descriptions-item>
             </el-descriptions>
 
-            <el-card
-              class="bg-gray-200 mt-6"
-              v-if="goods.model.orderModelId == 12"
-            >
-              <div>
-                <span class="font-bold">租用限制：</span>
-
-                <span
-                  >租用天数在<el-tag>{{ goods.goods.rentLimitDays }}天</el-tag
-                  >以内需要回退给卖家，达到租用天数后则可以归为已有</span
-                >
-              </div>
-              <hr />
-              <div class="mt-3">
-                <span class="font-bold">卖家等级：</span>
-
-                <span>五颗星</span>
-              </div>
-
-              <div class="mt-3">
-                <span class="font-bold">出租次数：</span>
-                <span> {{ goods.goods.goodsSaleCount }} 次</span>
-              </div>
-            </el-card>
-            <!-- 共享租赁 -->
-            <el-card
-              class="bg-gray-200 mt-6"
-              v-if="goods.model.orderModelId == 13"
-            >
-              <div>
-                <span class="font-bold">租用限制：</span>
-
-                <span>无租用限制，在租用完成后，需要进行商品的退还。 </span>
-              </div>
-              <hr />
-              <div class="mt-3">
-                <span class="font-bold">卖家等级：</span>
-
-                <span>五颗星</span>
-              </div>
-
-              <div class="mt-3">
-                <span class="font-bold">出租次数：</span>
-                <span> {{ goods.goods.goodsSaleCount }} 次</span>
-              </div>
-            </el-card>
-            <el-card
-              class="bg-gray-200 mt-6"
-              v-if="goods.model.orderModelId == 1"
-            >
-              <div>
-                <span class="font-bold">租用限制：</span>
-
-                <span
-                  >租用上限天数在<el-tag
-                    >{{ goods.goods.rentLimitDays }}天</el-tag
-                  ><br />在租用期结束前，选择是否买断商品，若买断，则用总价-每天租用价格*实际租用天数</span
-                >
-              </div>
-              <hr />
-              <div class="mt-3">
-                <span class="font-bold">卖家等级：</span>
-
-                <span>五颗星</span>
-              </div>
-
-              <div class="mt-3">
-                <span class="font-bold">出租次数：</span>
-                <span> {{ goods.goods.goodsSaleCount }} 次</span>
-              </div>
-            </el-card>
             <div class="mt-4" style="text-align: center">
               <el-button
                 class="w-350px h-50px"
@@ -198,10 +139,7 @@
     <el-col :lg="2"></el-col>
     <el-col :lg="20"
       ><el-card class="mt-4">
-        <el-tabs
-          type="card"
-          class="demo-tabs"
-        >
+        <el-tabs type="card" class="demo-tabs">
           <el-tab-pane
             label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品介绍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
             name="first"

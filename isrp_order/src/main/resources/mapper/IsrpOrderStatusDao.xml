@@ -68,6 +68,11 @@
         select count(1) from isrp_order_status where order_id =#{orderId}
 and order_status_desc = #{desc}
      </select>
+    <select id="getNextTwo" resultType="java.lang.Integer">
+        select order_process_id from isrp_order_status where order_id =#{orderId}
+                                                         and order_status_desc = '未完成' limit 0,2
+
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="orderId" useGeneratedKeys="true">
@@ -112,7 +117,35 @@ and order_status_desc = #{desc}
     <update id="updateByOrderId">
         update isrp_order_status set order_status_desc = '已完成' where order_id = #{orderId}
     </update>
+    <update id="updateTwo">
+<!--update isrp_order_status set order_status_desc = '已完成'-->
+<!--where order_id = #{orderId}-->
+<!--and <foreach collection="list" item="l" separator=";">-->
+<!--        order_process_id = #{l}-->
+<!--    </foreach>-->
 
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update isrp_order_status
+            <set>
+
+        order_status_desc = '已完成'
+            </set>
+            where order_id = #{orderId} and order_process_id = #{item}
+        </foreach>
+    </update>
+<!--    insert into isrp_order(goods_id, user_id, type_id, logistics_company_id, create_time, order_status, pay_time,-->
+<!--    goods_total_price, goods_pay_real, receiver_name, receiver_phone, receiver_email, receiver_province,-->
+<!--    receiver_city, receiver_area, receiver_street, receiver_detail_address, confirm_status, delivery_time,-->
+<!--    receive_time, modify_time, rent_days, rent_real_days, shop_user_id)-->
+<!--    values-->
+<!--    <foreach collection="entities" item="entity" separator=",">-->
+<!--        (#{entity.goodsId}, #{entity.userId}, #{entity.typeId}, #{entity.logisticsCompanyId}, #{entity.createTime},-->
+<!--        #{entity.orderStatus}, #{entity.payTime}, #{entity.goodsTotalPrice}, #{entity.goodsPayReal},-->
+<!--        #{entity.receiverName}, #{entity.receiverPhone}, #{entity.receiverEmail}, #{entity.receiverProvince},-->
+<!--        #{entity.receiverCity}, #{entity.receiverArea}, #{entity.receiverStreet}, #{entity.receiverDetailAddress},-->
+<!--        #{entity.confirmStatus}, #{entity.deliveryTime}, #{entity.receiveTime}, #{entity.modifyTime},-->
+<!--        #{entity.rentDays}, #{entity.rentRealDays}, #{entity.shopUserId})-->
+<!--    </foreach>-->
     <!--通过主键删除-->
     <delete id="deleteById">
         delete

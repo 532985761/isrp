@@ -43,7 +43,7 @@ public class UploadImages {
                 folder.mkdirs();
             }
             file.transferTo(new File(folder, newName));
-            path = path + "http://" + request.getLocalAddr() + ":9527" + contextPath + "/file/images/" + newName;
+            path = path + "http://" +"localhost" + ":9527" + contextPath + "/file/images/" + newName;
             path += ",";
         }
         path = path.substring(0, path.length() - 1);

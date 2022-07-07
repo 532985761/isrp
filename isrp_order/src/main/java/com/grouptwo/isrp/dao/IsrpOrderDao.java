@@ -112,5 +112,7 @@ public interface IsrpOrderDao {
 
 
     int payOrder(String orderId);
+
+    void updateOrderConfirmStatus(@Param("order") IsrpOrder isrpOrder);
 }
 

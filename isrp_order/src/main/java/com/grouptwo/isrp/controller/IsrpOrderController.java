@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -52,7 +53,6 @@ public class IsrpOrderController {
      */
     @GetMapping("/selectOrderById/{orderId}")
     public ResponseEntity<IsrpOrder> selectOrderById(@PathVariable("orderId") String orderId) {
-        System.out.println();
         return ResponseEntity.ok(this.isrpOrderService.selectOrderById(orderId));
     }
 
@@ -203,7 +203,8 @@ public class IsrpOrderController {
     @RolesAuthorization
     @GetMapping("/waitPayOrder")
     public ResponseEntity waitPayOrder() {
-        System.out.println(getUserInfo().get("userId"));
+
+
         return new ResponseEntity(isrpOrderService.waitPayOrder((String) getUserInfo().get("userId"), 0), HttpStatus.OK);
     }
 
@@ -259,6 +260,7 @@ public class IsrpOrderController {
     @RolesAuthorization
     @GetMapping("/exitOrder/{orderId}")
     public ResponseEntity exitOrder(@PathVariable("orderId") String orderId){
+        LocalDateTime.now();
         return new ResponseEntity(isrpOrderService.exitOrder(orderId),HttpStatus.OK);
     }
 

@@ -202,6 +202,9 @@
       <el-form-item label="商品描述" :label-width="formLabelWidth">
         <el-input v-model="insertGoodsForm.goodsDesc" />
       </el-form-item>
+      <el-form-item label="商品分类" :label-width="formLabelWidth">
+        <el-input v-model="insertGoodsForm.goodsCategorySecondId" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">

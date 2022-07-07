@@ -91,5 +91,9 @@ public interface IsrpOrderStatusDao {
     int selectStatusByDesc(@Param("orderId") String orderId,@Param("desc") String desc);
 
     void updateByOrderId(String orderId);
+
+    List<Integer> getNextTwo(String orderId);
+
+    void updateTwo(@Param("orderId") String orderId,@Param("list") List<Integer> list);
 }
 

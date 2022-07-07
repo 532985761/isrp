@@ -6,7 +6,7 @@
         {{ scope.row.receiverName }}
       </template>
     </el-table-column>
-      <el-table-column prop="name" label="收货电话" width="120">
+    <el-table-column prop="name" label="收货电话" width="120">
       <template #default="scope">
         {{ scope.row.receiverPhone }}
       </template>
@@ -25,23 +25,151 @@
     </el-table-column>
     <el-table-column fixed="right" label="操作" width="220">
       <template #default="scope">
-        <el-popconfirm title="确认支付此订单吗？" @confirm="payOrderFun(scope.row.orderId)">
+        <el-popconfirm
+          title="确认支付此订单吗？"
+          @confirm="payOrderFun(scope.row.orderId)"
+        >
           <template #reference>
-            <el-button link type="primary" size="small" 
-              >支付</el-button
-            >
+            <el-button link type="primary" size="small">支付</el-button>
           </template>
         </el-popconfirm>
         <el-button link type="danger" size="small">取消订单</el-button>
-        <el-button link type="warning" size="small">查看详情</el-button>
+        <el-button
+          link
+          type="warning"
+          @click="detail(scope.row.orderId)"
+          size="small"
+          >查看详情</el-button
+        >
       </template>
     </el-table-column>
   </el-table>
-  <!-- {{ waitOrderInfo }} -->
+  <el-dialog
+    v-model="centerDialogVisible"
+    width="80%"
+    center
+    :close-on-click-modal="false"
+  >
+    <el-row>
+      <el-col :lg="24">
+        <span class="font-bold">订单号：{{ orderDetail.order.orderId }}</span>
+        <el-card class="mt-2"
+          ><div class="font-bold text-2xl">
+            订单模式:
+            <span class="text-red-500 text-xl ml-2">
+              {{ orderDetail.model.orderModelName }}</span
+            >
+          </div>
+          <el-steps
+            :space="200"
+            :active="orderDetail.nowId - 1"
+            finish-status="success"
+          >
+            <el-step
+              class="mt-5"
+              v-for="(i, index) in orderDetail.process"
+              :key="index"
+              :title="i.orderProcessName"
+            /> </el-steps
+        ></el-card>
+        <!-- 租用信息 -->
+        <el-card class="mt-3">
+          <div class="font-bold text-2xl">租用详情</div>
+          <el-divider></el-divider>
+          <div class="text-lg font-serif">
+            <span>租用时长:</span
+            ><span class="text-red-600 ml-3">{{
+              orderDetail.order.rentDays
+            }}</span>
+            天 <span class="ml-8">租用总价:</span
+            ><span class="text-red-600 ml-3">{{
+              orderDetail.order.goodsPayReal
+            }}</span>
+            元
+          <br>
+            <span class="mt-5"
+              >收货地址信息：<span class="text-pink-600">{{ orderDetail.order.receiverProvince }}-{{
+                orderDetail.order.receiverCity
+              }}-{{ orderDetail.order.receiverArea }}-{{
+                orderDetail.order.receiverStreet
+              }}-{{ orderDetail.order.receiverDetailAddress }}</span></span
+            ><span class="ml-10">收货人电话：<span class="text-rose-500">{{orderDetail.order.receiverPhone}}</span> </span>
+            <span class="ml-10">收货人姓名：<span class="text-orange-500">{{orderDetail.order.receiverName}}</span> </span>
+          </div>
+        </el-card>
+        <!-- 商品详情卡片 -->
+        <el-card class="mt-4">
+          <div class="font-bold text-2xl">商品详情</div>
+          <el-divider></el-divider>
+          <el-row
+            ><el-col :lg="9">
+              <el-image
+                class="h-220px"
+                :src="orderDetail.goods.goodsImg.toString().split(',')[0]"
+              ></el-image>
+            </el-col>
+            <el-col :lg="15">
+              <div style="font-weight: bold">
+                <span> 商品名称：{{ orderDetail.goods.goodsName }}</span>
+              </div>
+              <div class="mt-4">
+                <span> 商品描述：{{ orderDetail.goods.goodsDesc }}</span>
+              </div>
+              <el-descriptions border align="center" class="mt-3">
+                <el-descriptions-item label="商户姓名" align="center">{{
+                  orderDetail.user.nickname
+                }}</el-descriptions-item>
+
+                <el-descriptions-item label="地区" align="center">{{
+                  orderDetail.user.addressCity
+                }}</el-descriptions-item>
+                <el-descriptions-item label="租赁方式" align="center">
+                  <el-tag size="small">{{
+                    orderDetail.model.orderModelName
+                  }}</el-tag>
+                </el-descriptions-item>
+
+                <el-descriptions-item label="租赁价格" align="center"
+                  >{{
+                    orderDetail.goods.rentPricePerDay
+                  }}元/天</el-descriptions-item
+                >
+                <!-- 以租代售 -->
+                <el-descriptions-item
+                  label="商品总价"
+                  align="center"
+                  v-if="orderDetail.model.orderModelId !== 13"
+                >
+                  <el-tag type="warning"
+                    >{{ orderDetail.goods.goodsPrice }}元</el-tag
+                  >
+                </el-descriptions-item>
+
+                <el-descriptions-item
+                  label="租赁时间上限"
+                  align="center"
+                  v-if="orderDetail.model.orderModelId !== 13"
+                >
+                  <el-tag type="danger" size="large"
+                    >{{ orderDetail.goods.rentLimitDays }}天</el-tag
+                  >
+                </el-descriptions-item>
+              </el-descriptions>
+            </el-col></el-row
+          >
+        </el-card>
+      </el-col>
+    </el-row>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import { waitPayOrder, payOrder } from "@/api/order";
+import {
+  waitPayOrder,
+  hasPayOrder,
+  getOrderDetail,
+  payOrder,
+} from "@/api/order";
 import { onBeforeMount } from "@vue/runtime-core";
 import { ref } from "vue";
 import { ElNotification } from "element-plus";
@@ -89,14 +217,102 @@ const waitPayOrderFun = () => {
   });
 };
 //支付订单
-const payOrderFun = ((id)=>{
+const payOrderFun = (id) => {
   payOrder(id).then((res) => {
-       ElNotification({
-        title: "提示消息",
-        message: "恭喜您成功支付！订单已生效！",
-        type: "success",
-      });
-      waitPayOrderFun();
-  })
-})
+    ElNotification({
+      title: "提示消息",
+      message: "恭喜您成功支付！订单已生效！",
+      type: "success",
+    });
+    waitPayOrderFun();
+  });
+};
+const orderDetail = ref({
+  nowProcessName: {
+    orderProcessId: 16,
+    orderModelId: 12,
+    orderProcessName: "已支付",
+  },
+  user: {
+    userId: "431188825079808",
+    nickname: "wbw",
+    headerImg:
+      "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+    password: null,
+    role: 1,
+    phone: "未知",
+    email: "wbw@163.com",
+    idCardNum: "未知",
+    sex: 2,
+    status: 1,
+    addressCity: "唐山",
+    birth: null,
+    createTime: "2022-06-25 10:04:19",
+    sign: "无",
+  },
+  process: [
+    { orderProcessId: 12, orderModelId: 12, orderProcessName: "发布商品" },
+    { orderProcessId: 13, orderModelId: 12, orderProcessName: "待购买" },
+    { orderProcessId: 14, orderModelId: 12, orderProcessName: "下单" },
+    { orderProcessId: 15, orderModelId: 12, orderProcessName: "待支付" },
+    { orderProcessId: 16, orderModelId: 12, orderProcessName: "已支付" },
+    { orderProcessId: 17, orderModelId: 12, orderProcessName: "商家发货" },
+    { orderProcessId: 18, orderModelId: 12, orderProcessName: "配送" },
+    { orderProcessId: 19, orderModelId: 12, orderProcessName: "租赁中" },
+    { orderProcessId: 20, orderModelId: 12, orderProcessName: "订单结束" },
+  ],
+  goods: {
+    goodsId: 4,
+    goodsCategorySecondId: 2,
+    userId: "431188825079808",
+    goodsName: "p30111",
+    goodsDesc: "我再做测试3",
+    goodsImg:
+      "http://192.168.1.103:9527/isrpGoods/file/images/2bcb454d-2518-43c2-8078-655c7e500a1d.jpg,http://192.168.1.103:9527/isrpGoods/file/images/6c9ce2dd-0914-40b9-b920-39f6913286c8.jpg",
+    goodsPrice: 5000,
+    goodsSaleCount: 54,
+    orderModelId: 12,
+    goodsStatus: 0,
+    createTime: "2022-06-22 09:58:58",
+    rentLimitDays: 20,
+    rentPricePerDay: 45,
+  },
+  nowId: 2,
+  model: { orderModelId: 12, orderModelName: "以租代售" },
+  processNowId: 16,
+  order: {
+    orderId: "3125704757608448",
+    goodsId: 4,
+    userId: "430818627420160",
+    typeId: 1,
+    logisticsCompanyId: 2,
+    createTime: "2022-07-06 10:02:27",
+    orderStatus: 1,
+    payTime: null,
+    goodsTotalPrice: 168,
+    goodsPayReal: 168,
+    receiverName: "123",
+    receiverPhone: "123",
+    receiverEmail: "",
+    receiverProvince: "北京市",
+    receiverCity: "市辖区",
+    receiverArea: "东城区",
+    receiverStreet: "123",
+    receiverDetailAddress: "123",
+    confirmStatus: 0,
+    deliveryTime: null,
+    receiveTime: null,
+    modifyTime: null,
+    rentDays: 3,
+    rentRealDays: null,
+    shopUserId: "431188825079808",
+  },
+});
+const centerDialogVisible = ref(false);
+const detail = (id) => {
+  getOrderDetail(id).then((res) => {
+    orderDetail.value = res.data;
+    centerDialogVisible.value = true;
+  });
+};
 </script>

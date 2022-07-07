@@ -20,7 +20,7 @@
                 @click="$router.push('/isrpBusiness/index')"
               >
                 <template #title>
-                  <el-icon><location /></el-icon>
+                  <el-icon><HomeFilled /></el-icon>
                   <span>主页</span>
                 </template>
               </el-menu-item>
@@ -28,12 +28,12 @@
                 index="3"
                 @click="$router.push('/isrpBusiness/goodsinfo')"
               >
-                <el-icon><icon-menu /></el-icon>
+                <el-icon><Goods /></el-icon>
                 <span>管理商品</span>
               </el-menu-item>
               <el-sub-menu index="4">
                 <template #title>
-                  <el-icon><location /></el-icon>
+                  <el-icon><List /></el-icon>
                   <span>管理订单</span>
                 </template>
                 <el-menu-item-group title="待支付">

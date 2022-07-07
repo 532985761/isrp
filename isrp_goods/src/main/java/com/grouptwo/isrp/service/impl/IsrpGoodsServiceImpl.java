@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -213,6 +214,7 @@ public class IsrpGoodsServiceImpl implements IsrpGoodsService {
         IsrpGoods isrpGoods = new IsrpGoods();
         BeanUtil.copyProperties(goodsPO,isrpGoods);
         isrpGoods.setGoodsImg(uploadImages.uploadImages(goodsPO.getGoodsImg(),request));
+        isrpGoods.setCreateTime(LocalDateTime.now());
         return isrpGoodsService.insert(isrpGoods);
     }
 

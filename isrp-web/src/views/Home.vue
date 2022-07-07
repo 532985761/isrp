@@ -36,15 +36,6 @@
         >
       </div>
       <div>
-        <el-button
-          @click="$router.push('/isrpBusiness')"
-          type="primary"
-          class="w-50 my-2"
-          round
-          >商家后台页面</el-button
-        >
-      </div>
-      <div>
         <el-link @click="getChild">没有账号?点击注册</el-link>
       </div>
     </el-col>
